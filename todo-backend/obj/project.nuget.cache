@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "8jbg1ZaI0xuIcbWhJgZ+g+FoO0AjVhlnbw3nyoCjYRtgR/P9R9Pc6Phc74O6ExronZ+zNE8ubOLK6ClCmfaiLA==",
+  "success": true,
+  "projectFilePath": "/Users/christianbondesen/development/it-minds/interns-projects/todo/baboon-squad-todo/todo-backend/todo-backend.csproj",
+  "expectedPackageFiles": [
+    "/Users/christianbondesen/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/Users/christianbondesen/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/Users/christianbondesen/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "/Users/christianbondesen/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "/Users/christianbondesen/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "/Users/christianbondesen/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.2.3/swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
