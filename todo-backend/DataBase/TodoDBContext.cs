@@ -20,8 +20,8 @@ namespace todo_backend.DataBase
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TodoList>().HasMany(t => t.Todos).WithOne(t=> t.ToDoList);
-            modelBuilder.Entity<Todo>().HasMany(t => t.Subtasks).WithOne(t => t.Todo);
+            modelBuilder.Entity<Todo>().HasOne(t=>t.ToDoList).WithMany(t=>t.Todos).HasForeignKey(t=>t.TodoListId);
+            modelBuilder.Entity<Subtask>().HasOne(t => t.Todo).WithMany(t => t.Subtasks).HasForeignKey(t=>t.TodoId);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
