@@ -34,7 +34,7 @@ namespace todo_backend.Repositories
         {
             Subtask t = new Subtask();
             t.Title = createSubtaskDTO.Title;
-            t.Checked = createSubtaskDTO.Checked;
+            t.Checked = false;
             t.TodoId = todo.TodoId;
             t.Deadline = createSubtaskDTO.Deadline;
             t.Todo = subtaskArranger.ArrangePosition(todo, createSubtaskDTO.Position, t);
