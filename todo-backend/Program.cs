@@ -15,6 +15,16 @@ builder.Services.AddScoped<SubtaskRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.ReferenceHandler=System.Text.Json.Serialization.ReferenceHandler.Preserve; });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyPolicy",
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173");
+                });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -125,5 +135,6 @@ app.MapPut("/Subtask/{id}", (SubtaskRepository subtaskRepository, UpdateSubtaskD
 .WithName("UpdateSubtask");
 
 
+app.UseCors("MyPolicy");
 app.Run();
 
