@@ -1,7 +1,10 @@
 ﻿using todo_backend.Repositories;
 using todo_backend.Classes;
 using todo_backend.DataBase;
+using todo_backend.DTO;
+using todo_backend.Logic;
 using System.Linq;
+using todo_backend.Interfaces;
 
 namespace todo_backend.Repositories
 {
@@ -9,9 +12,12 @@ namespace todo_backend.Repositories
     {
 
         private TodoDBContext _dbContext;
+        private ISubtaskArranger subtaskArranger;
+
         public SubtaskRepository(TodoDBContext todoDBContext)
         {
             _dbContext = todoDBContext;
+            subtaskArranger = new SubtaskArranger();
         }
         public List<Subtask> GetSubtaskInTodo(int todoId)
         {
@@ -23,15 +29,14 @@ namespace todo_backend.Repositories
         {
             return _dbContext.Subtasks.Find(id) as Subtask;
         }
-        public Subtask CreateSubtask(string title, int position, Todo todo, DateTime deadline)
+        public Subtask CreateSubtask(CreateSubtaskDTO createSubtaskDTO, Todo todo)
         {
             Subtask t = new Subtask();
-            t.Title = title;
-            t.Position = position;
-            t.Todo = todo;
-            t.Checked = false;
+            t.Title = createSubtaskDTO.Title;
+            t.Todo = subtaskArranger.ArrangePosition(todo, createSubtaskDTO.Position);
+            t.Checked = createSubtaskDTO.Checked;
             t.TodoId = t.Todo.TodoId;
-            t.Deadline = deadline;
+            t.Deadline = createSubtaskDTO.Deadline;
             todo.Subtasks.Add(t);
             _dbContext.Subtasks.Add(t);
             _dbContext.SaveChanges();
@@ -47,42 +52,15 @@ namespace todo_backend.Repositories
             }
             return t;
         }
-        public Subtask UpdateSubtaskTitle(int id, string newTitle)
+        public Subtask UpdateSubtask(UpdateSubtaskDTO updateSubtaskDTO)
         {
-            var t = _dbContext.Subtasks.Find(id);
+            var t = _dbContext.Subtasks.Find(updateSubtaskDTO.SubTaskId);
             if (t != null)
             {
-                t.Title = newTitle;
-                _dbContext.SaveChanges();
-            }
-            return t;
-        }
-        public Subtask UpdateSubtaskDeadline(int id, DateTime newDeadline)
-        {
-            var t = _dbContext.Subtasks.Find(id);
-            if (t != null)
-            {
-                t.Deadline = newDeadline;
-                _dbContext.SaveChanges();
-            }
-            return t;
-        }
-        public Subtask UpdateSubtaskIsChecked(int id, bool isChecked)
-        {
-            var t = _dbContext.Subtasks.Find(id);
-            if (t != null)
-            {
-                t.Checked = isChecked;
-                _dbContext.SaveChanges();
-            }
-            return t;
-        }
-        public Subtask UpdateSubtaskPosition(int id, int position)
-        {
-            var t = _dbContext.Subtasks.Find(id);
-            if (t != null)
-            {
-                t.Position = position;
+                t.Title = updateSubtaskDTO.Title;
+                t.Todo = subtaskArranger.ArrangePosition(t.Todo, updateSubtaskDTO.Position);
+                t.Checked=updateSubtaskDTO.Checked;
+                t.Deadline=updateSubtaskDTO.Deadline;
                 _dbContext.SaveChanges();
             }
             return t;

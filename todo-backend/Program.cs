@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using todo_backend.DataBase;
+using todo_backend.DTO;
 using todo_backend.Classes;
 using todo_backend.Repositories;
 using Microsoft.AspNetCore.Http.Json;
@@ -80,45 +81,25 @@ app.MapDelete("/Todo/{id}", (TodoRepository todoRepository, int id) =>
 })
 .WithName("DeleteList");
 
-app.MapPut("/Todo/{id}", (TodoRepository todoRepository, int id, string newTitle) =>
+app.MapPut("/Todo/{id}", (TodoRepository todoRepository, UpdateTodoDTO updateTodoDTO) =>
 {
-    var result = todoRepository.UpdateTodoTitle(id, newTitle);
+    var result = todoRepository.UpdateTodo(updateTodoDTO);
     return result != null ? Results.NoContent() : Results.NotFound();
 })
-.WithName("UpdateTitleOfTodo");
+.WithName("UpdateTodo");
 
-app.MapPut("/Todo/{newDeadline}", (TodoRepository todoRepository, int id, DateTime newDeadline) =>
-{
-    var result = todoRepository.UpdateTodoDeadline(id, newDeadline);
-    return result != null ? Results.NoContent() : Results.NotFound();
-})
-.WithName("UpdateDeadlineOfTodo");
-
-app.MapPut("/Todo/{isChecked}", (TodoRepository todoRepository, int id, bool isChecked) =>
-{
-    var result = todoRepository.UpdateTodoIsChecked(id, isChecked);
-    return result != null ? Results.NoContent() : Results.NotFound();
-})
-.WithName("UpdateisCheckedOfTodo");
-
-app.MapPut("/Todo/{position}", (TodoRepository todoRepository, int id, int position) =>
-{
-    var result = todoRepository.UpdateTodoPosition(id, position);
-    return result != null ? Results.NoContent() : Results.NotFound();
-})
-.WithName("UpdatePositionOfTodo");
 
 //Subtasks
 
-app.MapPost("/Subtask", (SubtaskRepository subtaskRepository, TodoRepository todoRepository, string title, int position, int todoId, DateTime deadline) =>
+app.MapPost("/Subtask", (SubtaskRepository subtaskRepository, TodoRepository todoRepository,CreateSubtaskDTO createSubtaskDTO) =>
 {
-    var todo = todoRepository.GetTodo(todoId);
+    var todo = todoRepository.GetTodo(createSubtaskDTO.TodoId);
     if (todo == null)
     {
         return Results.NotFound();
     }
-    var result = subtaskRepository!.CreateSubtask(title, position, todo, deadline);
-    return Results.Created("Item with title: " + title + " was created", result);
+    var result = subtaskRepository!.CreateSubtask(createSubtaskDTO, todo);
+    return Results.Created("Item with title: " + createSubtaskDTO.Title + " was created", result);
 })
 .WithName("CreateSubtask");
 
@@ -136,33 +117,13 @@ app.MapDelete("/Subtask/{id}", (SubtaskRepository subtaskRepository, int id) =>
 })
 .WithName("DeleteSubtask");
 
-app.MapPut("/Subtask/{id}", (SubtaskRepository subtaskRepository, int id, string newTitle) =>
+app.MapPut("/Subtask/{id}", (SubtaskRepository subtaskRepository, UpdateSubtaskDTO updateSubtaskDTO) =>
 {
-    var result = subtaskRepository.UpdateSubtaskTitle(id, newTitle);
+    var result = subtaskRepository.UpdateSubtask(updateSubtaskDTO);
     return result != null ? Results.NoContent() : Results.NotFound();
 })
-.WithName("UpdateTitleOfSubtask");
+.WithName("UpdateSubtask");
 
-app.MapPut("/Subtask/{newDeadline}", (SubtaskRepository subtaskRepository, int id, DateTime newDeadline) =>
-{
-    var result = subtaskRepository.UpdateSubtaskDeadline(id, newDeadline);
-    return result != null ? Results.NoContent() : Results.NotFound();
-})
-.WithName("UpdateDeadlineOfSubtask");
-
-app.MapPut("/Subtask/{isChecked}", (SubtaskRepository subtaskRepository, int id, bool isChecked) =>
-{
-    var result = subtaskRepository.UpdateSubtaskIsChecked(id, isChecked);
-    return result != null ? Results.NoContent() : Results.NotFound();
-})
-.WithName("UpdateisCheckedOfSubtask");
-
-app.MapPut("/Subtasl/{position}", (SubtaskRepository subtaskRepository, int id, int position) =>
-{
-    var result = subtaskRepository.UpdateSubtaskPosition(id, position);
-    return result != null ? Results.NoContent() : Results.NotFound();
-})
-.WithName("UpdatePositionOfSubtask");
 
 app.Run();
 

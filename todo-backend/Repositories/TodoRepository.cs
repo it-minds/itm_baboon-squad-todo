@@ -1,15 +1,23 @@
 ﻿using todo_backend.Classes;
 using todo_backend.DataBase;
+using todo_backend.Logic;
+using todo_backend.Interfaces;
+using todo_backend.DTO;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace todo_backend.Repositories
 {
     public class TodoRepository
     {
         private TodoDBContext _dbContext;
+        ITodoArranger todoArranger;
+
         public TodoRepository(TodoDBContext todoDBContext)
         {
             _dbContext = todoDBContext;
+            todoArranger = new TodoArranger();
+
         }
         public List<Todo> GetTodosInList(int todoListId)
         {
@@ -19,15 +27,14 @@ namespace todo_backend.Repositories
         }
         public Todo? GetTodo(int id)
         {
-            return _dbContext.Todos.Find(id) as Todo;
+            return _dbContext.Todos.Include(t => t.Subtasks).FirstOrDefault(t => t.TodoId == id);
         }
         public Todo CreateTodo(string title, int position,TodoList todoList,DateTime deadline)
         {
             Todo t = new Todo();
             t.Subtasks = new();
             t.Title = title;
-            t.Position = position;
-            t.ToDoList = todoList;
+            t.ToDoList = todoArranger.ArrangePosition(todoList, position);
             t.Checked = false;
             t.TodoListId = t.ToDoList.ToDoListId;
             t.Deadline = deadline;
@@ -46,46 +53,20 @@ namespace todo_backend.Repositories
             }
             return t;
         }
-        public Todo UpdateTodoTitle(int id, string newTitle)
+        public Todo UpdateTodo(UpdateTodoDTO updateTodoDTO)
         {
-            var t = _dbContext.Todos.Find(id);
+            var t = _dbContext.Todos.Find(updateTodoDTO.TodoId);
             if (t != null)
             {
-                t.Title = newTitle;
+                t.Title =updateTodoDTO.Title;
+                t.ToDoList = todoArranger.ArrangePosition(t.ToDoList,updateTodoDTO.Position);
+                t.Checked = updateTodoDTO.Checked;
+                t.Deadline= updateTodoDTO.Deadline;
                 _dbContext.SaveChanges();
             }
             return t;
         }
-        public Todo UpdateTodoDeadline(int id, DateTime newDeadline)
-        {
-            var t = _dbContext.Todos.Find(id);
-            if (t != null)
-            {
-                t.Deadline=newDeadline;
-                _dbContext.SaveChanges();
-            }
-            return t;
-        }
-        public Todo UpdateTodoIsChecked(int id, bool isChecked)
-        {
-            var t = _dbContext.Todos.Find(id);
-            if (t != null)
-            {
-                t.Checked=isChecked;
-                _dbContext.SaveChanges();
-            }
-            return t;
-        }
-        public Todo UpdateTodoPosition(int id, int position)
-        {
-            var t = _dbContext.Todos.Find(id);
-            if (t != null)
-            {
-                t.Position=position;
-                _dbContext.SaveChanges();
-            }
-            return t;
-        }
+      
     }
 }
 
