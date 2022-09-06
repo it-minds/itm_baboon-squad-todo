@@ -6,7 +6,7 @@ namespace todo_backend.Logic
 {
     public class SubtaskArranger: ISubtaskArranger
     {
-        public Todo ArrangePosition(Todo todo, int newPosition)
+        public Todo ArrangePosition(Todo todo, int newPosition, Subtask subtask)
         {
             int max = new();
             foreach (var item in todo.Subtasks)
@@ -18,13 +18,32 @@ namespace todo_backend.Logic
             }
             if (max + 1 < newPosition)
             {
-                newPosition = max + 1;
+                subtask.Position = max + 1;
+               
             }
+            else
+            {
+                foreach (var item in todo.Subtasks)
+                {
+                    if (item.Position >= newPosition)
+                    {
+                        item.Position++;
+                    }
+                }
+                subtask.Position = newPosition;
+            }
+            
+
+            return todo;
+        }
+
+        public Todo ArrangePositionAfterDelete(Todo todo, Subtask subtask)
+        {
             foreach (var item in todo.Subtasks)
             {
-                if (item.Position >= newPosition)
+                if (item.Position > subtask.Position)
                 {
-                    item.Position++;
+                    item.Position--;
                 }
             }
             return todo;

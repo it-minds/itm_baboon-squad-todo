@@ -4,6 +4,7 @@
     {
         public string Title { get; set; }
         public DateTime Deadline { get; set; }
+        public int TodoListId { get; set; }
         public bool Checked { get; set; }
         public int Position { get; set; }
     }

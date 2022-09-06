@@ -55,15 +55,15 @@ app.MapPut("/TodoList/{id}", (TodoListRepository todoListRepository, int id, str
 
 //Todos
 
-app.MapPost("/Todo", (TodoRepository todoRepository,TodoListRepository todoListRepository, string title, int position, int todoListId, DateTime deadline) =>
+app.MapPost("/Todo", (TodoRepository todoRepository,TodoListRepository todoListRepository, CreateTodoDTO todoDTO) =>
 {
-    var todoList = todoListRepository.GetTodoListWithId(todoListId);
+    var todoList = todoListRepository.GetTodoListWithId(todoDTO.TodoListId);
     if(todoList==null)
     {
         return Results.NotFound();
     }
-    var result = todoRepository!.CreateTodo(title,position,todoList,deadline);
-    return Results.Created("Item with title: " + title + " was created", result);
+    var result = todoRepository!.CreateTodo(todoDTO.Title, todoDTO.Position, todoList, todoDTO.Deadline);
+    return Results.Created("Item with title: " + todoDTO.Title + " was created", result);
 })
 .WithName("CreateTodo");
 
@@ -74,16 +74,31 @@ app.MapGet("/Todo/{id}", (TodoRepository todoRepository, int id) =>
 })
 .WithName("GetTodo");
 
-app.MapDelete("/Todo/{id}", (TodoRepository todoRepository, int id) =>
+app.MapDelete("/Todo/{id}", (TodoListRepository todoListRepository,TodoRepository todoRepository, int id) =>
 {
-    var result = todoRepository.DeleteTodo(id);
+    var todo = todoRepository.GetTodo(id);
+    if (todo == null)
+    {
+        return Results.NotFound();
+    }
+    var todoList = todoListRepository.GetTodoListWithId(todo.TodoListId);
+    if (todoList == null)
+    {
+        return Results.NotFound();
+    }
+    var result = todoRepository.DeleteTodo(todo);
     return result != null ? Results.Ok(result) : Results.NotFound();
 })
-.WithName("DeleteList");
+.WithName("DeleteTodo");
 
-app.MapPut("/Todo/{id}", (TodoRepository todoRepository, UpdateTodoDTO updateTodoDTO) =>
+app.MapPut("/Todo/{id}", (TodoRepository todoRepository, TodoListRepository todoListRepository, UpdateTodoDTO updateTodoDTO) =>
 {
-    var result = todoRepository.UpdateTodo(updateTodoDTO);
+    var todoList = todoListRepository.GetTodoListWithId(updateTodoDTO.TodoListId);
+    if (todoList == null)
+    {
+        return Results.NotFound();
+    }
+    var result = todoRepository.UpdateTodo(updateTodoDTO, todoList);
     return result != null ? Results.NoContent() : Results.NotFound();
 })
 .WithName("UpdateTodo");
@@ -110,15 +125,30 @@ app.MapGet("/Subtask/{id}", (SubtaskRepository subtaskRepository, int id) =>
 })
 .WithName("GetSubtask");
 
-app.MapDelete("/Subtask/{id}", (SubtaskRepository subtaskRepository, int id) =>
+app.MapDelete("/Subtask/{id}", (TodoRepository todoRepository,SubtaskRepository subtaskRepository, int id) =>
 {
-    var result = subtaskRepository.DeleteSubtask(id);
+    var subtask= subtaskRepository!.GetSubtask(id);
+    if (subtask == null)
+    {
+        return Results.NotFound();
+    }
+    var todo = todoRepository.GetTodo(subtask.TodoId);
+    if (todo== null)
+    {
+        return Results.NotFound();
+    }
+    var result = subtaskRepository.DeleteSubtask(subtask);
     return result != null ? Results.Ok(result) : Results.NotFound();
 })
 .WithName("DeleteSubtask");
 
-app.MapPut("/Subtask/{id}", (SubtaskRepository subtaskRepository, UpdateSubtaskDTO updateSubtaskDTO) =>
+app.MapPut("/Subtask/{id}", (SubtaskRepository subtaskRepository,TodoRepository todoRepository, UpdateSubtaskDTO updateSubtaskDTO) =>
 {
+    var todos = todoRepository.GetTodo(updateSubtaskDTO.TodoId);
+    if (todos == null)
+    {
+        return Results.NotFound();
+    }
     var result = subtaskRepository.UpdateSubtask(updateSubtaskDTO);
     return result != null ? Results.NoContent() : Results.NotFound();
 })
