@@ -49,12 +49,12 @@ app.MapGet("/TodoList", (TodoListRepository todoListRepository) =>
 })
 .WithName("GetAllTodoLists");
 
-app.MapGet("/TodoList/{id}", (TodoListRepository todoListRepository, int id) =>
+app.MapGet("/TodoListGetOne/{id}", (TodoListRepository todoListRepository, int id) =>
 {
     var result = todoListRepository!.GetTodoListWithId(id);
     return result != null ? Results.Ok(result) : Results.NotFound();
 })
-.WithName("GetAllTodoLists");
+.WithName("GetOneTodoLists");
 
 app.MapDelete("/TodoList/{id}", (TodoListRepository todoListRepository, int id) =>
 {
