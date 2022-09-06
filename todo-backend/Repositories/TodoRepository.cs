@@ -34,32 +34,35 @@ namespace todo_backend.Repositories
             Todo t = new Todo();
             t.Subtasks = new();
             t.Title = title;
-            t.ToDoList = todoArranger.ArrangePosition(todoList, position);
             t.Checked = false;
-            t.TodoListId = t.ToDoList.ToDoListId;
+            t.TodoListId = todoList.ToDoListId;
             t.Deadline = deadline;
+            t.ToDoList = todoArranger.ArrangePosition(todoList, position, t);
+
             todoList.Todos.Add(t);
             _dbContext.Todos.Add(t);
+
             _dbContext.SaveChanges();
             return t;
         }
-        public Todo DeleteTodo(int id)
+        public Todo DeleteTodo(Todo todo)
         {
-            var t = _dbContext.Todos.Find(id);
+            var t = _dbContext.Todos.Find(todo.TodoId);
             if (t != null)
             {
+                t.ToDoList = todoArranger.ArrangePositionAfterDelete(t.ToDoList, t);
                 _dbContext.Todos.Remove(t);
                 _dbContext.SaveChanges();
             }
             return t;
         }
-        public Todo UpdateTodo(UpdateTodoDTO updateTodoDTO)
+        public Todo UpdateTodo(UpdateTodoDTO updateTodoDTO, TodoList todoList)
         {
             var t = _dbContext.Todos.Find(updateTodoDTO.TodoId);
             if (t != null)
             {
                 t.Title =updateTodoDTO.Title;
-                t.ToDoList = todoArranger.ArrangePosition(t.ToDoList,updateTodoDTO.Position);
+                t.ToDoList = todoArranger.ArrangePosition(t.ToDoList,updateTodoDTO.Position,t);
                 t.Checked = updateTodoDTO.Checked;
                 t.Deadline= updateTodoDTO.Deadline;
                 _dbContext.SaveChanges();
