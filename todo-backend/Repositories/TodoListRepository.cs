@@ -18,7 +18,7 @@ namespace todo_backend.Repositories
         }
         public TodoList GetTodoListWithId(int id)
         {
-            return _dbContext.TodoLists.Include(t => t.Todos).FirstOrDefault(t => t.ToDoListId == id);
+            return _dbContext.TodoLists.Include(t => t.Todos).ThenInclude(t=>t.Subtasks).FirstOrDefault(t => t.ToDoListId == id);
         }
         public TodoList CreateTodoList(string title)
         {
