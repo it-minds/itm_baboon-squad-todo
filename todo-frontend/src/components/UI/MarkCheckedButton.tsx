@@ -6,5 +6,5 @@ type Props = {
 };
 
 export const MarkCheckedButton: FC<Props> = ({ checked, onChange }) => {
-  return <input type="checkbox" className="rounded-full"  checked={checked} onChange={onChange}></input>;
+  return <input type="checkbox" checked={checked} onChange={onChange}></input>;
 };
