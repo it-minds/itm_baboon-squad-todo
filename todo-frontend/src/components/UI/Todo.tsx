@@ -11,6 +11,7 @@ type Props = {
 
 export const Todo: FC<Props> = ({ todo }) => {
   const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
+  const [showTodoOptions, setShowTodoOptions]=useState<boolean>(false);
 
   return (
     <div>

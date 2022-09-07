@@ -5,6 +5,12 @@ import { Deadline } from "./Deadline";
 import clsx from "clsx";
 import { MarkCheckedButton } from "./MarkCheckedButton";
 import { putDataById } from "./../../services/api";
+import {SubtaskOptionsButton} from "./SubtaskOptionsButton";
+import {AddSubtaskAboveButton} from "./AddSubtaskAboveButton";
+import {AddSubtaskBelowButton} from "./AddSubtaskBelowButton";
+import {DeleteSubtaskButton} from "./DeleteSubtaskButton";
+import {EditSubtaskButton} from "./EditSubtaskButton";
+
 
 type Props = {
   subtask: SubtaskModel;
@@ -17,6 +23,7 @@ export const Subtask: FC<Props> = ({ subtask }) => {
   const [error, setError] = useState<string | null>(null);
   const [task, setTask] = useState<SubtaskModel>(subtask);
   const [updated, setUpdated] = useState<boolean>(false);
+  const[isOpen,setOpen]=useState(false);
 
   useEffect(() => {
     const putSubtask = async () => {
@@ -34,6 +41,9 @@ export const Subtask: FC<Props> = ({ subtask }) => {
     }
   }, [task]);
 
+  const onclick =()=>{
+  setOpen(!isOpen);
+  };
   return (
     <div>
       <div
@@ -50,8 +60,27 @@ export const Subtask: FC<Props> = ({ subtask }) => {
             setTask({ ...task, Checked: !task.Checked });
             setUpdated(true);
           }}
-        />
+           />
+           <SubtaskOptionsButton 
+           onClick={onclick}
+           />
       </div>
+      {isOpen&& <div className="flex flex-col">
+        <AddSubtaskAboveButton 
+           onClick={onclick}
+           />
+                   <AddSubtaskBelowButton 
+           onClick={onclick}
+           />
+                   <EditSubtaskButton 
+           onClick={onclick}
+           />
+                   <DeleteSubtaskButton 
+           onClick={onclick}
+           />
+      </div>
+        
+       }
     </div>
   );
 };
