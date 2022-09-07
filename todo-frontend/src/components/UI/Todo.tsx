@@ -1,9 +1,11 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { TodoModel } from "../../models/TodoModel";
 import { Subtask } from "./Subtask";
 import { Title } from "./Title";
 import { Deadline } from "./Deadline";
 import clsx from 'clsx';
+import { MarkCheckedButton } from "./MarkCheckedButton";
+import { putDataById } from "../../services/api";
 
 type Props = {
   todo: TodoModel;
@@ -11,7 +13,27 @@ type Props = {
 
 export const Todo: FC<Props> = ({ todo }) => {
   const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [task, setTask] = useState<TodoModel>(todo);
+  const [updated, setUpdated] = useState<boolean>(false)
 
+  useEffect(() => {
+    const putSubtask = async () => {
+      const result = await putDataById("https://localhost:7058/Todo", task)
+        .then((data) => {
+          setError(null);
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
+    };
+    if (updated) {
+      putSubtask();
+      setUpdated(false);
+    }
+  }, [task]);
+
+  
   return (
     <div>
       <div className="p-3 flex flex-row items-center rounded-xl border-2 border-red-600 my-5">
@@ -22,12 +44,15 @@ export const Todo: FC<Props> = ({ todo }) => {
         )}
         <Title subtasksShowed={showSubtasks} title={todo.Title} />
         <Deadline deadline={todo.Deadline} />
+        <MarkCheckedButton
+          checked={task.Checked}
+          onChange={() => {
+            setTask({ ...task, Checked: !task.Checked });
+            setUpdated(true);
+          }}
+        />
       </div>
       {showSubtasks && todo.subtasks?.map((s) => <Subtask key={s.SubTaskId} subtask={s}/>)}
     </div>
   );
 };
-
-
-
-// className={clsx('sfsafsafsaf', "sadsafasfsa": isChecked)}

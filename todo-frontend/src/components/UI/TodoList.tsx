@@ -20,10 +20,12 @@ export const TodoList: FC<Props> = ({ listId }) => {
         "https://localhost:7058/TodoListGetOne/" + listId?.toString()
       )
         .then((data) => {
+          console.log(data)
           const responseTodos: TodoModel[] = data.todos.$values.map(
             (todoValues: any) => {
               const todo: TodoModel = {
                 TodoId: todoValues.todoId,
+                TodoListId: data.toDoListId,
                 Title: todoValues.title,
                 Deadline: todoValues.deadline,
                 Checked: todoValues.checked,
@@ -55,6 +57,7 @@ export const TodoList: FC<Props> = ({ listId }) => {
     };
     fetchLists();
   }, [listId]);
+
 
   return (
     <div>

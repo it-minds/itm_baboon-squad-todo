@@ -7,4 +7,6 @@ export type TodoModel = {
     Checked: boolean;
     position: number;
     subtasks?: SubtaskModel[];
+    TodoListId: number
   };
+
