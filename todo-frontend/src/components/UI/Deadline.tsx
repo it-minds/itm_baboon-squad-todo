@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const Deadline: FC<Props> = ({ deadline }) => {
-  return <p>{deadline}</p>;
+  return <p className="mx-10">{deadline?.split('T',1)}</p>;
 };
