@@ -33,7 +33,6 @@ export async function putDataById(url: string, data: any) {
     })
     .catch((error) => {
       console.error("Error:", error);
-      console.log(JSON.stringify(data));
     });
 }
 

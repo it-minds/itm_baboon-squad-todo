@@ -5,6 +5,7 @@ import { Deadline } from "./Deadline";
 import clsx from "clsx";
 import { MarkCheckedButton } from "./MarkCheckedButton";
 import { putDataById } from "./../../services/api";
+import { MoveUpDownButton } from "./MoveUpDownButton.tsx";
 
 type Props = {
   subtask: SubtaskModel;
@@ -38,7 +39,7 @@ export const Subtask: FC<Props> = ({ subtask }) => {
     <div>
       <div
         className={clsx(
-          "p-3 flex flex-row justify rounded-xl border-2 border-red-600 my-5",
+          "p-3 flex flex-row justify items-center rounded-xl border-2 border-red-600 my-5",
           { "bg-red-600": today > deadline }
         )}
       >
@@ -48,6 +49,16 @@ export const Subtask: FC<Props> = ({ subtask }) => {
           checked={task.Checked}
           onChange={() => {
             setTask({ ...task, Checked: !task.Checked });
+            setUpdated(true);
+          }}
+        />
+        <MoveUpDownButton
+          onClick={(dir: string) => {
+            setTask({
+              ...task,
+              Position:
+                dir === "moveUp" ? task.Position - 1 : task.Position + 1,
+            });
             setUpdated(true);
           }}
         />

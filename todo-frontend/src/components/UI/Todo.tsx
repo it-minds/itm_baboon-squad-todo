@@ -31,9 +31,8 @@ export const Todo: FC<Props> = ({ todo }) => {
       putTodo();
       setUpdated(false);
     }
-  }, [task]);
+  }, [task, updated]);
 
-  
   return (
     <div>
       <div className="p-3 flex flex-row items-center rounded-xl border-2 border-red-600 my-5">
@@ -52,7 +51,7 @@ export const Todo: FC<Props> = ({ todo }) => {
           }}
         />
       </div>
-      {showSubtasks && todo.subtasks?.map((s) => <Subtask key={s.SubTaskId} subtask={s}/>)}
+      {showSubtasks && todo.subtasks?.sort((s1,s2)=>s1.Position - s2.Position).map((s) => <Subtask key={s.SubTaskId} subtask={s}/>)}
     </div>
   );
 };

@@ -17,10 +17,9 @@ export const TodoList: FC<Props> = ({ listId }) => {
   useEffect(() => {
     const fetchLists = async () => {
       const result = await getData(
-        "https://localhost:7058/TodoListGetOne/" + listId?.toString()
+        "https://localhost:7058/TodoList/" + listId?.toString()
       )
         .then((data) => {
-          console.log(data)
           const responseTodos: TodoModel[] = data.todos.$values.map(
             (todoValues: any) => {
               const todo: TodoModel = {
