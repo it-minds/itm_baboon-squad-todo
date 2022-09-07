@@ -14,7 +14,7 @@ namespace todo_backend.Repositories
         }
         public List<TodoList> GetTodoLists()
         {
-            return _dbContext.TodoLists.Include(t => t.Todos).ToList<TodoList>();
+            return _dbContext.TodoLists.ToList<TodoList>();
         }
         public TodoList GetTodoListWithId(int id)
         {
