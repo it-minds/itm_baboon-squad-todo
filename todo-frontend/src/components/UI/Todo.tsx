@@ -23,7 +23,7 @@ export const Todo: FC<Props> = ({ todo }) => {
         <Title subtasksShowed={showSubtasks} title={todo.Title} />
         <Deadline deadline={todo.Deadline} />
       </div>
-      {showSubtasks && todo.subtasks?.map((s) => <Subtask subtask={s}/>)}
+      {showSubtasks && todo.subtasks?.map((s) => <Subtask key={s.SubTaskId} subtask={s}/>)}
     </div>
   );
 };

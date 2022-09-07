@@ -22,8 +22,9 @@ export async function getData(url:string) {
       });
   }
   
-  export async function putDataById(url:string, id:string, data:any) {
-    return await fetch(url.concat(id), {
+  export async function putDataById(url:string, data:any) {
+    console.log(JSON.stringify(data))
+    return await fetch(url, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },

@@ -55,7 +55,8 @@ export const ListSelector: FC = () => {
       </p>
         <Select options={lists} onChange={onListSelect} />
       </div>
-      {selectedList !== undefined && <TodoList listId={selectedList} />}
+      {selectedList && <TodoList listId={selectedList} />}
+      {!selectedList && <p>Pick list to see todos</p>}
     </div>
   );
 };
