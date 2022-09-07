@@ -18,7 +18,7 @@ export const Todo: FC<Props> = ({ todo }) => {
   const [updated, setUpdated] = useState<boolean>(false)
 
   useEffect(() => {
-    const putSubtask = async () => {
+    const putTodo = async () => {
       const result = await putDataById("https://localhost:7058/Todo", task)
         .then((data) => {
           setError(null);
@@ -28,7 +28,7 @@ export const Todo: FC<Props> = ({ todo }) => {
         });
     };
     if (updated) {
-      putSubtask();
+      putTodo();
       setUpdated(false);
     }
   }, [task]);
