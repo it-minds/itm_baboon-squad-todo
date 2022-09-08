@@ -1,5 +1,6 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, Children } from "react";
 import { SubtaskModel } from "../../models/SubtaskModel";
+import{useForm} from "react-hook-form"
 import { Title } from "./Title";
 import { Deadline } from "./Deadline";
 import clsx from "clsx";
@@ -9,9 +10,16 @@ import {SubtaskOptionsButton} from "./SubtaskOptionsButton";
 import {AddSubtaskAboveButton} from "./AddSubtaskAboveButton";
 import {AddSubtaskBelowButton} from "./AddSubtaskBelowButton";
 import {DeleteSubtaskButton} from "./DeleteSubtaskButton";
-import {EditSubtaskDeadlineButton} from "./EditSubtaskDeadlineButton";
-import {RenameSubtaskButton} from "./RenameSubtaskButton";
 import { classNames } from "react-select/dist/declarations/src/utils";
+import {EditDeadlineDialog} from "./EditDeadlineDialog";
+import {RenameSubtaskDialog} from "./RenameSubtaskDialog"
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 
 type Props = {
@@ -27,6 +35,8 @@ export const Subtask: FC<Props> = ({ subtask }) => {
   const [updated, setUpdated] = useState<boolean>(false);
   const [deleted, setDeleted]=useState<boolean>(false);
   const[isOpen,setOpen]=useState(false);
+
+
 
   useEffect(() => {
     const putSubtask = async () => {
@@ -70,14 +80,18 @@ export const Subtask: FC<Props> = ({ subtask }) => {
     console.log("you pressed add below");
 
   };
-  const onRenameClick=()=>{
-    console.log("you pressed rename");
-
+  const onDeadlineChanged=(newDeadline: string)=>{
+    setTask({ ...task, Deadline : newDeadline});
+    setUpdated(true);
+  }
+  const onNameChanged=(newName:string)=>{
+    setTask({ ...task, Title : newName});
+    setUpdated(true);
   };
-  const onEditDeadlineClick=()=>{
-    console.log("you pressed edit deadline");
 
-  };
+  const onEditClick=()=>{
+  console.log("you pressed edit deadline");
+ };
   const onDeleteClick=()=>{
     console.log("you pressed delete");
     setTask({ ...task});
@@ -113,13 +127,9 @@ export const Subtask: FC<Props> = ({ subtask }) => {
                    <AddSubtaskBelowButton 
            OnAddBelowClick={onAddBelowClick}
            />
-                   <RenameSubtaskButton 
-           OnRenameClick={onRenameClick}
-           />
-            <EditSubtaskDeadlineButton 
-           OnEditDeadlineClick={onEditDeadlineClick}
-           />
-                   <DeleteSubtaskButton 
+             <RenameSubtaskDialog subtask={subtask} onNameChanged={onNameChanged}/>
+           <EditDeadlineDialog subtask={subtask} onDeadlineChanged={onDeadlineChanged}/>
+          <DeleteSubtaskButton 
            OnDeleteClick={onDeleteClick}
            />
       </div>
