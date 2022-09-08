@@ -16,11 +16,12 @@ import { Title } from './Title';
 
 type Props = {
   subtask: SubtaskModel;
-  subtasksCount: number;
+  subtasksMinPosition: number;
+  subtasksMaxPosition: number;
   refetchList: () => void;
 };
 
-export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
+export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPosition, refetchList }) => {
   const today = new Date();
   const deadline = new Date(subtask.Deadline?.split('T', 1)[0] ?? '');
 
@@ -32,7 +33,7 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
 
   useEffect(() => {
     const putSubtask = async () => {
-      const result = await putDataById('https://localhost:7058/Subtask', task)
+      await putDataById('https://localhost:7058/Subtask', task)
         .then((data) => {
           setError(null);
         })
@@ -45,11 +46,11 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
     if (updated) {
       putSubtask();
     }
-  }, [task]);
+  }, [task, updated, refetchList]);
 
   useEffect(() => {
     const deleteSubtask = async () => {
-      const result = await deleteDataById('https://localhost:7058/Subtask', '/' + task.SubTaskId.toString())
+      await deleteDataById('https://localhost:7058/Subtask', '/' + task.SubTaskId.toString())
         .then(() => {
           setError(null);
         })
@@ -62,14 +63,14 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
     if (deleted) {
       deleteSubtask();
     }
-  }, [deleted]);
+  }, [deleted, refetchList, task.SubTaskId]);
 
   useEffect(() => {
     if (error !== null) {
       refetchList();
       setError(null);
     }
-  }, [error]);
+  }, [error, refetchList]);
 
   const onclick = () => {
     setOpen(!isOpen);
@@ -95,7 +96,7 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
   return (
     <div>
       <div
-        className={clsx('p-3 flex flex-row flex-auto justify rounded-xl border-2 border-red-600 my-5 0', {
+        className={clsx('p-3 flex flex-row flex-auto justify border-2 border-red-600 my-5 0', {
           'bg-red-600': today > deadline,
         })}
       >
@@ -114,12 +115,12 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
               ...task,
               Position:
                 dir === 'moveUp'
-                  ? task.Position !== 0
+                  ? task.Position > subtasksMinPosition
                     ? task.Position - 1
-                    : task.Position
-                  : task.Position === subtasksCount - 1
-                  ? task.Position
-                  : task.Position + 1,
+                    : subtasksMinPosition
+                  : task.Position < subtasksMaxPosition
+                  ? task.Position + 1
+                  : subtasksMaxPosition,
             });
             setUpdated(true);
           }}

@@ -17,7 +17,7 @@ export const TodoList: FC<Props> = ({ listId }) => {
 
   useEffect(() => {
     const fetchLists = async () => {
-      const result = await getData('https://localhost:7058/TodoList/' + listId?.toString())
+      await getData('https://localhost:7058/TodoList/' + listId?.toString())
         .then((data) => {
           const responseTodos: TodoModel[] = data.todos.$values.map((todoValues: any) => {
             const todo: TodoModel = {
@@ -57,6 +57,10 @@ export const TodoList: FC<Props> = ({ listId }) => {
   const refetchList = () => {
     setPositionsUpdated(true);
   };
+
+  if (error) {
+    return <p>Error during fetch</p>;
+  }
 
   return (
     <div>

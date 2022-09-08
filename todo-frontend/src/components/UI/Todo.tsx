@@ -21,25 +21,31 @@ export const Todo: FC<Props> = ({ todo, refetchList }) => {
 
   useEffect(() => {
     const putTodo = async () => {
-      const result = await putDataById('https://localhost:7058/Todo', task)
+      await putDataById('https://localhost:7058/Todo', task)
         .then((data) => {
           setError(null);
         })
         .catch((error) => {
           setError(error.message);
         });
+      setUpdated(false);
+      refetchList();
     };
     if (updated) {
       putTodo();
-      setUpdated(false);
     }
-  }, [task, updated]);
+  }, [task, updated, refetchList]);
 
-  const [showTodoOptions, setShowTodoOptions] = useState<boolean>(false);
+  useEffect(() => {
+    if (error !== null) {
+      refetchList();
+      setError(null);
+    }
+  }, [error, refetchList]);
 
   return (
     <div>
-      <div className="p-3 flex flex-row items-center rounded-xl border-2 border-red-600 my-5">
+      <div className="p-3 flex flex-row items-center border-2 border-red-600 my-5">
         {todo.subtasks?.length !== 0 && (
           <button
             className={clsx('text-blue-600 text-3xl mx-5 items-center transition duration-300', {
@@ -67,7 +73,8 @@ export const Todo: FC<Props> = ({ todo, refetchList }) => {
             <Subtask
               key={s.SubTaskId}
               subtask={s}
-              subtasksCount={todo.subtasks!.length}
+              subtasksMinPosition={Math.min(...todo.subtasks!.map((s) => s.Position))}
+              subtasksMaxPosition={Math.max(...todo.subtasks!.map((s) => s.Position))}
               refetchList={() => refetchList()}
             />
           ))}
