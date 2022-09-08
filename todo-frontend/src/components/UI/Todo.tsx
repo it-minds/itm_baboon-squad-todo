@@ -34,6 +34,8 @@ export const Todo: FC<Props> = ({ todo, refetchList }) => {
     }
   }, [task, updated]);
 
+    const [showTodoOptions, setShowTodoOptions]=useState<boolean>(false);
+
   return (
     <div>
       <div className="p-3 flex flex-row items-center rounded-xl border-2 border-red-600 my-5">
