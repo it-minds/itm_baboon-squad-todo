@@ -152,11 +152,6 @@ app.MapDelete("/Subtask/{id}", (TodoRepository todoRepository, SubtaskRepository
     {
         return Results.NotFound();
     }
-    var todo = todoRepository.GetTodo(subtask.TodoId);
-    if (todo == null)
-    {
-        return Results.NotFound();
-    }
     var result = subtaskRepository.DeleteSubtask(subtask);
     return result != null ? Results.Ok(result) : Results.NotFound();
 })
@@ -164,11 +159,6 @@ app.MapDelete("/Subtask/{id}", (TodoRepository todoRepository, SubtaskRepository
 
 app.MapPut("/Subtask", (SubtaskRepository subtaskRepository, UpdateSubtaskDTO updateSubtaskDTO) =>
 {
-    //var subtask = subtaskRepository.GetSubtask(updateSubtaskDTO.SubTaskId);
-    //if (subtask == null)
-    //{
-    //    return Results.NotFound();
-    //}
     var result = subtaskRepository.UpdateSubtask(updateSubtaskDTO);
     return result != null ? Results.NoContent() : Results.NotFound();
 })

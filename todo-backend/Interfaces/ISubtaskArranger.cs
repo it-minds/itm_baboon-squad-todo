@@ -6,6 +6,6 @@ namespace todo_backend.Interfaces
     {
         Subtask ArrangePositionOnCreate(int newPosition, Subtask subtask);
         Subtask ArrangePositionOnUpdate(int newPosition, Subtask subtask);
-        Todo ArrangePositionAfterDelete(Todo todo, Subtask subtask);
+        Subtask ArrangePositionOnDelete(Subtask subtask);
     }
 }

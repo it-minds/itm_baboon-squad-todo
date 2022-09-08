@@ -47,16 +47,20 @@ namespace todo_backend.Repositories
             _dbContext.SaveChanges();
             return s;
         }
-        public Subtask DeleteSubtask(Subtask delete)
+        public Subtask? DeleteSubtask(Subtask delete)
         {
-            var t = _dbContext.Subtasks.Find(delete.SubTaskId);
-            if (t != null)
+            var s = _dbContext.Subtasks
+                .Include(s=>s.Todo)
+                .ThenInclude(s=>s.Subtasks)
+                .FirstOrDefault(s=>s.SubTaskId == delete.SubTaskId);
+            if (s != null)
             {
-                t.Todo = subtaskArranger.ArrangePositionAfterDelete(t.Todo, t);
-                _dbContext.Subtasks.Remove(t);
+                s.Todo.Subtasks.Remove(s);
+                //s = subtaskArranger.ArrangePositionOnDelete(s);
+                //_dbContext.Subtasks.Remove(s);
                 _dbContext.SaveChanges();
             }
-            return t;
+            return s;
         }
         public Subtask? UpdateSubtask(UpdateSubtaskDTO updateSubtaskDTO)
         {
