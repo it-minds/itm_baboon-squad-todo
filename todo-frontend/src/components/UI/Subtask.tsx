@@ -7,11 +7,12 @@ import { AddSubtaskAboveButton } from './AddSubtaskAboveButton';
 import { AddSubtaskBelowButton } from './AddSubtaskBelowButton';
 import { Deadline } from './Deadline';
 import { DeleteSubtaskButton } from './DeleteSubtaskButton';
-import { EditSubtaskDeadlineButton } from './EditSubtaskDeadlineButton';
+import { RenameSubtaskDialog } from './RenameSubtaskDialog';
 import { MarkCheckedButton } from './MarkCheckedButton';
 import { MoveUpDownButton } from './MoveUpDownButton.tsx';
-import { RenameSubtaskButton } from './RenameSubtaskButton';
+
 import { SubtaskOptionsButton } from './SubtaskOptionsButton';
+import { EditDeadlineDialog } from './EditDeadlineDialog';
 import { Title } from './Title';
 
 type Props = {
@@ -82,12 +83,14 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
   const onAddBelowClick = () => {
     console.log('you pressed add below');
   };
-  const onRenameClick = () => {
-    console.log('you pressed rename');
-  };
-  const onEditDeadlineClick = () => {
-    console.log('you pressed edit deadline');
-  };
+  const onNameChanged =(newName:string)=>{
+    setTask({ ...task, Title: newName});
+    setUpdated(true);
+  }
+  const onDeadlineChanged =(newDeadline: string)=>{
+    setTask({ ...task, Deadline: newDeadline});
+    setUpdated(true);
+  }
   const onDeleteClick = () => {
     console.log('you pressed delete');
     setTask({ ...task });
@@ -132,16 +135,22 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
           }}
         />
       </div>
-
-      {isOpen && (
-        <div className="flex flex-col">
-          <AddSubtaskAboveButton OnAddAboveClick={onAddAboveClick} />
-          <AddSubtaskBelowButton OnAddBelowClick={onAddBelowClick} />
-          <RenameSubtaskButton OnRenameClick={onRenameClick} />
-          <EditSubtaskDeadlineButton OnEditDeadlineClick={onEditDeadlineClick} />
-          <DeleteSubtaskButton OnDeleteClick={onDeleteClick} />
-        </div>
-      )}
+     
+      {isOpen&& <div className="flex flex-col">
+        <AddSubtaskAboveButton 
+           OnAddAboveClick={onAddAboveClick}
+           />
+                   <AddSubtaskBelowButton 
+           OnAddBelowClick={onAddBelowClick}
+           />
+             <RenameSubtaskDialog subtask={subtask} onNameChanged={onNameChanged}/>
+           <EditDeadlineDialog subtask={subtask} onDeadlineChanged={onDeadlineChanged}/>
+          <DeleteSubtaskButton 
+           OnDeleteClick={onDeleteClick}
+           />
+      </div>
+        
+       }
     </div>
   );
 };
