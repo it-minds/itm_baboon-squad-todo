@@ -12,7 +12,8 @@ type Props = {
 
 export const TodoList: FC<Props> = ({ listId }) => {
   const [error, setError] = useState<string | null>(null);
-  const [todos, setTodos] = useState<TodoModel[]|null>(null);
+  const [todos, setTodos] = useState<TodoModel[] | null>(null);
+  const [positionsUpdated, setPositionsUpdated] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -54,17 +55,23 @@ export const TodoList: FC<Props> = ({ listId }) => {
           setTodos(null);
         });
     };
-    fetchLists();
-  }, [listId]);
 
+    fetchLists();
+    setPositionsUpdated(false);
+  }, [listId, positionsUpdated]);
+
+  const refetchList = () => {
+    setPositionsUpdated(true);
+  };
 
   return (
     <div>
       <AddTodo />
       {todos &&
-        todos.map((t) => <Todo key={t.TodoId} todo={t} />)}
-      {!todos?.length &&
-        <p className="mt-10">No todos found</p>}
+        todos.map((t) => (
+          <Todo key={t.TodoId} todo={t} refetchList={refetchList} />
+        ))}
+      {!todos?.length && <p className="mt-10">No todos found</p>}
     </div>
   );
 };

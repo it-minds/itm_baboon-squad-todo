@@ -3,19 +3,20 @@ import { TodoModel } from "../../models/TodoModel";
 import { Subtask } from "./Subtask";
 import { Title } from "./Title";
 import { Deadline } from "./Deadline";
-import clsx from 'clsx';
+import clsx from "clsx";
 import { MarkCheckedButton } from "./MarkCheckedButton";
 import { putDataById } from "../../services/api";
 
 type Props = {
   todo: TodoModel;
+  refetchList: () => void;
 };
 
-export const Todo: FC<Props> = ({ todo }) => {
+export const Todo: FC<Props> = ({ todo, refetchList }) => {
   const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [task, setTask] = useState<TodoModel>(todo);
-  const [updated, setUpdated] = useState<boolean>(false)
+  const [updated, setUpdated] = useState<boolean>(false);
 
   useEffect(() => {
     const putTodo = async () => {
@@ -37,9 +38,15 @@ export const Todo: FC<Props> = ({ todo }) => {
     <div>
       <div className="p-3 flex flex-row items-center rounded-xl border-2 border-red-600 my-5">
         {todo.subtasks?.length !== 0 && (
-          <button className={clsx("text-blue-600 text-3xl mx-5 items-center transition duration-300", {"rotate-90": showSubtasks})}
+          <button
+            className={clsx(
+              "text-blue-600 text-3xl mx-5 items-center transition duration-300",
+              { "rotate-90": showSubtasks }
+            )}
             onClick={() => setShowSubtasks(!showSubtasks)}
-          >&gt;</button>
+          >
+            &gt;
+          </button>
         )}
         <Title subtasksShowed={showSubtasks} title={todo.Title} />
         <Deadline deadline={todo.Deadline} />
@@ -51,7 +58,17 @@ export const Todo: FC<Props> = ({ todo }) => {
           }}
         />
       </div>
-      {showSubtasks && todo.subtasks?.sort((s1,s2)=>s1.Position - s2.Position).map((s) => <Subtask key={s.SubTaskId} subtask={s}/>)}
+      {showSubtasks &&
+        todo.subtasks
+          ?.sort((s1, s2) => s1.Position - s2.Position)
+          .map((s) => (
+            <Subtask
+              key={s.SubTaskId}
+              subtask={s}
+              subtasksCount = {todo.subtasks!.length}
+              refetchList={() => refetchList()}
+            />
+          ))}
     </div>
   );
 };

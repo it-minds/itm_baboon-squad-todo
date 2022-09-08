@@ -9,9 +9,11 @@ import { MoveUpDownButton } from "./MoveUpDownButton.tsx";
 
 type Props = {
   subtask: SubtaskModel;
+  subtasksCount: number;
+  refetchList: () => void;
 };
 
-export const Subtask: FC<Props> = ({ subtask }) => {
+export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
   const today = new Date();
   const deadline = new Date(subtask.Deadline?.split("T", 1)[0] ?? "");
 
@@ -28,12 +30,20 @@ export const Subtask: FC<Props> = ({ subtask }) => {
         .catch((error) => {
           setError(error.message);
         });
+      setUpdated(false);
+      refetchList();
     };
     if (updated) {
       putSubtask();
-      setUpdated(false);
     }
   }, [task]);
+
+  useEffect(()=>{
+    if (error!==null){
+        refetchList();
+        setError(null);
+    }
+  },[error])
 
   return (
     <div>
@@ -57,7 +67,13 @@ export const Subtask: FC<Props> = ({ subtask }) => {
             setTask({
               ...task,
               Position:
-                dir === "moveUp" ? task.Position - 1 : task.Position + 1,
+                dir === "moveUp"
+                  ? task.Position !== 0
+                    ? task.Position - 1
+                    : task.Position
+                  : task.Position === subtasksCount - 1
+                  ? task.Position
+                  : task.Position + 1,
             });
             setUpdated(true);
           }}
