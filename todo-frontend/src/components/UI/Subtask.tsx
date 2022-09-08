@@ -136,21 +136,17 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
         />
       </div>
      
-      {isOpen&& <div className="flex flex-col">
-        <AddSubtaskAboveButton 
-           OnAddAboveClick={onAddAboveClick}
-           />
-                   <AddSubtaskBelowButton 
-           OnAddBelowClick={onAddBelowClick}
-           />
-             <RenameSubtaskDialog subtask={subtask} onNameChanged={onNameChanged}/>
-           <EditDeadlineDialog subtask={subtask} onDeadlineChanged={onDeadlineChanged}/>
-          <DeleteSubtaskButton 
-           OnDeleteClick={onDeleteClick}
-           />
+      {isOpen && 
+      <div className='flex justify-end'>
+        <div className="flex flex-col w-1/5 bg-gray-500 max-w text-left">
+          <RenameSubtaskDialog subtask={subtask} onNameChanged={onNameChanged}/>
+          <EditDeadlineDialog subtask={subtask} onDeadlineChanged={onDeadlineChanged}/>
+          <AddSubtaskAboveButton OnAddAboveClick={onAddAboveClick}/>
+          <AddSubtaskBelowButton OnAddBelowClick={onAddBelowClick}/>
+          <DeleteSubtaskButton OnDeleteClick={onDeleteClick}/>
+        </div>
       </div>
-        
-       }
+      }
     </div>
   );
 };

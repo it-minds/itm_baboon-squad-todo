@@ -40,9 +40,9 @@ export const RenameSubtaskDialog: FC<Props> = ({subtask, onNameChanged}) => {
   onNameChanged(value)};
 
     return (
-    <div>
-       <button onClick={handleOpen} title="Rename subtask"  className='border-2 text-5xl mx-20 text-blue-900 align-text-bottom'>
-        Rename subtask
+    <div   className='border-2'>
+       <button onClick={handleOpen} title="Rename subtask">
+        Rename
        </button>
        <Dialog
        open={open}
