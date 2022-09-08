@@ -23,14 +23,13 @@ export async function postData(url: string, data: any) {
 }
 
 export async function putDataById(url: string, data: any) {
-  console.log(JSON.stringify(data));
   return await fetch(url, {
     method: 'PUT',
     body: JSON.stringify(data),
     headers: { accept: '*/*', 'Content-Type': 'application/json' },
   })
     .then((result) => {
-      console.log('Success:', result);
+      //console.log('Success:', result);
     })
     .catch((error) => {
       console.error('Error:', error);

@@ -96,12 +96,17 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
   return (
     <div>
       <div
-        className={clsx('p-3 flex flex-row flex-auto justify border-2 border-red-600 my-5 0', {
+        className={clsx('p-3 flex flex-row flex-auto justify border-2 border-red-600 h-14 ml-5 my-2', {
           'bg-red-600': today > deadline,
+          'bg-green-500': subtask.Checked,
         })}
       >
-        <Title title={subtask.Title} />
-        <Deadline deadline={subtask.Deadline} />
+        <div className="flex-auto">
+          <Title title={subtask.Title} />
+        </div>
+        <div className="flex-1">
+          <Deadline deadline={subtask.Deadline} />
+        </div>
         <MarkCheckedButton
           checked={task.Checked}
           onChange={() => {
@@ -109,6 +114,7 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
             setUpdated(true);
           }}
         />
+        <SubtaskOptionsButton onClick={onclick} />
         <MoveUpDownButton
           onClick={(dir: string) => {
             setTask({
@@ -125,10 +131,6 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
             setUpdated(true);
           }}
         />
-        <div className="row">
-          {' '}
-          <SubtaskOptionsButton onClick={onclick} />
-        </div>
       </div>
 
       {isOpen && (

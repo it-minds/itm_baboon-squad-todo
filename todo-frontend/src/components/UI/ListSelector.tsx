@@ -3,25 +3,21 @@ import './../../index.css';
 import { FC, useEffect, useState } from 'react';
 import Select, { ActionMeta, SingleValue } from 'react-select';
 
+import { TodoListModel } from '../../models/TodoListModel';
 import { getData } from './../../services/api';
 import { TodoList } from './TodoList';
 
-type TodoList = {
-  value: number;
-  label: string;
-};
-
 export const ListSelector: FC = () => {
   const [error, setError] = useState<string | null>(null);
-  const [lists, setLists] = useState<TodoList[]>();
+  const [lists, setLists] = useState<TodoListModel[]>();
   const [selectedList, setSelectedList] = useState<number | undefined>();
 
   useEffect(() => {
     const fetchLists = async () => {
-      const result = await getData('https://localhost:7058/TodoList')
+      await getData('https://localhost:7058/TodoList')
         .then((data) => {
-          const responseLists: TodoList[] = data.$values.map((todoListvalues: any) => {
-            const todoList: TodoList = {
+          const responseLists: TodoListModel[] = data.$values.map((todoListvalues: any) => {
+            const todoList: TodoListModel = {
               value: todoListvalues.toDoListId,
               label: todoListvalues.title,
             };
@@ -39,15 +35,19 @@ export const ListSelector: FC = () => {
     fetchLists();
   }, []);
 
-  const onListSelect: (newValue: SingleValue<TodoList>, actionMeta: ActionMeta<TodoList>) => void = (e) => {
+  const onListSelect: (newValue: SingleValue<TodoListModel>, actionMeta: ActionMeta<TodoListModel>) => void = (e) => {
     setSelectedList(e?.value);
   };
 
+  if (error) {
+    return <p>Failed to fetch lists</p>;
+  }
+
   return (
     <div>
-      <div className="mb-10">
-        <p>Select todo list:</p>
-        <Select options={lists} onChange={onListSelect} />
+      <div className="P-3 flex flex-row items-center max-w-full mb-10">
+        <p className="min-w-fit mr-5">Select todo list:</p>
+        <Select options={lists} onChange={onListSelect} className="w-64 min-w-fit" />
       </div>
       {selectedList && <TodoList listId={selectedList} />}
       {!selectedList && <p>Pick list to see todos</p>}
