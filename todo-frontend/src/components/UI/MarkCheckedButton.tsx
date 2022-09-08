@@ -1,8 +1,8 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 type Props = {
-    checked: boolean
-    onChange: () => void;
+  checked: boolean;
+  onChange: () => void;
 };
 
 export const MarkCheckedButton: FC<Props> = ({ checked, onChange }) => {

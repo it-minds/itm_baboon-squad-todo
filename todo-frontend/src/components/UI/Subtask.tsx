@@ -1,18 +1,18 @@
-import { FC, useState, useEffect } from "react";
-import { SubtaskModel } from "../../models/SubtaskModel";
-import { Title } from "./Title";
-import { Deadline } from "./Deadline";
-import clsx from "clsx";
-import { MarkCheckedButton } from "./MarkCheckedButton";
-import { MoveUpDownButton } from "./MoveUpDownButton.tsx";
-import { deleteDataById, putDataById } from "./../../services/api";
-import { SubtaskOptionsButton } from "./SubtaskOptionsButton";
-import { AddSubtaskAboveButton } from "./AddSubtaskAboveButton";
-import { AddSubtaskBelowButton } from "./AddSubtaskBelowButton";
-import { DeleteSubtaskButton } from "./DeleteSubtaskButton";
-import { EditSubtaskDeadlineButton } from "./EditSubtaskDeadlineButton";
-import { RenameSubtaskButton } from "./RenameSubtaskButton";
-import { classNames } from "react-select/dist/declarations/src/utils";
+import clsx from 'clsx';
+import { FC, useEffect, useState } from 'react';
+
+import { SubtaskModel } from '../../models/SubtaskModel';
+import { deleteDataById, putDataById } from './../../services/api';
+import { AddSubtaskAboveButton } from './AddSubtaskAboveButton';
+import { AddSubtaskBelowButton } from './AddSubtaskBelowButton';
+import { Deadline } from './Deadline';
+import { DeleteSubtaskButton } from './DeleteSubtaskButton';
+import { EditSubtaskDeadlineButton } from './EditSubtaskDeadlineButton';
+import { MarkCheckedButton } from './MarkCheckedButton';
+import { MoveUpDownButton } from './MoveUpDownButton.tsx';
+import { RenameSubtaskButton } from './RenameSubtaskButton';
+import { SubtaskOptionsButton } from './SubtaskOptionsButton';
+import { Title } from './Title';
 
 type Props = {
   subtask: SubtaskModel;
@@ -22,7 +22,7 @@ type Props = {
 
 export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
   const today = new Date();
-  const deadline = new Date(subtask.Deadline?.split("T", 1)[0] ?? "");
+  const deadline = new Date(subtask.Deadline?.split('T', 1)[0] ?? '');
 
   const [error, setError] = useState<string | null>(null);
   const [task, setTask] = useState<SubtaskModel>(subtask);
@@ -32,7 +32,7 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
 
   useEffect(() => {
     const putSubtask = async () => {
-      const result = await putDataById("https://localhost:7058/Subtask", task)
+      const result = await putDataById('https://localhost:7058/Subtask', task)
         .then((data) => {
           setError(null);
         })
@@ -42,27 +42,27 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
       setUpdated(false);
       refetchList();
     };
+    if (updated) {
+      putSubtask();
+    }
+  }, [task]);
 
+  useEffect(() => {
     const deleteSubtask = async () => {
-      const result = await deleteDataById(
-        "https://localhost:7058/Subtask",
-        "/" + task.SubTaskId.toString()
-      )
+      const result = await deleteDataById('https://localhost:7058/Subtask', '/' + task.SubTaskId.toString())
         .then(() => {
           setError(null);
         })
         .catch((error) => {
           setError(error.message);
         });
+      setDeleted(false);
+      refetchList();
     };
-    if (updated) {
-      putSubtask();
-    }
     if (deleted) {
       deleteSubtask();
-      setDeleted(false);
     }
-  }, [task]);
+  }, [deleted]);
 
   useEffect(() => {
     if (error !== null) {
@@ -76,29 +76,28 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
   };
 
   const onAddAboveClick = () => {
-    console.log("you pressed add above");
+    console.log('you pressed add above');
   };
   const onAddBelowClick = () => {
-    console.log("you pressed add below");
+    console.log('you pressed add below');
   };
   const onRenameClick = () => {
-    console.log("you pressed rename");
+    console.log('you pressed rename');
   };
   const onEditDeadlineClick = () => {
-    console.log("you pressed edit deadline");
+    console.log('you pressed edit deadline');
   };
   const onDeleteClick = () => {
-    console.log("you pressed delete");
+    console.log('you pressed delete');
     setTask({ ...task });
     setDeleted(true);
   };
   return (
     <div>
       <div
-        className={clsx(
-          "p-3 flex flex-row flex-auto justify rounded-xl border-2 border-red-600 my-5 0",
-          { "bg-red-600": today > deadline }
-        )}
+        className={clsx('p-3 flex flex-row flex-auto justify rounded-xl border-2 border-red-600 my-5 0', {
+          'bg-red-600': today > deadline,
+        })}
       >
         <Title title={subtask.Title} />
         <Deadline deadline={subtask.Deadline} />
@@ -114,7 +113,7 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
             setTask({
               ...task,
               Position:
-                dir === "moveUp"
+                dir === 'moveUp'
                   ? task.Position !== 0
                     ? task.Position - 1
                     : task.Position
@@ -126,7 +125,7 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
           }}
         />
         <div className="row">
-          {" "}
+          {' '}
           <SubtaskOptionsButton onClick={onclick} />
         </div>
       </div>
@@ -136,9 +135,7 @@ export const Subtask: FC<Props> = ({ subtask, subtasksCount, refetchList }) => {
           <AddSubtaskAboveButton OnAddAboveClick={onAddAboveClick} />
           <AddSubtaskBelowButton OnAddBelowClick={onAddBelowClick} />
           <RenameSubtaskButton OnRenameClick={onRenameClick} />
-          <EditSubtaskDeadlineButton
-            OnEditDeadlineClick={onEditDeadlineClick}
-          />
+          <EditSubtaskDeadlineButton OnEditDeadlineClick={onEditDeadlineClick} />
           <DeleteSubtaskButton OnDeleteClick={onDeleteClick} />
         </div>
       )}

@@ -1,5 +1,6 @@
-import { FC } from "react";
-import ListSelector from "./../UI/ListSelector";
+import { FC } from 'react';
+
+import ListSelector from './../UI/ListSelector';
 
 export const Frontpage: FC = () => {
   return (
