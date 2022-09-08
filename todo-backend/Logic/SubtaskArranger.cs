@@ -1,52 +1,63 @@
 ﻿using todo_backend.Classes;
 using todo_backend.Repositories;
 using todo_backend.Interfaces;
+using System.Linq;
 
 namespace todo_backend.Logic
 {
-    public class SubtaskArranger: ISubtaskArranger
+    public class SubtaskArranger : ISubtaskArranger
     {
-        public Todo ArrangePosition(Todo todo, int newPosition, Subtask subtask)
+        public Subtask ArrangePositionOnCreate(int newPosition, Subtask subtask)
         {
-            int max = new();
-            foreach (var item in todo.Subtasks)
+            if (newPosition >= 0 && newPosition <= subtask.Todo.Subtasks.Max(s => s.Position))
             {
-                if (max <= item.Position)
-                {
-                    max = item.Position;
-                }
+                subtask.Todo.Subtasks
+                    .Where(s => s.Position >= newPosition)
+                    .ToList()
+                    .ForEach(s => ++s.Position);
             }
-            if (max + 1 < newPosition)
+
+            subtask.Position = newPosition;
+
+            var i = 0;
+            subtask.Todo.Subtasks
+                .OrderBy(t => t.Position)
+                .ToList()
+                .ForEach(s => s.Position = i++);
+
+            return subtask;
+        }
+        public Subtask ArrangePositionOnUpdate(int newPosition, Subtask subtask)
+        {
+            if (newPosition < 0) return subtask;
+
+            if (newPosition < subtask.Position)
             {
-                subtask.Position = max + 1;
-               
+                subtask.Todo.Subtasks
+                            .Where(s => s.Position <= newPosition)
+                            .MaxBy(t => t.Position)!.Position = subtask.Position;
             }
             else
             {
-                foreach (var item in todo.Subtasks)
-                {
-                    if (item.Position >= newPosition)
-                    {
-                        item.Position++;
-                    }
-                }
-                subtask.Position = newPosition;
-            }
-            
+                subtask.Todo.Subtasks
+                            .Where(s => s.Position >= newPosition)
+                            .MinBy(t => t.Position)!.Position = subtask.Position;
 
-            return todo;
+            }
+            subtask.Position = newPosition;
+
+            return subtask;
+
         }
 
-        public Todo ArrangePositionAfterDelete(Todo todo, Subtask subtask)
+        public Subtask ArrangePositionOnDelete(Subtask subtask)
         {
-            foreach (var item in todo.Subtasks)
-            {
-                if (item.Position > subtask.Position)
-                {
-                    item.Position--;
-                }
-            }
-            return todo;
+            var i = 0;
+            subtask.Todo.Subtasks
+                .OrderBy(t => t.Position)
+                .ToList()
+                .ForEach(s => s.Position = i++);
+            return subtask;
         }
     }
 }

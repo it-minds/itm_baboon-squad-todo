@@ -4,7 +4,8 @@ namespace todo_backend.Interfaces
 {
     public interface ISubtaskArranger
     {
-        Todo ArrangePosition(Todo todo, int newPosition, Subtask subtask);
-        Todo ArrangePositionAfterDelete(Todo todo, Subtask subtask);
+        Subtask ArrangePositionOnCreate(int newPosition, Subtask subtask);
+        Subtask ArrangePositionOnUpdate(int newPosition, Subtask subtask);
+        Subtask ArrangePositionOnDelete(Subtask subtask);
     }
 }
