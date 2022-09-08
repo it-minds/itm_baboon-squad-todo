@@ -32,17 +32,20 @@ namespace todo_backend.Repositories
         }
         public Subtask CreateSubtask(CreateSubtaskDTO createSubtaskDTO, Todo todo)
         {
-            Subtask t = new Subtask();
-            t.Title = createSubtaskDTO.Title;
-            t.Checked = false;
-            t.TodoId = todo.TodoId;
-            t.Deadline = createSubtaskDTO.Deadline;
-            t.Todo = subtaskArranger.ArrangePosition(todo, createSubtaskDTO.Position, t);
+            Subtask s = new Subtask();
+            s.Title = createSubtaskDTO.Title;
+            s.Checked = false;
+            s.TodoId = todo.TodoId;
+            s.Todo = todo;
+            s.Deadline = createSubtaskDTO.Deadline;
+            //t.Todo = todo; // subtaskArranger.ArrangePosition(todo, createSubtaskDTO.Position, t);
+            todo.Subtasks.Add(s);
 
-            todo.Subtasks.Add(t);
-            _dbContext.Subtasks.Add(t);
+            s = subtaskArranger.ArrangePositionOnCreate(createSubtaskDTO.Position, s);
+
+            _dbContext.Subtasks.Add(s);
             _dbContext.SaveChanges();
-            return t;
+            return s;
         }
         public Subtask DeleteSubtask(Subtask delete)
         {
@@ -55,20 +58,23 @@ namespace todo_backend.Repositories
             }
             return t;
         }
-        public Subtask UpdateSubtask(UpdateSubtaskDTO updateSubtaskDTO)
+        public Subtask? UpdateSubtask(UpdateSubtaskDTO updateSubtaskDTO)
         {
-            var t = _dbContext.Subtasks.Find(updateSubtaskDTO.SubTaskId);
-            Todo todo = _dbContext.Todos.Find(t.TodoId);
-            t.Todo = todo;
-            if (t != null)
+            var subtask = _dbContext.Subtasks
+                .Include(s => s.Todo)
+                .ThenInclude(t=>t.Subtasks)
+                .FirstOrDefault(s => s.SubTaskId == updateSubtaskDTO.SubTaskId);
+            if (subtask != null)
             {
-                t.Title = updateSubtaskDTO.Title;
-                t.Todo = subtaskArranger.ArrangePosition(t.Todo, updateSubtaskDTO.Position,t);
-                t.Checked=updateSubtaskDTO.Checked;
-                t.Deadline=updateSubtaskDTO.Deadline;
+                subtask = subtaskArranger.ArrangePositionOnUpdate(updateSubtaskDTO.Position, subtask);
+
+                subtask.Title = updateSubtaskDTO.Title;
+                subtask.Checked = updateSubtaskDTO.Checked;
+                subtask.Deadline = updateSubtaskDTO.Deadline;
+
                 _dbContext.SaveChanges();
             }
-            return t;
+            return subtask;
         }
     }
 }
