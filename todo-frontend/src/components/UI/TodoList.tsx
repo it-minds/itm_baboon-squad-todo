@@ -28,12 +28,14 @@ export const TodoList: FC<Props> = ({ listId }) => {
               Checked: todoValues.checked,
               position: todoValues.position,
               subtasks: todoValues.subtasks.$values.map((subtaskValues: any) => {
+                console.log(subtaskValues)
                 const subtask: SubtaskModel = {
                   SubTaskId: subtaskValues.subTaskId,
                   Title: subtaskValues.title,
                   Deadline: subtaskValues.deadline,
                   Checked: subtaskValues.checked,
                   Position: subtaskValues.position,
+                  TodoId:subtaskValues.todoId
                 };
 
                 return subtask;
