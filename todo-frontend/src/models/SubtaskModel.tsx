@@ -4,4 +4,6 @@ export type SubtaskModel = {
   Deadline?: string;
   Checked: boolean;
   Position: number;
+  TodoId: number;
+
 };
