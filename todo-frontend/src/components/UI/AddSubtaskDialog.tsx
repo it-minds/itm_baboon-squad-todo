@@ -15,17 +15,6 @@ import { Subtask } from './Subtask';
 
 
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 type Props = {
   onSubtaskAboveAdded:(newName:string, newDeadline: string)=> void;
@@ -43,20 +32,26 @@ export const AddSubtaskDialog: FC<Props> = ({ onSubtaskAboveAdded, onSubtaskBelo
   const handleOpen = () => setOpen(true);
   
   const handleClose = () => {
+    setDeadline("");
+    setName("");
     setOpen(false)
   };
   const handleAcceptedAbove = () => {
     setOpen(false)
     onSubtaskAboveAdded(name, deadline)
+    setDeadline("");
+    setName("");
   };
   const handleAcceptedBelow = () => {
     setOpen(false)
     onSubtaskBelowAdded(name, deadline)
+    setDeadline("");
+    setName("");
   };
 
   return (
-    <div>
-       <button onClick={handleOpen} title="Add Subtask above"  className='border-2 text-5xl mx-20 text-blue-900 align-text-bottom'>
+    <div className="flex flex-col">
+       <button onClick={handleOpen} title="Add Subtask above"  className='border-2 text-start'>
         Add subtask above
        </button>
        <Dialog
@@ -101,7 +96,7 @@ export const AddSubtaskDialog: FC<Props> = ({ onSubtaskAboveAdded, onSubtaskBelo
         </Dialog>
 
 
-        <button onClick={handleOpen} title="Rename subtask"  className='border-2 text-5xl mx-20 text-blue-900 align-text-bottom'>
+        <button onClick={handleOpen} title="Rename subtask"  className='border-2 text-start'>
         Add subtask below
        </button>
        <Dialog

@@ -3,8 +3,6 @@ import { FC, useEffect, useState } from 'react';
 
 import { SubtaskModel } from '../../models/SubtaskModel';
 import { deleteDataById, postData, putDataById } from './../../services/api';
-import { AddSubtaskAboveButton } from './AddSubtaskAboveButton';
-import { AddSubtaskBelowButton } from './AddSubtaskBelowButton';
 import { NewSubtaskModel } from '../../models/NewSubtaskModel';
 import { Deadline } from './Deadline';
 import { DeleteSubtaskButton } from './DeleteSubtaskButton';
@@ -20,17 +18,7 @@ type SubtaskNoId = Omit<SubtaskModel, "id" | "SubTaskId" | "Checked">
 
 
 
-const addSubtask = async (newTask: SubtaskNoId) => {
-  return await postData('https://localhost:7058/Subtask', newTask)
-  //   .then(() => {
-  //     setError(null);
-  //   })
-  //   .catch((error) => {
-  //     setError(error.message);
-  //   });
-  // setDeleted(false);
-  // refetchList();
-};
+
 type Props = {
   subtask: SubtaskModel;
   subtasksMinPosition: number;
@@ -47,7 +35,16 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
   const [deleted, setDeleted] = useState<boolean>(false);
   const [isOpen, setOpen] = useState(false);
   const [addNew, setAddNew]= useState<boolean>(false);
-
+  
+  const addSubtask = async (newTask: SubtaskNoId) => {
+    return await postData('https://localhost:7058/Subtask', newTask)
+    .then(() => {  
+      refetchList();
+    })
+    .catch((error) => {
+    });
+  
+  };
   useEffect(() => {
     const putSubtask = async () => {
       await putDataById('https://localhost:7058/Subtask', task)
