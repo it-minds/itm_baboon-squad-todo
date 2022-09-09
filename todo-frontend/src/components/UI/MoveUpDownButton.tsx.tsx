@@ -1,14 +1,18 @@
 import { FC } from 'react';
-
+import { GoTriangleDown, GoTriangleUp } from 'react-icons/go';
 type Props = {
   onClick: (dir: string) => void;
 };
 
 export const MoveUpDownButton: FC<Props> = ({ onClick }) => {
   return (
-    <div className="rotate-90 flex  text-center text-blue-600 text-xl font-bold mx-5">
-      <button onClick={() => onClick('moveUp')}>&lt;</button>
-      <button onClick={() => onClick('moveDown')}>&gt;</button>
+    <div className="flex-col flex justify-center text-blue-600 w-8">
+      <button onClick={() => onClick('moveUp')}>
+        <GoTriangleUp />
+      </button>
+      <button onClick={() => onClick('moveDown')}>
+        <GoTriangleDown />
+      </button>
     </div>
   );
 };

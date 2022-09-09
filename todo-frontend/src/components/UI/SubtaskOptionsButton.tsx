@@ -7,7 +7,7 @@ type Props = {
 
 export const SubtaskOptionsButton: React.FC<Props> = ({ onClick }) => {
   return (
-    <button className="text-5xl text-blue-900 h-16 " onClick={onClick}>
+    <button className="text-3xl text-blue-900 w-8" onClick={onClick}>
       <AiOutlineMore />
     </button>
   );

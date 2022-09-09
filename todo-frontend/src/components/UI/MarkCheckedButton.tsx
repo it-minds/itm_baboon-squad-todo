@@ -1,10 +1,14 @@
 import { FC } from 'react';
-
+import { BsFillCircleFill, BsFillRecordCircleFill } from 'react-icons/bs';
 type Props = {
   checked: boolean;
   onChange: () => void;
 };
 
 export const MarkCheckedButton: FC<Props> = ({ checked, onChange }) => {
-  return <input type="checkbox" checked={checked} onChange={onChange}></input>;
+  return (
+    <button className="w-5" onClick={onChange}>
+      {checked ? <BsFillCircleFill /> : <BsFillRecordCircleFill />}
+    </button>
+  );
 };

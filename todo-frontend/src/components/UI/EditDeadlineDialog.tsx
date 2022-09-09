@@ -40,8 +40,8 @@ export const EditDeadlineDialog: FC<Props> = ({subtask, onDeadlineChanged}) => {
   onDeadlineChanged(value)};
 
     return (
-    <div>
-       <button onClick={handleOpen} title="Edit subtask deadline"  className='border-2 text-5xl mx-20 text-blue-900 align-text-bottom'>
+    <div  className='border-2'>
+       <button onClick={handleOpen} title="Edit subtask deadline" >
        Edit subtask deadline
        </button>
        <Dialog
