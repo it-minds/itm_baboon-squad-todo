@@ -50,9 +50,9 @@ namespace todo_backend.Repositories
         public Subtask? DeleteSubtask(Subtask delete)
         {
             var s = _dbContext.Subtasks
-                .Include(s=>s.Todo)
-                .ThenInclude(s=>s.Subtasks)
-                .FirstOrDefault(s=>s.SubTaskId == delete.SubTaskId);
+                .Include(s => s.Todo)
+                .ThenInclude(s => s.Subtasks)
+                .FirstOrDefault(s => s.SubTaskId == delete.SubTaskId);
             if (s != null)
             {
                 s.Todo.Subtasks.Remove(s);
@@ -66,12 +66,14 @@ namespace todo_backend.Repositories
         {
             var subtask = _dbContext.Subtasks
                 .Include(s => s.Todo)
-                .ThenInclude(t=>t.Subtasks)
+                .ThenInclude(t => t.Subtasks)
                 .FirstOrDefault(s => s.SubTaskId == updateSubtaskDTO.SubTaskId);
             if (subtask != null)
             {
-                subtask = subtaskArranger.ArrangePositionOnUpdate(updateSubtaskDTO.Position, subtask);
-
+                if (updateSubtaskDTO.Position != subtask.Position)
+                {
+                    subtask = subtaskArranger.ArrangePositionOnUpdate(updateSubtaskDTO.Position, subtask);
+                }
                 subtask.Title = updateSubtaskDTO.Title;
                 subtask.Checked = updateSubtaskDTO.Checked;
                 subtask.Deadline = updateSubtaskDTO.Deadline;
