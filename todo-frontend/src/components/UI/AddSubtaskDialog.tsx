@@ -19,32 +19,24 @@ export const AddSubtaskDialog: FC<Props> = ({ position, todoId, refetchList }) =
   const [name, setName] = useState<string>('');
   const [deadline, setDeadline] = useState<string>('');
 
-  const addSubtask = async (newName: string, newDeadline: string) => {
-    console.log(position);
-    return await postData('https://localhost:7058/Subtask', {
-      Title: newName,
+  const addSubtask = async () => {
+    await postData('https://localhost:7058/Subtask', {
+      Title: name,
       Position: open === 'above' ? position : position + 1,
-      Deadline: newDeadline,
+      Deadline: deadline,
       TodoId: todoId,
     })
       .then(() => {
         refetchList();
       })
       .catch((error) => {});
+    clearFields();
   };
 
   const clearFields = () => {
     setOpen(null);
     setDeadline('');
     setName('');
-  };
-
-  const handleClose = () => {
-    clearFields();
-  };
-  const handleAccepted = () => {
-    addSubtask(name, deadline);
-    clearFields();
   };
 
   return (
@@ -57,7 +49,7 @@ export const AddSubtaskDialog: FC<Props> = ({ position, todoId, refetchList }) =
       </button>
       <Dialog
         open={open !== null}
-        onClose={handleClose}
+        onClose={() => clearFields()}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -87,8 +79,8 @@ export const AddSubtaskDialog: FC<Props> = ({ position, todoId, refetchList }) =
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Fortryd</Button>
-          <Button autoFocus onClick={handleAccepted}>
+          <Button onClick={() => clearFields()}>Cancel</Button>
+          <Button autoFocus onClick={addSubtask}>
             Save
           </Button>
         </DialogActions>

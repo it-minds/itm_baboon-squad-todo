@@ -13,8 +13,6 @@ import { RenameSubtaskDialog } from './RenameSubtaskDialog';
 import { SubtaskOptionsButton } from './SubtaskOptionsButton';
 import { Title } from './Title';
 
-type SubtaskNoId = Omit<SubtaskModel, 'id' | 'SubTaskId' | 'Checked'>;
-
 type Props = {
   subtask: SubtaskModel;
   subtasksMinPosition: number;
