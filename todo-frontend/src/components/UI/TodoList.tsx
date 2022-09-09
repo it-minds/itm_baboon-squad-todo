@@ -35,7 +35,7 @@ export const TodoList: FC<Props> = ({ listId }) => {
                   Deadline: subtaskValues.deadline,
                   Checked: subtaskValues.checked,
                   Position: subtaskValues.position,
-                  TodoId:subtaskValues.todoId
+                  TodoId:subtaskValues.TodoId
                 };
 
                 return subtask;
