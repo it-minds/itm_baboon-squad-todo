@@ -34,7 +34,6 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
   const [updated, setUpdated] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
   const [isOpen, setOpen] = useState(false);
-  const [addNew, setAddNew]= useState<boolean>(false);
   
   const addSubtask = async (newTask: SubtaskNoId) => {
     return await postData('https://localhost:7058/Subtask', newTask)
