@@ -1,15 +1,23 @@
-import * as React from 'react';
+import { FC } from 'react';
+
+import { deleteDataById } from '../../services/api';
 
 type Props = {
-  OnDeleteClick: () => void;
+  subtaskId: number;
+  refetchList: () => void;
 };
 
-export const DeleteSubtaskButton: React.FC<Props> = ({ OnDeleteClick }) => {
+export const DeleteSubtaskButton: FC<Props> = ({ subtaskId, refetchList }) => {
+  const deleteSubtask = async () => {
+    await deleteDataById(`https://localhost:7058/Subtask/${subtaskId.toString()}`)
+      .then(() => {})
+      .catch((error) => {});
+    refetchList();
+  };
+
   return (
     <div className="border-2">
-      <button  onClick={OnDeleteClick}>
-        Delete current subtask
-      </button>
+      <button onClick={deleteSubtask}>Delete current subtask</button>
     </div>
   );
 };

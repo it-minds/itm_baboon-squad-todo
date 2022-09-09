@@ -17,7 +17,7 @@ export async function postData(url: string, data: any) {
     .then((resp) => resp.json())
     .then((result) => {
       console.log('Success:', result);
-      return result
+      return result;
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -38,8 +38,8 @@ export async function putDataById(url: string, data: any) {
     });
 }
 
-export async function deleteDataById(url: string, id: string) {
-  return await fetch(url.concat(id), {
+export async function deleteDataById(url: string) {
+  return await fetch(url, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
   })
