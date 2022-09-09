@@ -5,7 +5,7 @@ export type TodoModel = {
   Title: string;
   Deadline?: string;
   Checked: boolean;
-  position: number;
+  Position: number;
   subtasks?: SubtaskModel[];
   TodoListId: number;
 };

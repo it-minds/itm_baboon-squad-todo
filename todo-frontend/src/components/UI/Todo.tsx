@@ -7,16 +7,20 @@ import { TodoModel } from '../../models/TodoModel';
 import { putDataById } from '../../services/api';
 import { Deadline } from './Deadline';
 import { MarkCheckedButton } from './MarkCheckedButton';
+import { MoveUpDownButton } from './MoveUpDownButton.tsx';
 import { Subtask } from './Subtask';
+import { SubtaskOptionsButton } from './SubtaskOptionsButton';
 import { Title } from './Title';
 
 
 type Props = {
   todo: TodoModel;
+  todoMinPosition: number;
+  todoMaxPosition: number;
   refetchList: () => void;
 };
 
-export const Todo: FC<Props> = ({ todo, refetchList }) => {
+export const Todo: FC<Props> = ({ todo, todoMinPosition, todoMaxPosition, refetchList }) => {
   const today = new Date();
   const deadline = new Date(todo.Deadline?.split('T', 1)[0] ?? '');
   
@@ -26,6 +30,7 @@ export const Todo: FC<Props> = ({ todo, refetchList }) => {
   const [task, setTask] = useState<TodoModel>(todo);
   const [updated, setUpdated] = useState<boolean>(false);
   const [subtaskDeadline, setSubtaskDeadline] = useState<boolean>(false);
+  const [isOpen, setOpen] = useState(false);
 
   useEffect (()=>{
     setSubtaskDeadline(false)
@@ -102,6 +107,24 @@ export const Todo: FC<Props> = ({ todo, refetchList }) => {
           checked={task.Checked}
           onChange={() => {
             setTask({ ...task, Checked: !task.Checked });
+            setUpdated(true);
+          }}
+        />
+        <SubtaskOptionsButton onClick={() => {
+    setOpen(!isOpen)}} />
+        <MoveUpDownButton
+          onClick={(dir: string) => {
+            setTask({
+              ...task,
+              Position:
+                dir === 'moveUp'
+                  ? task.Position > todoMinPosition
+                    ? task.Position - 1
+                    : todoMinPosition
+                  : task.Position < todoMaxPosition
+                  ? task.Position + 1
+                  : todoMaxPosition,
+            });
             setUpdated(true);
           }}
         />
