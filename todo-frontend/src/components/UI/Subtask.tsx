@@ -3,21 +3,17 @@ import { FC, useEffect, useState } from 'react';
 
 import { SubtaskModel } from '../../models/SubtaskModel';
 import { deleteDataById, postData, putDataById } from './../../services/api';
-import { NewSubtaskModel } from '../../models/NewSubtaskModel';
+import { AddSubtaskDialog } from './AddSubtaskDialog';
 import { Deadline } from './Deadline';
 import { DeleteSubtaskButton } from './DeleteSubtaskButton';
-import { RenameSubtaskDialog } from './RenameSubtaskDialog';
+import { EditDeadlineDialog } from './EditDeadlineDialog';
 import { MarkCheckedButton } from './MarkCheckedButton';
 import { MoveUpDownButton } from './MoveUpDownButton.tsx';
-import { AddSubtaskDialog } from './AddSubtaskDialog';
+import { RenameSubtaskDialog } from './RenameSubtaskDialog';
 import { SubtaskOptionsButton } from './SubtaskOptionsButton';
-import { EditDeadlineDialog } from './EditDeadlineDialog';
 import { Title } from './Title';
 
-type SubtaskNoId = Omit<SubtaskModel, "id" | "SubTaskId" | "Checked">
-
-
-
+type SubtaskNoId = Omit<SubtaskModel, 'id' | 'SubTaskId' | 'Checked'>;
 
 type Props = {
   subtask: SubtaskModel;
@@ -30,40 +26,31 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
   const today = new Date();
   const deadline = new Date(subtask.Deadline?.split('T', 1)[0] ?? '');
   const [error, setError] = useState<string | null>(null);
-  const [task, setTask] = useState<SubtaskModel>(subtask);
-  const [updated, setUpdated] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
   const [isOpen, setOpen] = useState(false);
-  
+
   const addSubtask = async (newTask: SubtaskNoId) => {
     return await postData('https://localhost:7058/Subtask', newTask)
-    .then(() => {  
-      refetchList();
-    })
-    .catch((error) => {
-    });
-  
+      .then(() => {
+        refetchList();
+      })
+      .catch((error) => {});
   };
-  useEffect(() => {
-    const putSubtask = async () => {
-      await putDataById('https://localhost:7058/Subtask', task)
-        .then((data) => {
-          setError(null);
-        })
-        .catch((error) => {
-          setError(error.message);
-        });
-      setUpdated(false);
-      refetchList();
-    };
-    if (updated) {
-      putSubtask();
-    }
-  }, [task, updated, refetchList]);
+
+  const putSubtask = async (t: SubtaskModel) => {
+    await putDataById('https://localhost:7058/Subtask', t)
+      .then((data) => {
+        setError(null);
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+    refetchList();
+  };
 
   useEffect(() => {
     const deleteSubtask = async () => {
-      await deleteDataById('https://localhost:7058/Subtask', '/' + task.SubTaskId.toString())
+      await deleteDataById('https://localhost:7058/Subtask', '/' + subtask.SubTaskId.toString())
         .then(() => {
           setError(null);
         })
@@ -76,7 +63,7 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
     if (deleted) {
       deleteSubtask();
     }
-  }, [deleted, refetchList, task.SubTaskId]);
+  }, [deleted, refetchList, subtask.SubTaskId]);
 
   useEffect(() => {
     if (error !== null) {
@@ -89,44 +76,40 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
     setOpen(!isOpen);
   };
 
-  const onSubtaskAboveAdded =async (newName:string, newDeadline: string)=>{
-    console.log(task.Position)
-    console.log({newDeadline, a: task.Position - 1})
+  const onSubtaskAboveAdded = async (newName: string, newDeadline: string) => {
+    console.log(subtask.Position);
+    console.log({ newDeadline, a: subtask.Position - 1 });
     const newTask = await addSubtask({
       Title: newName,
-      Position: task.Position - 1,
+      Position: subtask.Position - 1,
       Deadline: newDeadline,
-      TodoId: task.TodoId
+      TodoId: subtask.TodoId,
     });
 
-    console.log({newTask})
-  }
-  const onSubtaskBelowAdded =async (newName:string, newDeadline: string)=>{
-    console.log(task.Position)
-    console.log({newDeadline, a: task.Position + 1})
+    console.log({ newTask });
+  };
+  const onSubtaskBelowAdded = async (newName: string, newDeadline: string) => {
+    console.log(subtask.Position);
+    console.log({ newDeadline, a: subtask.Position + 1 });
     const newTask = await addSubtask({
       Title: newName,
-      Position: task.Position + 1,
+      Position: subtask.Position + 1,
       Deadline: newDeadline,
-      TodoId: task.TodoId
+      TodoId: subtask.TodoId,
     });
 
-    console.log({newTask})
-  }
-  const onNameChanged =(newName:string)=>{
-    setTask({ ...task, Title: newName});
-    setUpdated(true);
-  }
-  const onDeadlineChanged =(newDeadline: string)=>{
-    setTask({ ...task, Deadline: newDeadline});
-    setUpdated(true);
-  }
+    console.log({ newTask });
+  };
+  const onNameChanged = (newName: string) => {
+    putSubtask({ ...subtask, Title: newName });
+  };
+  const onDeadlineChanged = (newDeadline: string) => {
+    putSubtask({ ...subtask, Deadline: newDeadline });
+  };
   const onDeleteClick = () => {
-    console.log('you pressed delete');
-    setTask({ ...task });
     setDeleted(true);
   };
-  console.log(task.TodoId)
+
   return (
     <div>
       <div
@@ -142,43 +125,39 @@ export const Subtask: FC<Props> = ({ subtask, subtasksMinPosition, subtasksMaxPo
           <Deadline deadline={subtask.Deadline} />
         </div>
         <MarkCheckedButton
-          checked={task.Checked}
+          checked={subtask.Checked}
           onChange={() => {
-            setTask({ ...task, Checked: !task.Checked });
-            setUpdated(true);
+            putSubtask({ ...subtask, Checked: !subtask.Checked });
           }}
         />
         <SubtaskOptionsButton onClick={onclick} />
         <MoveUpDownButton
           onClick={(dir: string) => {
-            setTask({
-              ...task,
+            putSubtask({
+              ...subtask,
               Position:
                 dir === 'moveUp'
-                  ? task.Position > subtasksMinPosition
-                    ? task.Position - 1
+                  ? subtask.Position > subtasksMinPosition
+                    ? subtask.Position - 1
                     : subtasksMinPosition
-                  : task.Position < subtasksMaxPosition
-                  ? task.Position + 1
+                  : subtask.Position < subtasksMaxPosition
+                  ? subtask.Position + 1
                   : subtasksMaxPosition,
             });
-            setUpdated(true);
           }}
         />
       </div>
-     
-      {isOpen&& <div className='flex justify-end'>
-        <div className="flex flex-col w-1/5 bg-gray-500 max-w text-left">
-        <AddSubtaskDialog onSubtaskAboveAdded={onSubtaskAboveAdded} onSubtaskBelowAdded={onSubtaskBelowAdded}/>
-        <RenameSubtaskDialog subtask={subtask} onNameChanged={onNameChanged}/>
-        <EditDeadlineDialog subtask={subtask} onDeadlineChanged={onDeadlineChanged}/>
-        <DeleteSubtaskButton 
-           OnDeleteClick={onDeleteClick}
-           />
-           </div>
-      </div>
-        
-       }
+
+      {isOpen && (
+        <div className="flex justify-end">
+          <div className="flex flex-col w-1/5 bg-gray-500 max-w text-left">
+            <AddSubtaskDialog onSubtaskAboveAdded={onSubtaskAboveAdded} onSubtaskBelowAdded={onSubtaskBelowAdded} />
+            <RenameSubtaskDialog subtask={subtask} onNameChanged={onNameChanged} />
+            <EditDeadlineDialog subtask={subtask} onDeadlineChanged={onDeadlineChanged} />
+            <DeleteSubtaskButton OnDeleteClick={onDeleteClick} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

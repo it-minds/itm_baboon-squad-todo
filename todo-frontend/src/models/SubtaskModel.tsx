@@ -5,5 +5,4 @@ export type SubtaskModel = {
   Checked: boolean;
   Position: number;
   TodoId: number;
-
 };
