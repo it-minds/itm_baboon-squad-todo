@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FC, useEffect, useState } from 'react';
 import { GoTriangleRight } from 'react-icons/go';
-import {TbExclamationMark} from 'react-icons/tb';
+import { TbExclamationMark } from 'react-icons/tb';
 
 import { TodoModel } from '../../models/TodoModel';
 import { putDataById } from '../../services/api';
@@ -11,7 +11,6 @@ import { MoveUpDownButton } from './MoveUpDownButton.tsx';
 import { Subtask } from './Subtask';
 import { SubtaskOptionsButton } from './SubtaskOptionsButton';
 import { Title } from './Title';
-
 
 type Props = {
   todo: TodoModel;
@@ -23,7 +22,6 @@ type Props = {
 export const Todo: FC<Props> = ({ todo, todoMinPosition, todoMaxPosition, refetchList }) => {
   const today = new Date();
   const deadline = new Date(todo.Deadline?.split('T', 1)[0] ?? '');
-  
 
   const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,21 +30,21 @@ export const Todo: FC<Props> = ({ todo, todoMinPosition, todoMaxPosition, refetc
   const [subtaskDeadline, setSubtaskDeadline] = useState<boolean>(false);
   const [isOpen, setOpen] = useState(false);
 
-  useEffect (()=>{
-    setSubtaskDeadline(false)
-    var x = false
-    todo.subtasks?.forEach(s => {
-    if (s.Deadline){
-      const sd = new Date(s.Deadline.split('T', 1)[0] ?? '') 
-        if (sd<today && !s.Checked) {
+  useEffect(() => {
+    setSubtaskDeadline(false);
+    var x = false;
+    todo.subtasks?.forEach((s) => {
+      if (s.Deadline) {
+        const sd = new Date(s.Deadline.split('T', 1)[0] ?? '');
+        if (sd < today && !s.Checked) {
           x = true;
         }
       }
     });
     if (x) {
-      setSubtaskDeadline(true)
+      setSubtaskDeadline(true);
     }
-  },[todo])
+  }, [todo]);
 
   useEffect(() => {
     const putTodo = async () => {
@@ -80,7 +78,7 @@ export const Todo: FC<Props> = ({ todo, todoMinPosition, todoMaxPosition, refetc
           'bg-green-500': todo.Checked,
         })}
       >
-        <div className="items-center w-20">
+        <div className="items-center w-10">
           {todo.subtasks?.length !== 0 && (
             <button
               className={clsx('text-blue-600 text-3xl items-center transition duration-300', {
@@ -95,12 +93,8 @@ export const Todo: FC<Props> = ({ todo, todoMinPosition, todoMaxPosition, refetc
         <div className="flex-auto">
           <Title subtasksShowed={showSubtasks} title={todo.Title} />
         </div>
-        <div className='w-2'>
-        { subtaskDeadline  &&
-             <TbExclamationMark className='text-5xl'/>
-            }   
-            </div>
-        <div className="flex-1">
+        <div className="w-2">{subtaskDeadline && <TbExclamationMark className="text-5xl" />}</div>
+        <div className="invisible w-0 md:visible flex-1 ">
           <Deadline deadline={todo.Deadline} />
         </div>
         <MarkCheckedButton
@@ -110,8 +104,11 @@ export const Todo: FC<Props> = ({ todo, todoMinPosition, todoMaxPosition, refetc
             setUpdated(true);
           }}
         />
-        <SubtaskOptionsButton onClick={() => {
-    setOpen(!isOpen)}} />
+        <SubtaskOptionsButton
+          onClick={() => {
+            setOpen(!isOpen);
+          }}
+        />
         <MoveUpDownButton
           onClick={(dir: string) => {
             setTask({

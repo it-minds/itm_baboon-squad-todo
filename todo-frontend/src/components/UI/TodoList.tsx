@@ -7,7 +7,7 @@ import { AddTodo } from './AddTodo';
 import { Todo } from './Todo';
 
 type Props = {
-  listId: number | undefined;
+  listId: number;
 };
 
 export const TodoList: FC<Props> = ({ listId }) => {
@@ -28,14 +28,14 @@ export const TodoList: FC<Props> = ({ listId }) => {
               Checked: todoValues.checked,
               Position: todoValues.position,
               subtasks: todoValues.subtasks.$values.map((subtaskValues: any) => {
-                console.log(subtaskValues)
+                console.log(subtaskValues);
                 const subtask: SubtaskModel = {
                   SubTaskId: subtaskValues.subTaskId,
                   Title: subtaskValues.title,
                   Deadline: subtaskValues.deadline,
                   Checked: subtaskValues.checked,
                   Position: subtaskValues.position,
-                  TodoId: subtaskValues.todoId
+                  TodoId: subtaskValues.todoId,
                 };
 
                 return subtask;
@@ -66,10 +66,23 @@ export const TodoList: FC<Props> = ({ listId }) => {
 
   return (
     <div>
-      <AddTodo />
-      {todos && todos?.sort((s1, s2) => s1.Position - s2.Position)
-      .map((t) => <Todo key={t.TodoId} todo={t} todoMinPosition={Math.min(...todos.map((s) => s.Position))}
-              todoMaxPosition={Math.max(...todos.map((s) => s.Position))} refetchList={refetchList} />)}
+      <AddTodo
+        position={todos ? Math.max(...todos?.map((s) => s.Position)) + 1 : 0}
+        todoListId={listId}
+        refetchList={refetchList}
+      />
+      {todos &&
+        todos
+          ?.sort((s1, s2) => s1.Position - s2.Position)
+          .map((t) => (
+            <Todo
+              key={t.TodoId}
+              todo={t}
+              todoMinPosition={Math.min(...todos.map((s) => s.Position))}
+              todoMaxPosition={Math.max(...todos.map((s) => s.Position))}
+              refetchList={refetchList}
+            />
+          ))}
       {!todos?.length && <p className="mt-10">No todos found</p>}
     </div>
   );
