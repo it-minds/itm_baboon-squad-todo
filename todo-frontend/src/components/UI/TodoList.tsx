@@ -26,7 +26,7 @@ export const TodoList: FC<Props> = ({ listId }) => {
               Title: todoValues.title,
               Deadline: todoValues.deadline,
               Checked: todoValues.checked,
-              position: todoValues.position,
+              Position: todoValues.position,
               subtasks: todoValues.subtasks.$values.map((subtaskValues: any) => {
                 console.log(subtaskValues)
                 const subtask: SubtaskModel = {
@@ -35,7 +35,7 @@ export const TodoList: FC<Props> = ({ listId }) => {
                   Deadline: subtaskValues.deadline,
                   Checked: subtaskValues.checked,
                   Position: subtaskValues.position,
-                  TodoId:subtaskValues.todoId
+                  TodoId:subtaskValues.TodoId
                 };
 
                 return subtask;
@@ -67,7 +67,9 @@ export const TodoList: FC<Props> = ({ listId }) => {
   return (
     <div>
       <AddTodo />
-      {todos && todos.map((t) => <Todo key={t.TodoId} todo={t} refetchList={refetchList} />)}
+      {todos && todos?.sort((s1, s2) => s1.Position - s2.Position)
+      .map((t) => <Todo key={t.TodoId} todo={t} todoMinPosition={Math.min(...todos.map((s) => s.Position))}
+              todoMaxPosition={Math.max(...todos.map((s) => s.Position))} refetchList={refetchList} />)}
       {!todos?.length && <p className="mt-10">No todos found</p>}
     </div>
   );
