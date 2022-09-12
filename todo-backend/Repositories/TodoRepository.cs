@@ -35,9 +35,9 @@ namespace todo_backend.Repositories
             t.Subtasks = new();
             t.Title = title;
             t.Checked = false;
-            t.TodoListId = todoList.TodoListId;
+            t.TodoListId = todoList.ToDoListId;
             t.Deadline = deadline;
-            t.TodoList = todoArranger.ArrangePosition(todoList, position, t);
+            t.ToDoList = todoArranger.ArrangePosition(todoList, position, t);
 
             todoList.Todos.Add(t);
             _dbContext.Todos.Add(t);
@@ -50,7 +50,7 @@ namespace todo_backend.Repositories
             var t = _dbContext.Todos.Find(todo.TodoId);
             if (t != null)
             {
-                t.TodoList = todoArranger.ArrangePositionAfterDelete(t.TodoList, t);
+                t.ToDoList = todoArranger.ArrangePositionAfterDelete(t.ToDoList, t);
                 _dbContext.Todos.Remove(t);
                 _dbContext.SaveChanges();
             }
@@ -62,7 +62,7 @@ namespace todo_backend.Repositories
             if (t != null)
             {
                 t.Title =updateTodoDTO.Title;
-                t.TodoList = todoArranger.ArrangePosition(t.TodoList,updateTodoDTO.Position,t);
+                t.ToDoList = todoArranger.ArrangePosition(t.ToDoList,updateTodoDTO.Position,t);
                 t.Checked = updateTodoDTO.Checked;
                 t.Deadline= updateTodoDTO.Deadline;
                 _dbContext.SaveChanges();

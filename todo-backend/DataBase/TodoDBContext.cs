@@ -4,7 +4,7 @@ using todo_backend.Classes;
 
 namespace todo_backend.DataBase
 {
-    public class TodoDBContext : DbContext
+    public class TodoDBContext: DbContext
     {
         public DbSet<TodoList> TodoLists { get; set; }
         public DbSet<Todo> Todos { get; set; }
@@ -17,18 +17,11 @@ namespace todo_backend.DataBase
         {
 
         }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TodoList>()
-                .HasMany(t => t.Todos)
-                .WithOne(t => t.TodoList)
-                .HasForeignKey(t => t.TodoListId);
-
-            modelBuilder.Entity<Todo>()
-                .HasMany(t => t.Subtasks)
-                .WithOne(t => t.Todo)
-                .HasForeignKey(t => t.TodoId);
+            modelBuilder.Entity<Todo>().HasOne(t=>t.ToDoList).WithMany(t=>t.Todos).HasForeignKey(t=>t.TodoListId);
+            modelBuilder.Entity<Subtask>().HasOne(t => t.Todo).WithMany(t => t.Subtasks).HasForeignKey(t=>t.TodoId);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
