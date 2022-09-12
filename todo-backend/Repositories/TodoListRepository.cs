@@ -34,7 +34,7 @@ namespace todo_backend.Repositories
             _dbContext.SaveChanges();
             return t;
         }
-        public TodoList? DeleteTodoList(int id)
+        public TodoList DeleteTodoList(int id)
         {
             var t = _dbContext.TodoLists.Include(t => t.Todos).FirstOrDefault<TodoList>(t => t.TodoListId == id);
             if (t != null)
@@ -44,7 +44,7 @@ namespace todo_backend.Repositories
             }
             return t;
         }
-        public TodoList? UpdateTodoList(int id, string newTitle)
+        public TodoList UpdateTodoList(int id, string newTitle)
         {
             var t = _dbContext.TodoLists.Find(id);
             if (t != null)

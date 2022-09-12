@@ -53,7 +53,7 @@ app.MapGet("/TodoList", (TodoListRepository todoListRepository) =>
 
 app.MapGet("/TodoList/{id}", (TodoListRepository todoListRepository, int id) =>
 {
-    TodoList? result = todoListRepository!.GetTodoListWithId(id);
+    TodoList result = todoListRepository!.GetTodoListWithId(id);
     return result != null ? Results.Ok(result.ToTodolistResponseDto()) : Results.NotFound();
 })
 .WithName("GetOneTodoLists");

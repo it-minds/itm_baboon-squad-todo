@@ -9,10 +9,14 @@ namespace todo_backend.DataBase
         public DbSet<TodoList> TodoLists { get; set; }
         public DbSet<Todo> Todos { get; set; }
         public DbSet<Subtask> Subtasks { get; set; }
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public TodoDBContext(DbContextOptions<TodoDBContext> options) : base(options) { }
-        public TodoDBContext() { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public TodoDBContext(DbContextOptions<TodoDBContext> options) : base(options)
+        {
+
+        }
+        public TodoDBContext()
+        {
+
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

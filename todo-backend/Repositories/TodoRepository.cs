@@ -45,7 +45,7 @@ namespace todo_backend.Repositories
             _dbContext.SaveChanges();
             return t;
         }
-        public Todo? DeleteTodo(Todo todo)
+        public Todo DeleteTodo(Todo todo)
         {
             var t = _dbContext.Todos.Find(todo.TodoId);
             if (t != null)
@@ -56,7 +56,7 @@ namespace todo_backend.Repositories
             }
             return t;
         }
-        public Todo? UpdateTodo(UpdateTodoDTO updateTodoDTO, TodoList todoList)
+        public Todo UpdateTodo(UpdateTodoDTO updateTodoDTO, TodoList todoList)
         {
             var t = _dbContext.Todos.Find(updateTodoDTO.TodoId);
             if (t != null)
