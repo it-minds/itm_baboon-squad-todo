@@ -3,7 +3,7 @@ using todo_backend.DataBase;
 using todo_backend.DTO;
 using todo_backend.Classes;
 using todo_backend.Repositories;
-using Microsoft.AspNetCore.Http.Json;
+using todo_backend.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<TodoDBContext>();
@@ -14,7 +14,6 @@ builder.Services.AddScoped<SubtaskRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve; });
 
 builder.Services.AddCors(options =>
 {
@@ -54,8 +53,8 @@ app.MapGet("/TodoList", (TodoListRepository todoListRepository) =>
 
 app.MapGet("/TodoList/{id}", (TodoListRepository todoListRepository, int id) =>
 {
-    var result = todoListRepository!.GetTodoListWithId(id);
-    return result != null ? Results.Ok(result) : Results.NotFound();
+    TodoList result = todoListRepository!.GetTodoListWithId(id);
+    return result != null ? Results.Ok(result.ToTodolistResponseDto()) : Results.NotFound();
 })
 .WithName("GetOneTodoLists");
 
