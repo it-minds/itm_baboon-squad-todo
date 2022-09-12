@@ -117,7 +117,7 @@ app.MapPut("/Todo/", (TodoRepository todoRepository, TodoListRepository todoList
     {
         return Results.NotFound();
     }
-    var result = todoRepository.UpdateTodo(updateTodoDTO, todoList);
+    var result = todoRepository.UpdateTodo(updateTodoDTO);
     return result != null ? Results.NoContent() : Results.NotFound();
 })
 .WithName("UpdateTodo");

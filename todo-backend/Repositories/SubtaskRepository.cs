@@ -12,8 +12,8 @@ namespace todo_backend.Repositories
     public class SubtaskRepository
     {
 
-        private TodoDBContext _dbContext;
-        private ISubtaskArranger subtaskArranger;
+        private readonly TodoDBContext _dbContext;
+        private readonly ISubtaskArranger subtaskArranger;
 
         public SubtaskRepository(TodoDBContext todoDBContext)
         {

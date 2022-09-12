@@ -8,7 +8,7 @@ namespace todo_backend.Repositories
 {
     public class TodoListRepository
     {
-        private TodoDBContext _dbContext;
+        private readonly TodoDBContext _dbContext;
         public TodoListRepository(TodoDBContext todoDBContext)
         {
             _dbContext = todoDBContext;
