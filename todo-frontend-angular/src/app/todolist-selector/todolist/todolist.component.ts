@@ -23,12 +23,11 @@ export class TodolistComponent implements OnInit {
       marginTop: '30px'
     }
   };
-
   constructor(private readonly todoService: TodoService) { }
 
   ngOnInit(): void {
   }
   onClickEventReceived() {
-    this.todoService.getTodos('8').subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
+    this.todoService.getTodos('1').subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
   }
 }
