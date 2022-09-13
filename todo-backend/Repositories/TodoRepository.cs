@@ -47,12 +47,12 @@ namespace todo_backend.Repositories
             _dbContext.SaveChanges();
             return t;
         }
-        public Todo DeleteTodo(Todo todo)
+        public Todo? DeleteTodo(Todo todo)
         {
             var t = _dbContext.Todos.Find(todo.TodoId);
             if (t != null)
             {
-                t.ToDoList = todoArranger.ArrangePositionAfterDelete(t.ToDoList, t);
+                t.TodoList = todoArranger.ArrangePositionAfterDelete(t.TodoList, t);
                 _dbContext.Todos.Remove(t);
                 _dbContext.SaveChanges();
             }
@@ -64,7 +64,7 @@ namespace todo_backend.Repositories
             if (t != null)
             {
                 t.Title =updateTodoDTO.Title;
-                t.ToDoList = todoArranger.ArrangePosition(t.ToDoList,updateTodoDTO.Position,t);
+                t.TodoList = todoArranger.ArrangePosition(t.TodoList,updateTodoDTO.Position,t);
                 t.Checked = updateTodoDTO.Checked;
                 t.Deadline= updateTodoDTO.Deadline;
                 _dbContext.SaveChanges();
