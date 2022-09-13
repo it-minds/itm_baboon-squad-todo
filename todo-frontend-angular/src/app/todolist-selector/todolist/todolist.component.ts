@@ -31,4 +31,8 @@ export class TodolistComponent implements OnInit {
     console.log('click')
     this.todoService.getTodos('1').subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
   }
+
+  onTodoCheckboxClick() {
+    console.log("checkbox clicked")
+  }
 }

@@ -1,18 +1,13 @@
-<ul >
-    <li
-    *ngFor="let todo of todos">
-    {{todo.title}}
-    {{todo.deadline}}
-   {{todo.checked}}
-</li>
-<section>
+<ul>
+  <li *ngFor="let todo of todos">
+    <app-todo [todo]="todo" (onCheckboxClick)="onTodoCheckboxClick()"></app-todo>
+  </li>
+  <section>
     <span></span>
     <div class="btns-container">
-      <app-button [buttonConfig]="textBtnConfig"
-        (onTextBtnClick)="onClickEventReceived()">
-    </app-button>
-    <br/>
+      <app-button [buttonConfig]="textBtnConfig" (onTextBtnClick)="onClickEventReceived()">
+      </app-button>
+      <br />
     </div>
-</section>
+  </section>
 </ul>
-
