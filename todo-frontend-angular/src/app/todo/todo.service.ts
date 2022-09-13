@@ -10,7 +10,7 @@ import { Todolist } from '../models/todolist.model';
   providedIn: 'root'
 })
 export class TodoService {
-  private readonly url= 'https://localhost:7058/TodoList/'
+  private readonly url= 'https://localhost:7058/TodoList'
 
   constructor(private http: HttpClient) 
   {
@@ -18,7 +18,7 @@ export class TodoService {
   }
 
   getTodos(id: string){
-    return this.http.get<Todolist>(`${this.url}${id}`).pipe(map(todolist=>todolist.todos));
+    return this.http.get<Todolist>(`${this.url}/${id}`).pipe(map(todolist=>todolist.todos));
   }
   
 }
