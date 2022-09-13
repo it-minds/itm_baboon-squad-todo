@@ -1,0 +1,6 @@
+<p>
+    <span>{{todo?.title}}</span>
+    <span>{{todo?.deadline}}</span>
+    <span>{{todo?.checked}}</span>
+    <label nz-checkbox (click)="onCheckboxClick.emit()" nzChecked="{{todo?.checked}}"></label>
+</p>
