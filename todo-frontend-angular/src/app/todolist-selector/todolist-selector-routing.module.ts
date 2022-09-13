@@ -8,4 +8,4 @@ const routes: Routes = [{ path: '', component: TodolistSelectorComponent }];
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TodoRoutingModule { }
+export class TodolistSelectorRoutingModule { }
