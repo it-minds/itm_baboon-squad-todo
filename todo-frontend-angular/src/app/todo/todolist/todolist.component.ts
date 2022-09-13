@@ -20,15 +20,14 @@ export class TodolistComponent implements OnInit {
       fontSize: '20px',
       borderRadius: '10px',
       marginTop: '30px'
-    },
-    text: 'Click Here'
-  };
+    }
+    };
   constructor(private readonly todoService: TodoService) { }
 
   ngOnInit(): void {
-    this.todoService.getTodos('8').subscribe(response=>{this.todos=response})
   }
   onClickEventReceived() {
-    this.todoService.getTodos('8').subscribe(response=>{this.todos=response ; console.log(this.todos)})
+    console.log('click')
+    this.todoService.getTodos('8').subscribe({next:(response)=>{this.todos=response.sort((a,b)=>a.position-b.position)}})
   }
 }

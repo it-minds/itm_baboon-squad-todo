@@ -2,12 +2,14 @@
     <li
     *ngFor="let todo of todos">
     {{todo.title}}
+    {{todo.deadline}}
+   {{todo.checked}}
 </li>
 <section>
     <span></span>
     <div class="btns-container">
       <app-button [buttonConfig]="textBtnConfig"
-        (textBtnClickEmt)="onClickEventReceived()" >
+        (onTextBtnClick)="onClickEventReceived()">
     </app-button>
     <br/>
     </div>

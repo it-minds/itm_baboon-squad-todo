@@ -3,7 +3,7 @@
 <!-- <ng-template #text> -->
 	<button type="button"
 	[ngStyle]="buttonConfig.styles"
-	(click)="onTextBtnClick($event)">
+	(click)="onTextBtnClick.emit($event)">
 		  <span nz-icon nzType="more" nzTheme="outline">
 			
 		  </span></button>
