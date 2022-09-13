@@ -1,6 +1,11 @@
-<p>
-    <span>{{todo?.title}}</span>
-    <span>{{todo?.deadline}}</span>
-    <span>{{todo?.checked}}</span>
-    <label nz-checkbox (click)="onCheckboxClick.emit()" nzChecked="{{todo?.checked}}"></label>
-</p>
+<div nz-row>
+    <div nz-col nzFlex="3">
+        <span>{{todo?.title}}</span>
+    </div>
+    <div nz-col nzFlex="3">
+        <span>{{deadline}}</span>
+    </div>
+    <div nz-col nzFlex="3">
+        <label nz-checkbox (ngModelChange)="onCheckboxClick.emit($event)" [ngModel]="todo?.checked"></label>
+    </div>
+</div>

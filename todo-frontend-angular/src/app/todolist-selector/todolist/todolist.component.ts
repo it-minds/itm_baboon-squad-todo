@@ -27,11 +27,12 @@ export class TodolistComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   onClickEventReceived() {
     this.todoService.getTodos('1').subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
   }
 
-  onTodoCheckboxClick() {
-    console.log("checkbox clicked")
+  onTodoCheckboxClick(isChecked: boolean, todo: Todo) {
+    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: 1 }).subscribe({ next: () => this.onClickEventReceived() })
   }
 }
