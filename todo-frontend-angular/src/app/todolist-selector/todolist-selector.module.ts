@@ -8,6 +8,8 @@ import { ButtonComponent } from './button/my-button.component';
 import { IconsProviderModule } from '../icons-provider.module';
 import { TodoComponent } from './todo/todo.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -22,7 +24,9 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     CommonModule,
     TodolistSelectorRoutingModule,
     IconsProviderModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    NzGridModule,
+    FormsModule
   ]
 })
 export class TodolistSelectorModule { }

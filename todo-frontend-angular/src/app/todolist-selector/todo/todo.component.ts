@@ -7,13 +7,15 @@ import { Todo } from 'src/app/models/todo.model';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
+  deadline: string = '';
   constructor() { }
 
   @Input() todo?: Todo;
 
-  @Output() onCheckboxClick = new EventEmitter();
+  @Output() onCheckboxClick = new EventEmitter<boolean>();
 
   ngOnInit(): void {
+    this.deadline = this.todo?.deadline?.split('T')[0] ?? "";
   }
 
 }
