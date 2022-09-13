@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ButtonConfiguration } from 'src/app/models/button-config.model';
+
 
 @Component({
   selector: 'app-button',
@@ -7,7 +9,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ButtonComponent implements OnInit {
 	
-  @Input() buttonConfig: any;
+  @Input() buttonConfig? : ButtonConfiguration;
   constructor() {}
 
   @Output()

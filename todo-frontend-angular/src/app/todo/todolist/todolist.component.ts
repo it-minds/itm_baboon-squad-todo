@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from '../todo.service';
+import { ButtonConfiguration } from 'src/app/models/button-config.model';
 
 @Component({
   selector: 'app-todolist',
@@ -9,7 +10,7 @@ import { TodoService } from '../todo.service';
 })
 export class TodolistComponent implements OnInit {
   todos: Todo[] = [];
-  textBtnConfig = {
+  textBtnConfig: ButtonConfiguration= {
     styles: {
       position: 'relative',
       width: '150px',

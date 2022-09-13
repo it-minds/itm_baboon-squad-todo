@@ -18,7 +18,7 @@ export class TodoService {
   }
 
   getTodos(id: string){
-    return this.http.get<Todolist>(this.url+id).pipe(map(todolist=>todolist.todos));
+    return this.http.get<Todolist>(`${this.url}${id}`).pipe(map(todolist=>todolist.todos));
   }
   
 }
