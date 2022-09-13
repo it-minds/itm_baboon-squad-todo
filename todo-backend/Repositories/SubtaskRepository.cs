@@ -28,7 +28,7 @@ namespace todo_backend.Repositories
         }
         public Subtask? GetSubtask(int id)
         {
-            return _dbContext.Subtasks.FirstOrDefault(t => t.SubtaskId == id);
+            return _dbContext.Subtasks.FirstOrDefault(t => t.SubTaskId == id);
         }
         public Subtask CreateSubtask(CreateSubtaskDTO createSubtaskDTO, Todo todo)
         {
@@ -52,7 +52,7 @@ namespace todo_backend.Repositories
             var s = _dbContext.Subtasks
                 .Include(s => s.Todo)
                 .ThenInclude(s => s.Subtasks)
-                .FirstOrDefault(s => s.SubtaskId == delete.SubtaskId);
+                .FirstOrDefault(s => s.SubTaskId == delete.SubTaskId);
             if (s != null)
             {
                 s.Todo.Subtasks.Remove(s);
@@ -67,7 +67,7 @@ namespace todo_backend.Repositories
             var subtask = _dbContext.Subtasks
                 .Include(s => s.Todo)
                 .ThenInclude(t => t.Subtasks)
-                .FirstOrDefault(s => s.SubtaskId == updateSubtaskDTO.SubTaskId);
+                .FirstOrDefault(s => s.SubTaskId == updateSubtaskDTO.SubTaskId);
             if (subtask != null)
             {
                 if (updateSubtaskDTO.Position != subtask.Position)

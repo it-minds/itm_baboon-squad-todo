@@ -24,11 +24,11 @@ namespace todo_backend.Migrations
 
             modelBuilder.Entity("todo_backend.Classes.Subtask", b =>
                 {
-                    b.Property<int>("SubtaskId")
+                    b.Property<int>("SubTaskId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubtaskId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubTaskId"), 1L, 1);
 
                     b.Property<bool>("Checked")
                         .HasColumnType("bit");
@@ -46,7 +46,7 @@ namespace todo_backend.Migrations
                     b.Property<int>("TodoId")
                         .HasColumnType("int");
 
-                    b.HasKey("SubtaskId");
+                    b.HasKey("SubTaskId");
 
                     b.HasIndex("TodoId");
 
@@ -86,17 +86,17 @@ namespace todo_backend.Migrations
 
             modelBuilder.Entity("todo_backend.Classes.TodoList", b =>
                 {
-                    b.Property<int>("TodoListId")
+                    b.Property<int>("ToDoListId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TodoListId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ToDoListId"), 1L, 1);
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TodoListId");
+                    b.HasKey("ToDoListId");
 
                     b.ToTable("TodoLists");
                 });
@@ -114,13 +114,13 @@ namespace todo_backend.Migrations
 
             modelBuilder.Entity("todo_backend.Classes.Todo", b =>
                 {
-                    b.HasOne("todo_backend.Classes.TodoList", "TodoList")
+                    b.HasOne("todo_backend.Classes.TodoList", "ToDoList")
                         .WithMany("Todos")
                         .HasForeignKey("TodoListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TodoList");
+                    b.Navigation("ToDoList");
                 });
 
             modelBuilder.Entity("todo_backend.Classes.Todo", b =>
