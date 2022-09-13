@@ -1,9 +1,16 @@
-<p>todolist works!</p>
 <ul >
-    <li 
-    *ngIf="todos"
-    >
-    {{todos | json}}
-
-    </li>
+    <li
+    *ngFor="let todo of todos">
+    {{todo.title}}
+</li>
+<section>
+    <span></span>
+    <div class="btns-container">
+      <app-button [buttonConfig]="textBtnConfig"
+        (textBtnClickEmt)="onClickEventReceived()" >
+    </app-button>
+    <br/>
+    </div>
+</section>
 </ul>
+
