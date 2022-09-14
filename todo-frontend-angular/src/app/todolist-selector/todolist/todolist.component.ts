@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from '../todo.service';
 import { ButtonConfiguration } from 'src/app/models/button-config.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-todolist',
@@ -9,7 +10,7 @@ import { ButtonConfiguration } from 'src/app/models/button-config.model';
   styleUrls: ['./todolist.component.scss']
 })
 export class TodolistComponent implements OnInit {
-  todos: Todo[] = [];
+  todos$: Observable<Todo[]> = this.todoService.todos$
   textBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
@@ -26,10 +27,10 @@ export class TodolistComponent implements OnInit {
   constructor(private readonly todoService: TodoService) { }
 
   ngOnInit(): void {
+    this.todoService.getTodos('1')
   }
 
   onClickEventReceived() {
-    this.todoService.getTodos('1').subscribe({ next: (response) => { this.todos = response } })
   }
 
   onCheckboxClick(isChecked: boolean, todo: Todo) {
