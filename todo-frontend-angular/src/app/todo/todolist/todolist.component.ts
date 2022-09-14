@@ -10,7 +10,7 @@ import { ButtonConfiguration } from 'src/app/models/button-config.model';
 })
 export class TodolistComponent implements OnInit {
   todos: Todo[] = [];
-  textBtnConfig: ButtonConfiguration= {
+  textBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
       width: '150px',
@@ -22,16 +22,13 @@ export class TodolistComponent implements OnInit {
       borderRadius: '10px',
       marginTop: '30px'
     }
-    };
+  };
 
   constructor(private readonly todoService: TodoService) { }
 
   ngOnInit(): void {
-    this.todoService.getTodos().subscribe(response=>{this.todos=response ; console.log(this.todos)})
   }
-
   onClickEventReceived() {
-    console.log('click')
-    this.todoService.getTodos('8').subscribe({next:(response)=>{this.todos=response.sort((a,b)=>a.position-b.position)}})
+    this.todoService.getTodos('8').subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
   }
 }
