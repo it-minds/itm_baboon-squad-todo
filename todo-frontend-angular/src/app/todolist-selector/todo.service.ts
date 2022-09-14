@@ -6,7 +6,6 @@ import { catchError, map, retry } from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
