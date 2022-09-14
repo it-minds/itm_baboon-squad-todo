@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
+import { NewTodoDTO } from '../models/new-todo-DTO.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,9 @@ export class TodoService {
 
   getTodos(id: string){
     return this.http.get<Todolist>(`${this.url}/${id}`).pipe(map(todolist=>todolist.todos));
+  }
+  addTodo(id: string, newTodo: NewTodoDTO){
+    return this.http.post<Todo>(`${this.url}/Todo/${id}`, newTodo).pipe(map(todo=>todo));
   }
   
 }
