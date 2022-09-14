@@ -12,7 +12,7 @@ export class TodoComponent implements OnInit {
 
   @Input() todo?: Todo;
 
-  @Output() onCheckboxClick = new EventEmitter<boolean>();
+  @Output() checkboxClick = new EventEmitter<boolean>();
 
   ngOnInit(): void {
     this.deadline = this.todo?.deadline?.split('T')[0] ?? "";
