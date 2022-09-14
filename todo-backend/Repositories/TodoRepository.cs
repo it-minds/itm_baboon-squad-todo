@@ -10,8 +10,8 @@ namespace todo_backend.Repositories
 {
     public class TodoRepository
     {
-        private TodoDBContext _dbContext;
-        ITodoArranger todoArranger;
+        private readonly TodoDBContext _dbContext;
+        private readonly ITodoArranger todoArranger;
 
         public TodoRepository(TodoDBContext todoDBContext)
         {
@@ -31,13 +31,15 @@ namespace todo_backend.Repositories
         }
         public Todo CreateTodo(string title, int position,TodoList todoList,DateTime deadline)
         {
-            Todo t = new Todo();
-            t.Subtasks = new();
-            t.Title = title;
-            t.Checked = false;
-            t.TodoListId = todoList.ToDoListId;
-            t.Deadline = deadline;
-            t.ToDoList = todoArranger.ArrangePosition(todoList, position, t);
+            Todo t = new()
+            {
+                Subtasks = new(),
+                Title = title,
+                Checked = false,
+                TodoListId = todoList.TodoListId,
+                Deadline = deadline
+            };
+            t.TodoList = todoArranger.ArrangePosition(todoList, position, t);
 
             todoList.Todos.Add(t);
             _dbContext.Todos.Add(t);
@@ -45,24 +47,24 @@ namespace todo_backend.Repositories
             _dbContext.SaveChanges();
             return t;
         }
-        public Todo DeleteTodo(Todo todo)
+        public Todo? DeleteTodo(Todo todo)
         {
             var t = _dbContext.Todos.Find(todo.TodoId);
             if (t != null)
             {
-                t.ToDoList = todoArranger.ArrangePositionAfterDelete(t.ToDoList, t);
+                t.TodoList = todoArranger.ArrangePositionAfterDelete(t.TodoList, t);
                 _dbContext.Todos.Remove(t);
                 _dbContext.SaveChanges();
             }
             return t;
         }
-        public Todo UpdateTodo(UpdateTodoDTO updateTodoDTO, TodoList todoList)
+        public Todo? UpdateTodo(UpdateTodoDTO updateTodoDTO)
         {
             var t = _dbContext.Todos.Find(updateTodoDTO.TodoId);
             if (t != null)
             {
                 t.Title =updateTodoDTO.Title;
-                t.ToDoList = todoArranger.ArrangePosition(t.ToDoList,updateTodoDTO.Position,t);
+                t.TodoList = todoArranger.ArrangePosition(t.TodoList,updateTodoDTO.Position,t);
                 t.Checked = updateTodoDTO.Checked;
                 t.Deadline= updateTodoDTO.Deadline;
                 _dbContext.SaveChanges();
