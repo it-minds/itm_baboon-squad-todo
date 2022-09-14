@@ -44,8 +44,7 @@ export class TodolistComponent implements OnInit {
   ngOnInit(): void {
   }
   onClickEventReceived() {
-    console.log('click')
-    this.todoService.getTodos('8').subscribe({next:(response)=>{this.todos=response.sort((a,b)=>a.position-b.position)}})
+    this.todoService.getTodos('8').subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
   }
   onAddTodoEventReceived(newTodo: NewTodoDTO) {
     console.log(newTodo)

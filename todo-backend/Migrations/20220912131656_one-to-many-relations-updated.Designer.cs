@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using todo_backend.DataBase;
 
@@ -11,9 +12,10 @@ using todo_backend.DataBase;
 namespace todo_backend.Migrations
 {
     [DbContext(typeof(TodoDBContext))]
-    partial class TodoDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220912131656_one-to-many-relations-updated")]
+    partial class onetomanyrelationsupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +26,11 @@ namespace todo_backend.Migrations
 
             modelBuilder.Entity("todo_backend.Classes.Subtask", b =>
                 {
-                    b.Property<int>("SubtaskId")
+                    b.Property<int>("SubTaskId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubtaskId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubTaskId"), 1L, 1);
 
                     b.Property<bool>("Checked")
                         .HasColumnType("bit");
@@ -46,7 +48,7 @@ namespace todo_backend.Migrations
                     b.Property<int>("TodoId")
                         .HasColumnType("int");
 
-                    b.HasKey("SubtaskId");
+                    b.HasKey("SubTaskId");
 
                     b.HasIndex("TodoId");
 
@@ -86,17 +88,17 @@ namespace todo_backend.Migrations
 
             modelBuilder.Entity("todo_backend.Classes.TodoList", b =>
                 {
-                    b.Property<int>("TodoListId")
+                    b.Property<int>("ToDoListId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TodoListId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ToDoListId"), 1L, 1);
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TodoListId");
+                    b.HasKey("ToDoListId");
 
                     b.ToTable("TodoLists");
                 });
