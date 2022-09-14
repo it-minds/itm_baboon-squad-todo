@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from '../todo.service';
 import { ButtonConfiguration } from 'src/app/models/button-config.model';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 
 
 @Component({
@@ -46,6 +46,10 @@ export class TodolistComponent implements OnInit {
   onClickEventReceived() {
     console.log('click')
     this.todoService.getTodos('8').subscribe({next:(response)=>{this.todos=response.sort((a,b)=>a.position-b.position)}})
+  }
+  onAddTodoEventReceived(newTodo: NewTodoDTO) {
+    console.log(newTodo)
+    this.todoService.addTodo(newTodo).subscribe()
   }
  
 }

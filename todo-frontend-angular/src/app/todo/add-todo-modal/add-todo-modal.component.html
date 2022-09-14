@@ -8,7 +8,7 @@
     (nzOnOk)="handleSubmit()"
     [nzOkDisabled]="!validateForm.valid"
     [nzOkLoading]="isOkLoading">
-    <div *nzModalContent><form nz-form (ngSubmit)="handleSubmit()" [formGroup]="validateForm">
+    <div *nzModalContent><form nz-form (ngSubmit)="handleSubmit()" [formGroup]="validateForm" >
       <nz-form-item >
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="Title">Title</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24">

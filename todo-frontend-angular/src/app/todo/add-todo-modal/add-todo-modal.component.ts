@@ -1,9 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
-import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ThisReceiver } from '@angular/compiler';
+import { Component, EventEmitter, Output, } from '@angular/core';
+import { FormControl,Validators, FormGroup } from '@angular/forms';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
-import { TodoService } from '../todo.service';
+
 
 
 @Component({
@@ -21,44 +19,37 @@ export class AddTodoModalComponent {
   title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
   datePicker: new FormControl<Date | null>(null)
 }) 
-
-
-// this.fb.group({
-//     title: [null, [Validators.required, Validators.minLength(1)]], 
-//     datePicker: [null]
-//   });
+constructor(){}
 
   @Output()
   showModal(): void {
     this.isVisible = true;
   }
-
+  @Output()
+  Submit=new EventEmitter<NewTodoDTO>();
   handleSubmit(): void {
     if(this.validateForm.valid)
     {
       this.isOkLoading = true;
       const newTodo: NewTodoDTO={
         Title: this.validateForm.value.title?? "",
-        Deadline: this.validateForm.value.datePicker?.toDateString()?? "",
+        Deadline: this.validateForm.value.datePicker?.toISOString()?? "",
         Position:0,
-        TodoListId: 8 
+        TodoListId: 8
       }
-      this.service.addTodo("8",newTodo)
+      this.Submit.emit(newTodo)
+      this.validateForm.reset()
       setTimeout(() => {
         this.isVisible = false;
         this.isOkLoading = false;
       }, 1500);
     }
   }
-
   handleCancel(): void {
     this.isVisible = false;
   }
-  constructor(private service: TodoService){}
-
   ngOnInit(): void {
     this.validateForm.valueChanges.subscribe(console.log)
     this.validateForm.statusChanges.subscribe(console.log)
   }
-  Submit=new EventEmitter();
 }
