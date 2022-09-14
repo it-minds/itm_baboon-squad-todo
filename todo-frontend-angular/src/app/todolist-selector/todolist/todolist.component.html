@@ -1,0 +1,10 @@
+<section>
+  <div class="btns-container">
+    <app-button [buttonConfig]="textBtnConfig" (onTextBtnClick)="onClickEventReceived()">
+    </app-button>
+  </div>
+</section>
+
+<div class="todos">
+  <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)"></app-todo>
+</div>

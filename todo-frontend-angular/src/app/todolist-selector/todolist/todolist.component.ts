@@ -49,7 +49,12 @@ export class TodolistComponent implements OnInit {
   ngOnInit(): void {
    this.todoService.getTodoLists().subscribe({next:(response)=>{this.todoLists=response}});
   }
+
   onClickEventReceived() {
+  }
+
+  onCheckboxClick(isChecked: boolean, todo: Todo) {
+    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: 1 }).subscribe({ next: () => this.onClickEventReceived() })
   }
   onSelectClickEventReceived(value: Todolist) {
     if(value != null)
