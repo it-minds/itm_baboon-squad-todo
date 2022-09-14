@@ -26,7 +26,7 @@ export class TodoService {
       .pipe(
         map(todolist => todolist.todos),
         tap((todos: Todo[]) => this.todos.next(todos))
-      );
+      ).subscribe();
   }
 
   updateTodo(todo: Todo) {
