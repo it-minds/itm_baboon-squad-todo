@@ -6,6 +6,7 @@ import { catchError, map, retry } from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +20,7 @@ export class TodoService {
 
   getTodos(id: string){
     return this.http.get<Todolist>(`${this.url}/${id}`).pipe(map(todolist=>todolist.todos));
+
   }
   
 }
