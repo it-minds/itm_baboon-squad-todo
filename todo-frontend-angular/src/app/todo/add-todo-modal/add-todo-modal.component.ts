@@ -20,8 +20,6 @@ export class AddTodoModalComponent {
   datePicker: new FormControl<Date | null>(null)
 }) 
 constructor(){}
-
-  @Output()
   showModal(): void {
     this.isVisible = true;
   }
@@ -39,10 +37,8 @@ constructor(){}
       }
       this.Submit.emit(newTodo)
       this.validateForm.reset()
-      setTimeout(() => {
         this.isVisible = false;
         this.isOkLoading = false;
-      }, 1500);
     }
   }
   handleCancel(): void {

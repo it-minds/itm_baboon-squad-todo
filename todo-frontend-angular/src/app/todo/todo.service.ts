@@ -7,6 +7,8 @@ import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
 import { NewTodoDTO } from '../models/new-todo-DTO.model';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,6 +31,9 @@ export class TodoService {
         'accept': '*/*'
       })
     });
+  }
+  getTodoLists(){
+    return this.http.get<Todolist[]>(`${this.url}`).pipe(map(todoList=>todoList));
   }
   
 }

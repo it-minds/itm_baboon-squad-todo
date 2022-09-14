@@ -10,6 +10,8 @@ import { AddTodoModalComponent } from './add-todo-modal/add-todo-modal.component
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NzFormModule,
     NzDatePickerModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzSelectModule
   ]
 })
 export class TodoModule { }
