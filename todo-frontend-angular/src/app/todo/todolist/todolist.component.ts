@@ -50,19 +50,20 @@ export class TodolistComponent implements OnInit {
    this.todoService.getTodoLists().subscribe({next:(response)=>{this.todoLists=response}});
   }
   onClickEventReceived() {
-    this.todoService.getTodos('8').subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
   }
   onSelectClickEventReceived(value: Todolist) {
-    console.log(value)
     if(value != null)
     {
       this.todoService.getTodos(value.todoListId.toString()).subscribe({next:(response)=>{this.todos=response.sort((a,b)=>a.position-b.position)}})
     }
-
+    else{
+      this.todos=[]
+    }
+    this.selectedValue=value;
   }
   onAddTodoEventReceived(newTodo: NewTodoDTO) {
-    console.log(newTodo)
-    this.todoService.addTodo(newTodo).subscribe()
+    this.todoService.addTodo(newTodo).subscribe({next:()=>this.onSelectClickEventReceived(this.selectedValue!)})
+    
   }
  
 }

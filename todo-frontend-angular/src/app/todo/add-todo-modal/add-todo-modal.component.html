@@ -1,9 +1,9 @@
 <button nz-button nzType="primary" (click)="showModal()">
-    <span>Show Modal</span>
+    <span>Add a new todo</span>
   </button>
   <nz-modal
     [(nzVisible)]="isVisible"
-    nzTitle="enter a name and a date for you new todo"
+    nzTitle="Enter a name and a date for you new todo"
     (nzOnCancel)="handleCancel()"
     (nzOnOk)="handleSubmit()"
     [nzOkDisabled]="!validateForm.valid"
@@ -20,9 +20,11 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24">Deadline</nz-form-label>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="Deadline">Deadline</nz-form-label >
         <nz-form-control [nzSm]="16" [nzXs]="24">
           <nz-date-picker [formControl]="validateForm.controls.datePicker"></nz-date-picker>
+          <div class="alert alert-danger" [hidden]="validateForm.controls.datePicker.valid"> 
+          Date is required</div>
         </nz-form-control>
       </nz-form-item>
     </form>

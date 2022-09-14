@@ -6,9 +6,8 @@
   [nzValue]="todoList"
   ></nz-option>
 </li>
-</nz-select>
-
-  <li
+</nz-select >
+  <li 
   *ngFor="let todo of todos">
   {{todo.title}}
   {{todo.deadline}}
@@ -24,9 +23,9 @@
     </div>
     
 </section>
-<div class="btns-container">
- <app-add-todo-modal (Submit)="onAddTodoEventReceived($event)">
-
+<div class="btns-container" *ngIf="selectedValue">
+ <app-add-todo-modal [listId]="selectedValue.todoListId"
+ (Submit)="onAddTodoEventReceived($event)">
  </app-add-todo-modal>
 <br/>
 </div>

@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Output, } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormControl,Validators, FormGroup } from '@angular/forms';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
-
 
 
 @Component({
@@ -17,12 +16,16 @@ export class AddTodoModalComponent {
     datePicker: FormControl<Date | null>;
 }> = new FormGroup({
   title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
-  datePicker: new FormControl<Date | null>(null)
+  datePicker: new FormControl<Date | null>(null,[Validators.required,Validators.minLength(8)])
 }) 
-constructor(){}
+constructor(){
+
+}
   showModal(): void {
     this.isVisible = true;
   }
+  @Input() listId?: number
+  
   @Output()
   Submit=new EventEmitter<NewTodoDTO>();
   handleSubmit(): void {
@@ -33,7 +36,7 @@ constructor(){}
         Title: this.validateForm.value.title?? "",
         Deadline: this.validateForm.value.datePicker?.toISOString()?? "",
         Position:0,
-        TodoListId: 8
+        TodoListId: this.listId!
       }
       this.Submit.emit(newTodo)
       this.validateForm.reset()
@@ -43,9 +46,8 @@ constructor(){}
   }
   handleCancel(): void {
     this.isVisible = false;
+    this.validateForm.reset()
   }
   ngOnInit(): void {
-    this.validateForm.valueChanges.subscribe(console.log)
-    this.validateForm.statusChanges.subscribe(console.log)
   }
 }
