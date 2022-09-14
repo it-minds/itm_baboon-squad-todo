@@ -6,7 +6,7 @@ import { Todo } from 'src/app/models/todo.model';
 })
 
 export class SortPipe implements PipeTransform {
-  transform(todos: any[] | null, field: string): any[] {
-    return todos ? todos.sort((a: any, b: any) => a[field] - b[field]) : [];
+  transform<T>(values: T[] | null, field: keyof T): T[] | null {
+    return values ? values.sort((a: T, b: T) => Number(a[field]) - Number(b[field])) : null;
   }
 }
