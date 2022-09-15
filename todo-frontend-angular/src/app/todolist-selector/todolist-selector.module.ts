@@ -13,8 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddTodoModalComponent } from './add-todo-modal/add-todo-modal.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { FormsModule } from '@angular/forms';
 import { ToUppercasePipe } from './todo/to-uppercase.pipe';
 
 
