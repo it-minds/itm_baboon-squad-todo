@@ -5,7 +5,6 @@ import { ButtonConfiguration } from 'src/app/models/button-config.model';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 import { Todolist } from 'src/app/models/todolist.model';
 import { Observable } from 'rxjs';
-import { Todolist } from 'src/app/models/todolist.model';
 
 @Component({
   selector: 'app-todolist',
@@ -14,7 +13,7 @@ import { Todolist } from 'src/app/models/todolist.model';
 })
 
 export class TodolistComponent implements OnInit {
-  todos: Todo[] = [];
+  // todos: Todo[] = [];
   todoLists: Todolist[] = [];
   selectedValue: Todolist | null = null;
   todos$: Observable<Todo[]> = this.todoService.todos$
@@ -70,10 +69,10 @@ export class TodolistComponent implements OnInit {
   }
   onTodolistSelect(value: Todolist) {
     if (value != null) {
-      this.todoService.getTodos(value.todoListId.toString()).subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
+      this.todoService.getTodos(value.todoListId.toString())
     }
     else {
-      this.todos = []
+      this.todoService.clearTodos()
     }
     this.selectedValue = value;
   }
