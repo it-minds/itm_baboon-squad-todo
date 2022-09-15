@@ -14,6 +14,7 @@ export class TodolistComponent implements OnInit {
   todos$: Observable<Todo[]> = this.todoService.todos$
   todoLists: Todolist[] = [];
   todolistIds: string[] = []
+  showSubtasksOnTodoId: number | null = null
   textBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
@@ -49,6 +50,10 @@ export class TodolistComponent implements OnInit {
 
   }
 
+  onDoubleClick(todo: Todo) {
+    this.showSubtasksOnTodoId = this.showSubtasksOnTodoId === todo.todoListId ? null : todo.todoId
+  }
+
   onClickEventReceived() {
   }
 
@@ -56,13 +61,12 @@ export class TodolistComponent implements OnInit {
     this.todoService.updateTodo({
       ...todo, checked: isChecked
     }).subscribe({
-      next: () => {
-        this.todoService.clearTodos()
-        this.todolistIds.forEach(todolistId => {
-          this.todoService.getTodos(todolistId)
-        })
-
-      }
+      // next: () => {
+      //   this.todoService.clearTodos()
+      //   this.todolistIds.forEach(todolistId => {
+      //     this.todoService.getTodos(todolistId)
+      //   })
+      // }
     })
   }
 }
