@@ -25,7 +25,7 @@ export class TodoService {
     return this.http.get<Todolist>(`${this.todolistUrl}/${id}`)
       .pipe(
         map(todolist => todolist.todos),
-        tap((todos: Todo[]) => this.todos.next(todos))
+        tap(todos => this.todos.next(todos))
       ).subscribe();
   }
 
