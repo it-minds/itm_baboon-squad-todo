@@ -16,6 +16,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { FormsModule } from '@angular/forms';
 import { ToUppercasePipe } from './todo/to-uppercase.pipe';
+import { SortPipe } from './todolist/sort.pipe';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ToUppercasePipe } from './todo/to-uppercase.pipe';
     ButtonComponent,
     TodoComponent,
     AddTodoModalComponent,
-    ToUppercasePipe
+    ToUppercasePipe,
+    SortPipe
   ],
   imports: [
     CommonModule,
