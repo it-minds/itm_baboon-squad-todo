@@ -3,6 +3,7 @@ import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from '../todo.service';
 import { ButtonConfiguration } from 'src/app/models/button-config.model';
 import { Observable } from 'rxjs';
+import { Todolist } from 'src/app/models/todolist.model';
 
 @Component({
   selector: 'app-todolist',
@@ -11,6 +12,8 @@ import { Observable } from 'rxjs';
 })
 export class TodolistComponent implements OnInit {
   todos$: Observable<Todo[]> = this.todoService.todos$
+  todoLists: Todolist[] = [];
+  todolistIds: string[] = []
   textBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
@@ -27,13 +30,39 @@ export class TodolistComponent implements OnInit {
   constructor(private readonly todoService: TodoService) { }
 
   ngOnInit(): void {
-    this.todoService.getTodos('1')
+    this.todoService.clearTodos()
+    this.todoLists = [
+      { title: "hello", todolistId: 1, todos: [] },
+      { title: "hello", todolistId: 2, todos: [] },
+      { title: "hi", todolistId: 3, todos: [] },
+    ]
+
+    const selectedTodoList = { title: "hello", todolistId: 1, todos: [] }
+
+    this.todoLists.filter(todolist => todolist.title === selectedTodoList.title).forEach(todolist => {
+      this.todolistIds.push(todolist.todolistId.toString())
+    })
+
+    this.todolistIds.forEach(todolistId => {
+      this.todoService.getTodos(todolistId)
+    });
+
   }
 
   onClickEventReceived() {
   }
 
   onCheckboxClick(isChecked: boolean, todo: Todo) {
-    this.todoService.updateTodo({ ...todo, checked: isChecked }).subscribe({ next: () => this.todoService.getTodos('1') })
+    this.todoService.updateTodo({
+      ...todo, checked: isChecked
+    }).subscribe({
+      next: () => {
+        this.todoService.clearTodos()
+        this.todolistIds.forEach(todolistId => {
+          this.todoService.getTodos(todolistId)
+        })
+
+      }
+    })
   }
 }

@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { ToUppercasePipe } from './todo/to-uppercase.pipe';
 import { SortPipe } from './todolist/sort.pipe';
 import { SubtaskComponent } from './subtask/subtask.component';
+import { RemoveDuplicatesPipe } from './remove-duplicates.pipe';
 
 
 
@@ -25,6 +26,7 @@ import { SubtaskComponent } from './subtask/subtask.component';
     ToUppercasePipe,
     SortPipe,
     SubtaskComponent,
+    RemoveDuplicatesPipe,
   ],
   imports: [
     CommonModule,
