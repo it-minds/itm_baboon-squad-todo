@@ -4,19 +4,20 @@ import { TodoService } from '../todo.service';
 import { ButtonConfiguration } from 'src/app/models/button-config.model';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 import { Todolist } from 'src/app/models/todolist.model';
-
-
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
   styleUrls: ['./todolist.component.scss']
 })
+
 export class TodolistComponent implements OnInit {
   todos: Todo[] = [];
   todoLists:Todolist[]=[];
   selectedValue: Todolist | null =null;
-  moreBtnConfig: ButtonConfiguration= {
+  todos$: Observable<Todo[]> = this.todoService.todos$
+  moreBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
       width: '150px',
@@ -39,21 +40,22 @@ export class TodolistComponent implements OnInit {
         fontFamily: 'sans-serif',
         fontSize: '20px',
         borderRadius: '10px',
-        marginTop: '30px',
-        
+        marginTop: '30px'
       }
     };
 
   constructor(private readonly todoService: TodoService) { }
+
   ngOnInit(): void {
    this.todoService.getTodoLists().subscribe({next:(response)=>{this.todoLists=response}});
+
   }
 
   onClickEventReceived() {
   }
 
   onCheckboxClick(isChecked: boolean, todo: Todo) {
-    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: 1 }).subscribe({ next: () => this.onClickEventReceived() })
+    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: 1 }).subscribe({ next: () => this.todoService.getTodos('1') })
   }
   onSelectClickEventReceived(value: Todolist) {
     if(value != null)

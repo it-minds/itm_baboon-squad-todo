@@ -14,6 +14,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddTodoModalComponent } from './add-todo-modal/add-todo-modal.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { ToUppercasePipe } from './todo/to-uppercase.pipe';
+import { SortPipe } from './todolist/sort.pipe';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ToUppercasePipe } from './todo/to-uppercase.pipe';
     ButtonComponent,
     TodoComponent,
     AddTodoModalComponent,
-    ToUppercasePipe
+    ToUppercasePipe,
+    SortPipe
   ],
   imports: [
     CommonModule,
