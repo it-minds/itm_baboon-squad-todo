@@ -25,6 +25,13 @@ export class TodoComponent implements OnInit {
   }
 
   onCheckboxClick(isChecked: boolean, subtask: Subtask) {
-    this.todoService.updateSubtask({ ...subtask, checked: isChecked }).subscribe({ next: () => this.todoService.getTodos('1') })
+    this.todoService.updateSubtask({
+      ...subtask, checked: isChecked
+    }).subscribe({
+      next: () => {
+        this.todoService.clearTodos()
+        this.todoService.getTodos(this.todo!.todoListId.toString())
+      }
+    })
   }
 }

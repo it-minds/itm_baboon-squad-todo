@@ -17,6 +17,7 @@ export class TodolistComponent implements OnInit {
   todoLists: Todolist[] = [];
   selectedValue: Todolist | null = null;
   todos$: Observable<Todo[]> = this.todoService.todos$
+  todolistIds: string[] = []
   moreBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
@@ -54,7 +55,17 @@ export class TodolistComponent implements OnInit {
   }
 
   onCheckboxClick(isChecked: boolean, todo: Todo) {
-    this.todoService.updateTodo({ ...todo, checked: isChecked }).subscribe({ next: () => this.todoService.getTodos('1') })
+    this.todoService.updateTodo({
+      ...todo, checked: isChecked
+    }).subscribe({
+      next: () => {
+        this.todoService.clearTodos()
+        this.todolistIds.forEach(todolistId => {
+          this.todoService.getTodos(todolistId)
+        })
+
+      }
+    })
   }
   onTodolistSelect(value: Todolist) {
     if (value != null) {
