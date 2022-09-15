@@ -3,6 +3,7 @@ import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from '../todo.service';
 import { ButtonConfiguration } from 'src/app/models/button-config.model';
 import { Observable } from 'rxjs';
+import { Todolist } from 'src/app/models/todolist.model';
 
 @Component({
   selector: 'app-todolist',
@@ -11,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class TodolistComponent implements OnInit {
   todos$: Observable<Todo[]> = this.todoService.todos$
+  todoLists: Todolist[] = [];
   textBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
@@ -27,6 +29,19 @@ export class TodolistComponent implements OnInit {
   constructor(private readonly todoService: TodoService) { }
 
   ngOnInit(): void {
+    this.todoLists = [
+      { title: "hello", todolistId: 1, todos: [] },
+      { title: "hi", todolistId: 2, todos: [] },
+      { title: "hello", todolistId: 3, todos: [] },
+    ]
+    const seen = new Set();
+    const filteredList = this.todoLists.filter(value => {
+      const duplicate = seen.has(value['title' as keyof Todolist]);
+      seen.add(value['title' as keyof Todolist]);
+      return !duplicate;
+    });
+    console.log(filteredList)
+
     this.todoService.getTodos('1')
   }
 
