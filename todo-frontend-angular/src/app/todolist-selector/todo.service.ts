@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, retry } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
 
@@ -13,11 +12,21 @@ export class TodoService {
   private readonly todolistUrl = 'https://localhost:7058/TodoList'
   private readonly todoUrl = 'https://localhost:7058/Todo'
 
+  private readonly todos = new BehaviorSubject<Todo[]>([])
+
+  public get todos$() {
+    return this.todos.asObservable();
+  }
+
   constructor(private http: HttpClient) {
   }
 
   getTodos(id: string) {
-    return this.http.get<Todolist>(`${this.todolistUrl}/${id}`).pipe(map(todolist => todolist.todos));
+    return this.http.get<Todolist>(`${this.todolistUrl}/${id}`)
+      .pipe(
+        map(todolist => todolist.todos),
+        tap(todos => this.todos.next(todos))
+      ).subscribe();
   }
 
   updateTodo(todo: Todo) {

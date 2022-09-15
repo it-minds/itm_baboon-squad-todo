@@ -6,5 +6,6 @@
 </section>
 
 <div class="todos">
-  <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)"></app-todo>
+  <app-todo *ngFor="let todo of (todos$ | async) | sort:'position'" [todo]="todo"
+    (checkboxClick)="onCheckboxClick($event, todo)"></app-todo>
 </div>
