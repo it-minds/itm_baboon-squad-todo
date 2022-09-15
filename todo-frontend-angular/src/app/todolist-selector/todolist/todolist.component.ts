@@ -14,8 +14,8 @@ import { Observable } from 'rxjs';
 
 export class TodolistComponent implements OnInit {
   todos: Todo[] = [];
-  todoLists:Todolist[]=[];
-  selectedValue: Todolist | null =null;
+  todoLists: Todolist[] = [];
+  selectedValue: Todolist | null = null;
   todos$: Observable<Todo[]> = this.todoService.todos$
   moreBtnConfig: ButtonConfiguration = {
     styles: {
@@ -30,24 +30,24 @@ export class TodolistComponent implements OnInit {
       marginTop: '30px'
     }
   };
-    addBtnConfig: ButtonConfiguration= {
-      styles: {
-        position: 'relative',
-        width: '150px',
-        height: '60px',
-        backgroundColor: '#f92672',
-        color: '#fff',
-        fontFamily: 'sans-serif',
-        fontSize: '20px',
-        borderRadius: '10px',
-        marginTop: '30px'
-      }
-    };
+  addBtnConfig: ButtonConfiguration = {
+    styles: {
+      position: 'relative',
+      width: '150px',
+      height: '60px',
+      backgroundColor: '#f92672',
+      color: '#fff',
+      fontFamily: 'sans-serif',
+      fontSize: '20px',
+      borderRadius: '10px',
+      marginTop: '30px'
+    }
+  };
 
   constructor(private readonly todoService: TodoService) { }
 
   ngOnInit(): void {
-   this.todoService.getTodoLists().subscribe({next:(response)=>{this.todoLists=response}});
+    this.todoService.getTodoLists().subscribe({ next: (response) => { this.todoLists = response } });
   }
 
   onClickEventReceived() {
@@ -57,17 +57,16 @@ export class TodolistComponent implements OnInit {
     this.todoService.updateTodo({ ...todo, checked: isChecked }).subscribe({ next: () => this.todoService.getTodos('1') })
   }
   onTodolistSelect(value: Todolist) {
-    if(value != null)
-    {
-      this.todoService.getTodos(value.todoListId.toString()).subscribe({next:(response)=>{this.todos=response.sort((a,b)=>a.position-b.position)}})
+    if (value != null) {
+      this.todoService.getTodos(value.todoListId.toString()).subscribe({ next: (response) => { this.todos = response.sort((a, b) => a.position - b.position) } })
     }
-    else{
-      this.todos=[]
+    else {
+      this.todos = []
     }
-    this.selectedValue=value;
+    this.selectedValue = value;
   }
   onAddTodoSubmit(newTodo: NewTodoDTO) {
-    this.todoService.addTodo(newTodo).subscribe({next:()=>this.onTodolistSelect(this.selectedValue!)})
+    this.todoService.addTodo(newTodo).subscribe({ next: () => this.onTodolistSelect(this.selectedValue!) })
   }
- 
+
 }
