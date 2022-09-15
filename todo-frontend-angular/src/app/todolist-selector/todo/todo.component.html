@@ -1,9 +1,9 @@
 <div nz-row>
     <div nz-col nzFlex="3">
-        <span>{{todo?.title}}</span>
+        <span>{{todo?.title | toUppercase}}</span>
     </div>
     <div nz-col nzFlex="3">
-        <span>{{deadline}}</span>
+        <span>{{todo?.deadline | date:'dd-MM-yyyy'}}</span>
     </div>
     <div nz-col nzFlex="3">
         <label nz-checkbox (ngModelChange)="checkboxClick.emit($event)" [ngModel]="todo?.checked"></label>
