@@ -10,28 +10,25 @@ import { TodoService } from '../todo.service';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
-  showSubtasks: boolean = false
   constructor(private readonly todoService: TodoService) { }
 
   @Input() todo?: Todo;
+  @Input() showSubtasksOnTodoId?: number | null
 
   @Output() checkboxClick = new EventEmitter<boolean>();
+  @Output() doubleClick = new EventEmitter();
 
   ngOnInit(): void {
-  }
-
-  onDoubleClick(): void {
-    this.showSubtasks = !this.showSubtasks
   }
 
   onCheckboxClick(isChecked: boolean, subtask: Subtask) {
     this.todoService.updateSubtask({
       ...subtask, checked: isChecked
     }).subscribe({
-      next: () => {
-        this.todoService.clearTodos()
-        this.todoService.getTodos(this.todo!.todoListId.toString())
-      }
+      // next: () => {
+      //   this.todoService.clearTodos()
+      //   this.todoService.getTodos(this.todo!.todoListId.toString())
+      // }
     })
   }
 }

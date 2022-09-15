@@ -39,7 +39,8 @@
 
 <div class="todos">
   <app-todo *ngFor="let todo of (todos$ | async) | sort:'position'" [todo]="todo"
-    (checkboxClick)="onCheckboxClick($event, todo)">
+    [showSubtasksOnTodoId]="showSubtasksOnTodoId" (checkboxClick)="onCheckboxClick($event, todo)"
+    (doubleClick)="onDoubleClick(todo)">
   </app-todo>
 </div>
 

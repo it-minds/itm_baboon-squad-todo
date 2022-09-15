@@ -18,6 +18,7 @@ export class TodolistComponent implements OnInit {
   selectedValue: Todolist | null = null;
   todos$: Observable<Todo[]> = this.todoService.todos$
   todolistIds: string[] = []
+  showSubtasksOnTodoId: number | null = null
   moreBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
@@ -51,6 +52,10 @@ export class TodolistComponent implements OnInit {
     this.todoService.getTodoLists().subscribe({ next: (response) => { this.todoLists = response } });
   }
 
+  onDoubleClick(todo: Todo) {
+    this.showSubtasksOnTodoId = this.showSubtasksOnTodoId === todo.todoListId ? null : todo.todoId
+  }
+
   onClickEventReceived() {
   }
 
@@ -58,13 +63,12 @@ export class TodolistComponent implements OnInit {
     this.todoService.updateTodo({
       ...todo, checked: isChecked
     }).subscribe({
-      next: () => {
-        this.todoService.clearTodos()
-        this.todolistIds.forEach(todolistId => {
-          this.todoService.getTodos(todolistId)
-        })
-
-      }
+      // next: () => {
+      //   this.todoService.clearTodos()
+      //   this.todolistIds.forEach(todolistId => {
+      //     this.todoService.getTodos(todolistId)
+      //   })
+      // }
     })
   }
   onTodolistSelect(value: Todolist) {

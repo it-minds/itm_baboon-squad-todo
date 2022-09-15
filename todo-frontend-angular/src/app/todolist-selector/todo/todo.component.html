@@ -1,4 +1,4 @@
-<div nz-row (dblclick)="onDoubleClick()">
+<div nz-row (dblclick)="doubleClick.emit()">
     <div nz-col nzFlex="4">
         {{todo?.title | toUppercase}}
     </div>
@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<div *ngIf="showSubtasks">
+<div *ngIf="this.todo?.todoId == this.showSubtasksOnTodoId">
     <app-subtask *ngFor="let subtask of todo?.subtasks" (checkboxClick)="onCheckboxClick($event, subtask)"
         [subtask]="subtask"></app-subtask>
 </div>
