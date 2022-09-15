@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
+import { Subtask } from '../models/subtask.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { Todolist } from '../models/todolist.model';
 export class TodoService {
   private readonly todolistUrl = 'https://localhost:7058/TodoList'
   private readonly todoUrl = 'https://localhost:7058/Todo'
+  private readonly subtaskUrl = 'https://localhost:7058/Subtask'
 
   private readonly todos = new BehaviorSubject<Todo[]>([])
 
@@ -31,6 +33,14 @@ export class TodoService {
 
   updateTodo(todo: Todo) {
     return this.http.put(`${this.todoUrl}`, todo, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    })
+  }
+
+  updateSubtask(subtask: Subtask) {
+    return this.http.put(`${this.subtaskUrl}`, subtask, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })

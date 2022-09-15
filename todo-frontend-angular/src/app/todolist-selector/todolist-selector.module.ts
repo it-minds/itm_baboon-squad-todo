@@ -12,6 +12,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { FormsModule } from '@angular/forms';
 import { ToUppercasePipe } from './todo/to-uppercase.pipe';
 import { SortPipe } from './todolist/sort.pipe';
+import { SubtaskComponent } from './subtask/subtask.component';
 
 
 
@@ -23,6 +24,7 @@ import { SortPipe } from './todolist/sort.pipe';
     TodoComponent,
     ToUppercasePipe,
     SortPipe,
+    SubtaskComponent,
   ],
   imports: [
     CommonModule,
