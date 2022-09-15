@@ -11,10 +11,7 @@ import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 export class AddTodoModalComponent {
   isVisible = false;
   isOkLoading = false;
-  validateForm: FormGroup<{
-    title: FormControl<string | null>;
-    datePicker: FormControl<Date | null>;
-}> = new FormGroup({
+  validateForm = new FormGroup({
   title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
   datePicker: new FormControl<Date | null>(null,[Validators.required,Validators.minLength(8)])
 }) 
@@ -27,18 +24,18 @@ constructor(){
   @Input() listId?: number
   
   @Output()
-  Submit=new EventEmitter<NewTodoDTO>();
+  addTodoSubmit=new EventEmitter<NewTodoDTO>();
   handleSubmit(): void {
     if(this.validateForm.valid)
     {
       this.isOkLoading = true;
       const newTodo: NewTodoDTO={
-        Title: this.validateForm.value.title?? "",
-        Deadline: this.validateForm.value.datePicker?.toISOString()?? "",
-        Position:0,
-        TodoListId: this.listId!
+        title: this.validateForm.value.title?? "",
+        deadline: this.validateForm.value.datePicker?.toISOString()?? "",
+        position:0,
+        todoListId: this.listId!
       }
-      this.Submit.emit(newTodo)
+      this.addTodoSubmit.emit(newTodo)
       this.validateForm.reset()
         this.isVisible = false;
         this.isOkLoading = false;

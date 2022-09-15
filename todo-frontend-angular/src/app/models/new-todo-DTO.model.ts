@@ -1,6 +1,6 @@
 export interface NewTodoDTO {
-    Title: string;
-    Deadline?: string;
-    Position: number;
-    TodoListId: number;
+    title: string;
+    deadline?: string;
+    position: number;
+    todoListId: number;
   };

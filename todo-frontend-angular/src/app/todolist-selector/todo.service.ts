@@ -4,14 +4,15 @@ import { map} from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
 import { NewTodoDTO } from '../models/new-todo-DTO.model';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  private readonly todolistUrl = 'https://localhost:7058/TodoList'
-  private readonly todoUrl = 'https://localhost:7058/Todo'
+  private readonly todolistUrl =  `${environment.apiURL}/TodoList`
+  private readonly todoUrl = `${environment.apiURL}/Todo`
 
   constructor(private http: HttpClient) {
   }
