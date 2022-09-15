@@ -14,8 +14,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddTodoModalComponent } from './add-todo-modal/add-todo-modal.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { MoreOptionDropdownComponent } from './more-option-dropdown/more-option-dropdown.component';
-
-
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 
 @NgModule({
@@ -37,7 +36,8 @@ import { MoreOptionDropdownComponent } from './more-option-dropdown/more-option-
     FormsModule,
     ReactiveFormsModule,
     NzSelectModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    NzDropDownModule
   ]
 })
 export class TodolistSelectorModule { }

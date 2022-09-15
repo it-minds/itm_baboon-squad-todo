@@ -37,4 +37,7 @@ export class TodoService {
       })
     })
   }
+  deleteTodo(todo:Todo){
+    return this.http.delete<Todo>(`${this.todoUrl}/${todo.todoId}` )
+  }
 }

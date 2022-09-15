@@ -1,1 +1,14 @@
-<p>more-option-dropdown works!</p>
+<div>
+    <ng-container *ngFor="let position of listOfPosition">
+      <app-button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" [nzPlacement]="position">{{ position }}  [buttonConfig]="addBtnConfig" > </app-button>
+      <nz-dropdown-menu #menu="nzDropdownMenu" >
+        <ul nz-menu> 
+          <li nz-menu-item (click)="addAboveClick()">Add a new subtask above</li>
+          <li nz-menu-item (click)="addBelowClick()">Add a new subtask below</li>
+          <li nz-menu-item (click)="editNameClick()" >Add edit name of subtask</li>
+          <li nz-menu-item (click)="editDeadlineClick()">Add deadline of subtask</li>
+          <li nz-menu-item (click)="deleteClick()">Delete subtask</li>
+        </ul>
+      </nz-dropdown-menu>
+    </ng-container>
+  </div>

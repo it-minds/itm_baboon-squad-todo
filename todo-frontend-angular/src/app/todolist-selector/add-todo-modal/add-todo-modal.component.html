@@ -1,5 +1,5 @@
-<button nz-button nzType="primary" (click)="showModal()">
-    <span>Add a new todo</span>
+<button nz-button nzType="primary" (click)="showModal()" [ngStyle]="addBtnConfig?.styles ?? {}">
+  {{ButtonText}}
   </button>
   <nz-modal
     [(nzVisible)]="isVisible"

@@ -10,6 +10,7 @@ import { ButtonConfiguration } from 'src/app/models/button-config.model';
 export class ButtonComponent implements OnInit {
 	
   @Input() buttonConfig? : ButtonConfiguration;
+  @Input() buttonText?: string;
   constructor() {}
 
   @Output()

@@ -10,13 +10,13 @@
 
   <div class="btns-container" *ngIf="selectedValue">
     <app-add-todo-modal [listId]="selectedValue.todoListId"
-    (Submit)="onAddTodoEventReceived($event)">
+    (Submit)="onAddTodoEventReceived($event)" [ButtonText]="modalText" [addBtnConfig]="addBtnConfig">
     </app-add-todo-modal>
    <br/>
    </div>
 
   <div class="todos">
-    <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)"></app-todo>
+    <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)" (Delete)="onDeleteTodoEventReceived($event)"></app-todo>
   </div>
 
  
