@@ -31,6 +31,7 @@
 
 <div class="todos">
   <app-todo *ngFor="let todo of (todos$ | async) | sort:'position'" [todo]="todo"
-    (checkboxClick)="onCheckboxClick($event, todo)"></app-todo>
+    (checkboxClick)="onCheckboxClick($event, todo)">
+  </app-todo>
 </div>
 
