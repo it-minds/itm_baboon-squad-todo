@@ -17,19 +17,7 @@ export class TodolistComponent implements OnInit {
   todos: Todo[] = [];
   todoLists:Todolist[]=[];
   selectedValue: Todolist | null =null;
-  moreBtnConfig: ButtonConfiguration= {
-    styles: {
-      position: 'relative',
-      width: '150px',
-      height: '60px',
-      backgroundColor: '#f92672',
-      color: '#fff',
-      fontFamily: 'sans-serif',
-      fontSize: '20px',
-      borderRadius: '10px',
-      marginTop: '30px'
-    }
-  };
+  
     addBtnConfig: ButtonConfiguration= {
       styles: {
         position: 'relative',
@@ -40,8 +28,8 @@ export class TodolistComponent implements OnInit {
         fontFamily: 'sans-serif',
         fontSize: '20px',
         borderRadius: '10px',
-        marginTop: '30px',
-        
+        marginTop: '20px',
+        border: 'none'
       }
     };
 
@@ -50,11 +38,9 @@ export class TodolistComponent implements OnInit {
    this.todoService.getTodoLists().subscribe({next:(response)=>{this.todoLists=response}});
   }
 
-  onClickEventReceived() {
-  }
 
   onCheckboxClick(isChecked: boolean, todo: Todo) {
-    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: 1 }).subscribe({ next: () => this.onClickEventReceived() })
+    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: todo.todoListId }).subscribe()
   }
   onSelectClickEventReceived(value: Todolist) {
     if(value != null)

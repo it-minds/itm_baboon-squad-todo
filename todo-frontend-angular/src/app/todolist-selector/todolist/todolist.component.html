@@ -8,24 +8,18 @@
   </li>
   </nz-select >
 
+  <div class="btns-container" *ngIf="selectedValue">
+    <app-add-todo-modal [listId]="selectedValue.todoListId"
+    (Submit)="onAddTodoEventReceived($event)">
+    </app-add-todo-modal>
+   <br/>
+   </div>
+
   <div class="todos">
     <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)"></app-todo>
   </div>
 
-  <section>
-    <div class="btns-container">
-      <app-button [buttonConfig]="moreBtnConfig"
-        (Click)="onClickEventReceived()" >
-    </app-button>
-    <br/>
-    </div>
-
-  </section>
-  <div class="btns-container" *ngIf="selectedValue">
-   <app-add-todo-modal [listId]="selectedValue.todoListId"
-   (Submit)="onAddTodoEventReceived($event)">
-   </app-add-todo-modal>
-  <br/>
-  </div>
+ 
+  
  
 

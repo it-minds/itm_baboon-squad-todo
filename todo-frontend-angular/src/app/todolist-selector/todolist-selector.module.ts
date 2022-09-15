@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddTodoModalComponent } from './add-todo-modal/add-todo-modal.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { MoreOptionDropdownComponent } from './more-option-dropdown/more-option-dropdown.component';
 
 
 
@@ -24,6 +25,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     ButtonComponent,
     TodoComponent,
     AddTodoModalComponent,
+    MoreOptionDropdownComponent,
   ],
   imports: [
     CommonModule,
