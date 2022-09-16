@@ -1,35 +1,17 @@
-
-  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue" (ngModelChange)="onTodolistSelect($event)">
-    <li *ngFor="let todoList of todoLists">
-    <nz-option 
-    [nzLabel]="todoList.title" 
-    [nzValue]="todoList"
-    ></nz-option>
+<nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue"
+  (ngModelChange)="onTodolistSelect($event)">
+  <li *ngFor="let todoList of todoLists | removeDuplicates:'title'">
+    <nz-option [nzLabel]="todoList.title" [nzValue]="todoList"></nz-option>
   </li>
-  </nz-select >
+</nz-select>
 
-  <div class="todos">
-    <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)"></app-todo>
-  </div>
+<div class="btns-container" *ngIf="selectedValue">
+  <app-add-todo-modal [listId]="selectedValue.todoListId" (addTodoSubmit)="onAddTodoSubmit($event)">
+  </app-add-todo-modal>
+  <br />
+</div>
 
-  <section>
-    <div class="btns-container">
-      <app-button [buttonConfig]="moreBtnConfig"
-        (Click)="onClickEventReceived()" >
-    </app-button>
-    <br/>
-    </div>
-
-  </section>
-  <div class="btns-container" *ngIf="selectedValue">
-   <app-add-todo-modal [listId]="selectedValue.todoListId"
-   (addTodoSubmit)="onAddTodoSubmit($event)">
-   </app-add-todo-modal>
-  <br/>
-  </div>
-
-
-<div nz-row>
+<div nz-row *ngIf="selectedValue">
   <h3 nz-col nzFlex="4">TITLE</h3>
   <h3 nz-col nzFlex="2">DEADLINE</h3>
   <h3 nz-col nzFlex="1">LIST-ID</h3>
@@ -43,4 +25,3 @@
     (doubleClick)="onDoubleClick(todo)">
   </app-todo>
 </div>
-

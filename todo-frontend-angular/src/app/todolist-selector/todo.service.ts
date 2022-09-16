@@ -26,6 +26,10 @@ export class TodoService {
   constructor(private http: HttpClient) {
   }
 
+  getTodoLists() {
+    return this.http.get<Todolist[]>(`${this.todolistUrl}`).pipe(map(todoList => todoList));
+  }
+
   clearTodos() {
     this.todos.next([]);
   }
@@ -39,6 +43,16 @@ export class TodoService {
         })
       ).subscribe()
   }
+
+  addTodo(newTodo: NewTodoDTO) {
+    return this.http.post<Todo>(`${this.todoUrl}`, newTodo, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'accept': '*/*'
+      })
+    });
+  }
+
   updateTodo(todo: Todo) {
     return this.http.put(`${this.todoUrl}`, todo, {
       headers: new HttpHeaders({

@@ -73,7 +73,14 @@ export class TodolistComponent implements OnInit {
   }
   onTodolistSelect(value: Todolist) {
     if (value != null) {
-      this.todoService.getTodos(value.todoListId.toString())
+      this.todoLists.filter(todolist => todolist.title === value.title)
+        .forEach(todolist => {
+          this.todolistIds.push(todolist.todoListId.toString())
+        })
+
+      this.todolistIds.forEach(todolistId => {
+        this.todoService.getTodos(todolistId)
+      });
     }
     else {
       this.todoService.clearTodos()
