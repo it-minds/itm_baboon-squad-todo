@@ -48,7 +48,6 @@ export class TodolistComponent implements OnInit {
 
   ngOnInit(): void {
    this.todoService.getTodoLists().subscribe({next:(response)=>{this.todoLists=response}});
-
   }
 
   onClickEventReceived() {
@@ -69,7 +68,6 @@ export class TodolistComponent implements OnInit {
   }
   onAddTodoSubmit(newTodo: NewTodoDTO) {
     this.todoService.addTodo(newTodo).subscribe({next:()=>this.onTodolistSelect(this.selectedValue!)})
-    
   }
  
 }
