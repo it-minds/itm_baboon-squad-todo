@@ -9,6 +9,7 @@ export interface ButtonConfiguration  {
       fontSize: string,
       borderRadius: string,
       marginTop: string,
-      border: string
+      border: string,
+      opacity: string
     }
     };

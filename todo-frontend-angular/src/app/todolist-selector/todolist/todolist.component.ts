@@ -7,7 +7,6 @@ import { Todolist } from 'src/app/models/todolist.model';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 
-
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
@@ -17,6 +16,7 @@ export class TodolistComponent implements OnInit {
   todos: Todo[] = [];
   todoLists:Todolist[]=[];
   selectedValue: Todolist | null =null;
+  modalText="Add a new todo";
   
     addBtnConfig: ButtonConfiguration= {
       styles: {
@@ -29,7 +29,8 @@ export class TodolistComponent implements OnInit {
         fontSize: '20px',
         borderRadius: '10px',
         marginTop: '20px',
-        border: 'none'
+        border: 'none',
+        opacity: '1'
       }
     };
 
@@ -40,7 +41,7 @@ export class TodolistComponent implements OnInit {
 
 
   onCheckboxClick(isChecked: boolean, todo: Todo) {
-    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: todo.todoListId }).subscribe()
+    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: this.selectedValue!.todoListId }).subscribe()
   }
   onSelectClickEventReceived(value: Todolist) {
     if(value != null)
@@ -55,6 +56,10 @@ export class TodolistComponent implements OnInit {
   onAddTodoEventReceived(newTodo: NewTodoDTO) {
     this.todoService.addTodo(newTodo).subscribe({next:()=>this.onSelectClickEventReceived(this.selectedValue!)})
     
+  }
+  onDeleteTodoEventReceived(todo: Todo)
+  {
+    this.todoService.deleteTodo(todo).subscribe({next:()=>this.onSelectClickEventReceived(this.selectedValue!)})
   }
  
 }

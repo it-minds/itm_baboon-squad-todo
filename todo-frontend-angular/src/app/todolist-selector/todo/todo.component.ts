@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Todo } from 'src/app/models/todo.model';
-import { ButtonConfiguration } from 'src/app/models/button-config.model';
+import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 
 
 @Component({
@@ -11,30 +11,23 @@ import { ButtonConfiguration } from 'src/app/models/button-config.model';
 export class TodoComponent implements OnInit {
   deadline: string = '';
   constructor() { }
-
-  moreBtnConfig: ButtonConfiguration= {
-    styles: {
-      position: 'relative',
-      width: '40px',
-      height: '30px',
-      backgroundColor: '#fff',
-      color: '#42ecf5',
-      fontFamily: 'sans-serif',
-      fontSize: '40px',
-      borderRadius: '10px',
-      marginTop: '30px',
-      border: 'none'
-    }
-  };
+  selectedTodo: Todo | null =null;
 
   @Input() todo?: Todo;
 
   @Output() checkboxClick = new EventEmitter<boolean>();
+  @Output() SubmitAbove=new EventEmitter<NewTodoDTO>();
+  @Output() SubmitBelow=new EventEmitter<NewTodoDTO>();
+  @Output() EditName=new EventEmitter<Todo>();
+  @Output() EditDeadline=new EventEmitter<Todo>();
+  @Output() Delete=new EventEmitter<Todo>();
 
   ngOnInit(): void {
     this.deadline = this.todo?.deadline?.split('T')[0] ?? "";
   }
-  onClickEventReceived() {
+  OnDeleteTodoEventReceived()
+  {
+    this.Delete.emit();
   }
 
 }

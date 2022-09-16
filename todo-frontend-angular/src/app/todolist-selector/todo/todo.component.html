@@ -8,12 +8,10 @@
     <div nz-col nzFlex="3">
         <label nz-checkbox (ngModelChange)="checkboxClick.emit($event)" [ngModel]="todo?.checked"></label>
     </div>
-    <div>
-        <div class="btns-container">
-            <app-button [buttonConfig]="moreBtnConfig"
-              (Click)="onClickEventReceived()" >
-          </app-button>
-          <br/>
-          </div>
+   
+    <div nz-col nzFlex="3">
+<app-more-option-dropdown (Delete)="OnDeleteTodoEventReceived()" [todo]="todo">
+
+</app-more-option-dropdown>
     </div>
 </div>
