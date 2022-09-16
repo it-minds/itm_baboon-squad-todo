@@ -6,7 +6,7 @@ import { TodolistComponent } from './todolist/todolist.component';
 import { ButtonComponent } from './button/my-button.component';
 import { IconsProviderModule } from '../icons-provider.module';
 import { TodoComponent } from './todo/todo.component';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { AddTodoModalComponent } from './add-todo-modal/add-todo-modal.component
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { MoreOptionDropdownComponent } from './more-option-dropdown/more-option-dropdown.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { TodoModalComponent } from './todo-modal/todo-modal.component';
 
 
 @NgModule({
@@ -25,6 +26,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     TodoComponent,
     AddTodoModalComponent,
     MoreOptionDropdownComponent,
+    TodoModalComponent,
+
   ],
   imports: [
     CommonModule,

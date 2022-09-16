@@ -5,6 +5,7 @@ import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 import { Todo } from 'src/app/models/todo.model';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { TemplateRef, ViewContainerRef } from '@angular/core';
+import { TodoModalComponent } from '../todo-modal/todo-modal.component';
 
 
 
@@ -21,32 +22,17 @@ export class MoreOptionDropdownComponent implements OnInit {
   @Output() EditDeadline=new EventEmitter<Todo>();
   @Output() Delete=new EventEmitter<Todo>();
 
-  addAboveBtnConfig: ButtonConfiguration= {
+  addBtnConfig: ButtonConfiguration= {
     styles: {
       position: 'relative',
-      width: '150px',
-      height: '60px',
+      width: '170px',
+      height: '20px',
       backgroundColor: '#fff',
       color: '#000000',
       fontFamily: 'sans-serif',
-      fontSize: '20px',
-      borderRadius: '10px',
-      marginTop: '20px',
-      border: 'none',
-      opacity: '1'
-    }
-  };
-  addBelowBtnConfig: ButtonConfiguration= {
-    styles: {
-      position: 'relative',
-      width: '150px',
-      height: '60px',
-      backgroundColor: '#fff',
-      color: '#000000',
-      fontFamily: 'sans-serif',
-      fontSize: '20px',
-      borderRadius: '0px',
-      marginTop: '20px',
+      fontSize: '14px',
+      borderRadius: '',
+      marginTop: '0px',
       border: 'none',
       opacity: '1'
     }
@@ -75,9 +61,28 @@ export class MoreOptionDropdownComponent implements OnInit {
   ngOnInit(): void {
   }
   addAboveClick(){
-
+    const modal = this.modal.create({
+      nzTitle: 'Modal Title',
+      nzContent: TodoModalComponent,
+      nzViewContainerRef: this.viewContainerRef,
+      nzComponentParams: {
+        listId: this.todo?.todoListId,
+        position :this.todo!.position
+      }
+    });
+    const instance = modal.getContentComponent();
   }
   addBelowClick(){
+    const modal = this.modal.create({
+      nzTitle: 'Modal Title',
+      nzContent: TodoModalComponent,
+      nzViewContainerRef: this.viewContainerRef,
+      nzComponentParams: {
+        listId: this.todo?.todoListId,
+        position :(this.todo!.position-1)
+      }
+    });
+    const instance = modal.getContentComponent();
     
   }
   editNameClick(){
