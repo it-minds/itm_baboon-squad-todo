@@ -5,6 +5,7 @@ import { ButtonConfiguration } from 'src/app/models/button-config.model';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 import { Todolist } from 'src/app/models/todolist.model';
 import { Observable } from 'rxjs';
+import { Todolist } from 'src/app/models/todolist.model';
 
 @Component({
   selector: 'app-todolist',
