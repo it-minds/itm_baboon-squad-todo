@@ -1,3 +1,5 @@
+<app-add-todolist-modal></app-add-todolist-modal>
+
 <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue"
   (ngModelChange)="onTodolistSelect($event)">
   <li *ngFor="let todoList of todoLists | removeDuplicates:'title'">
