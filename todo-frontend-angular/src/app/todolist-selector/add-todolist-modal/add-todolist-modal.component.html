@@ -1,5 +1,5 @@
 <button nz-button nzType="primary" (click)="showModal()">
-    <span>Add a new todo</span>
+    <span>Add Todolist</span>
 </button>
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Enter a name and a date for you new todo" (nzOnCancel)="handleCancel()"
     (nzOnOk)="handleSubmit()" [nzOkDisabled]="!validateForm.valid" [nzOkLoading]="isOkLoading">
