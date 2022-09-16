@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { FormControl,Validators, FormGroup } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { fromEventPattern } from 'rxjs';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 
 
@@ -12,33 +13,33 @@ export class AddTodoModalComponent {
   isVisible = false;
   isOkLoading = false;
   validateForm = new FormGroup({
-  title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
-  datePicker: new FormControl<Date | null>(null,[Validators.required,Validators.minLength(8)])
-}) 
-constructor(){
+    listId: new FormControl<string | null>(null, Validators.required),
+    title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
+    datePicker: new FormControl<Date | null>(null, [Validators.required, Validators.minLength(8)])
+  })
+  constructor() {
 
-}
+  }
   showModal(): void {
     this.isVisible = true;
   }
-  @Input() listId?: number
-  
-  @Output()
-  addTodoSubmit=new EventEmitter<NewTodoDTO>();
+  @Input() listIds?: string[]
+
+  @Output() addTodoSubmit = new EventEmitter<NewTodoDTO>();
+
   handleSubmit(): void {
-    if(this.validateForm.valid)
-    {
+    if (this.validateForm.valid) {
       this.isOkLoading = true;
-      const newTodo: NewTodoDTO={
-        title: this.validateForm.value.title?? "",
-        deadline: this.validateForm.value.datePicker?.toISOString()?? "",
-        position:0,
-        todoListId: this.listId!
+      const newTodo: NewTodoDTO = {
+        title: this.validateForm.value.title ?? "",
+        deadline: this.validateForm.value.datePicker?.toISOString() ?? "",
+        position: 0,
+        todoListId: Number(this.validateForm.value.listId!)
       }
       this.addTodoSubmit.emit(newTodo)
       this.validateForm.reset()
-        this.isVisible = false;
-        this.isOkLoading = false;
+      this.isVisible = false;
+      this.isOkLoading = false;
     }
   }
   handleCancel(): void {

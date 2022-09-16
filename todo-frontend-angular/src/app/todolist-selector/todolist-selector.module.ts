@@ -16,6 +16,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { ToUppercasePipe } from './todo/to-uppercase.pipe';
 import { SortPipe } from './todolist/sort.pipe';
 import { SubtaskComponent } from './subtask/subtask.component';
+import { RemoveDuplicatesPipe } from './remove-duplicates.pipe';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { SubtaskComponent } from './subtask/subtask.component';
     ToUppercasePipe,
     SortPipe,
     SubtaskComponent,
+    RemoveDuplicatesPipe,
   ],
   imports: [
     CommonModule,
