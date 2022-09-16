@@ -1,5 +1,5 @@
 
-  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue" (ngModelChange)="onSelectClickEventReceived($event)">
+  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue" (ngModelChange)="onTodolistSelect($event)">
     <li *ngFor="let todoList of todoLists">
     <nz-option 
     [nzLabel]="todoList.title" 
@@ -23,7 +23,7 @@
   </section>
   <div class="btns-container" *ngIf="selectedValue">
    <app-add-todo-modal [listId]="selectedValue.todoListId"
-   (addTodoSubmit)="onAddTodoEventReceived($event)">
+   (addTodoSubmit)="onAddTodoSubmit($event)">
    </app-add-todo-modal>
   <br/>
   </div>

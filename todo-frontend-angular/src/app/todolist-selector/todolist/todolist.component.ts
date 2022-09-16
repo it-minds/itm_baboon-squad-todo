@@ -57,7 +57,7 @@ export class TodolistComponent implements OnInit {
   onCheckboxClick(isChecked: boolean, todo: Todo) {
     this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: 1 }).subscribe({ next: () => this.todoService.getTodos('1') })
   }
-  onSelectClickEventReceived(value: Todolist) {
+  onTodolistSelect(value: Todolist) {
     if(value != null)
     {
       this.todoService.getTodos(value.todoListId.toString()).subscribe({next:(response)=>{this.todos=response.sort((a,b)=>a.position-b.position)}})
@@ -67,8 +67,8 @@ export class TodolistComponent implements OnInit {
     }
     this.selectedValue=value;
   }
-  onAddTodoEventReceived(newTodo: NewTodoDTO) {
-    this.todoService.addTodo(newTodo).subscribe({next:()=>this.onSelectClickEventReceived(this.selectedValue!)})
+  onAddTodoSubmit(newTodo: NewTodoDTO) {
+    this.todoService.addTodo(newTodo).subscribe({next:()=>this.onTodolistSelect(this.selectedValue!)})
     
   }
  
