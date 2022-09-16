@@ -1,11 +1,13 @@
-<app-add-todolist-modal (addTodolistSubmit)="onAddTodolistSubmit($event)"></app-add-todolist-modal>
+<div nz-row>
+  <nz-select nzFlex="4" nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;"
+    [(ngModel)]="selectedValue" (ngModelChange)="onTodolistSelect($event)">
+    <li *ngFor="let todoList of todoLists | removeDuplicates:'title'">
+      <nz-option [nzLabel]="todoList.title" [nzValue]="todoList"></nz-option>
+    </li>
+  </nz-select>
 
-<nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue"
-  (ngModelChange)="onTodolistSelect($event)">
-  <li *ngFor="let todoList of todoLists | removeDuplicates:'title'">
-    <nz-option [nzLabel]="todoList.title" [nzValue]="todoList"></nz-option>
-  </li>
-</nz-select>
+  <app-add-todolist-modal nzFlex="1" (addTodolistSubmit)="onAddTodolistSubmit($event)"></app-add-todolist-modal>
+</div>
 
 <div class="btns-container" *ngIf="selectedValue">
   <app-add-todo-modal [listIds]="todolistIds" (addTodoSubmit)="onAddTodoSubmit($event)">
@@ -13,7 +15,9 @@
   <br />
 </div>
 
-<div nz-row *ngIf="selectedValue">
+<span *ngIf="selectedValue && (todos$|async)!.length == 0">No todos on "{{selectedValue.title}}"</span>
+
+<div nz-row *ngIf="(todos$|async)!.length > 0">
   <h3 nz-col nzFlex="4">TITLE</h3>
   <h3 nz-col nzFlex="2">DEADLINE</h3>
   <h3 nz-col nzFlex="1">LIST-ID</h3>

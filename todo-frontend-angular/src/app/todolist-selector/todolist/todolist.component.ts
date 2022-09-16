@@ -48,15 +48,15 @@ export class TodolistComponent implements OnInit {
   constructor(private readonly todoService: TodoService) { }
 
   ngOnInit(): void {
-    this.todoService.getTodoLists().subscribe({ next: (response) => { this.todoLists = response } });
+    this.getTodoLists()
+  }
+
+  getTodoLists() {
+    this.todoService.getTodoLists().subscribe({ next: response => this.todoLists = response });
   }
 
   onAddTodolistSubmit(title: string) {
-
-  }
-
-  onAddTodolistSubmit(title: string) {
-
+    this.todoService.addTodoList(title).subscribe({ next: () => this.getTodoLists() })
   }
 
   onDoubleClick(todo: Todo) {
@@ -82,5 +82,6 @@ export class TodolistComponent implements OnInit {
   onAddTodoSubmit(newTodo: NewTodoDTO) {
     this.todoService.addTodo(newTodo).subscribe({ next: () => this.onTodolistSelect(this.selectedValue!) })
   }
+
 
 }

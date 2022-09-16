@@ -44,6 +44,15 @@ export class TodoService {
       ).subscribe()
   }
 
+  addTodoList(title: string) {
+    return this.http.post(`${this.todolistUrl}?title=${title}`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'accept': '*/*'
+      })
+    });
+  }
+
   addTodo(newTodo: NewTodoDTO) {
     return this.http.post<Todo>(`${this.todoUrl}`, newTodo, {
       headers: new HttpHeaders({

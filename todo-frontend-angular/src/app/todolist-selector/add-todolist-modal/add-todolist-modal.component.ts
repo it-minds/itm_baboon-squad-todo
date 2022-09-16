@@ -27,7 +27,7 @@ export class AddTodolistModalComponent implements OnInit {
     if (this.validateForm.valid) {
       this.isOkLoading = true;
       const newTodolistTitle: string = this.validateForm.value.title!;
-      this.addTodoSubmit.emit(newTodolistTitle)
+      this.addTodolistSubmit.emit(newTodolistTitle)
       this.validateForm.reset()
       this.isVisible = false;
       this.isOkLoading = false;
