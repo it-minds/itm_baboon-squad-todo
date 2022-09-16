@@ -6,7 +6,7 @@
 </nz-select>
 
 <div class="btns-container" *ngIf="selectedValue">
-  <app-add-todo-modal [listId]="selectedValue.todoListId" (addTodoSubmit)="onAddTodoSubmit($event)">
+  <app-add-todo-modal [listIds]="todolistIds" (addTodoSubmit)="onAddTodoSubmit($event)">
   </app-add-todo-modal>
   <br />
 </div>

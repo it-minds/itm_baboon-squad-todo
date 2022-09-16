@@ -16,8 +16,8 @@ export class TodolistComponent implements OnInit {
   todoLists: Todolist[] = [];
   selectedValue: Todolist | null = null;
   todos$: Observable<Todo[]> = this.todoService.todos$
+  todolistIds: string[] = []
   showSubtasksOnTodoId: number | null = null
-
   moreBtnConfig: ButtonConfiguration = {
     styles: {
       position: 'relative',
@@ -61,10 +61,12 @@ export class TodolistComponent implements OnInit {
   }
   onTodolistSelect(value: Todolist) {
     this.todoService.clearTodos()
+    this.todolistIds = []
     this.selectedValue = value;
     if (value != null) {
       this.todoLists.filter(todolist => todolist.title === value.title)
         .forEach(todolist => {
+          this.todolistIds.push(todolist.todoListId.toString())
           this.todoService.getTodos(todolist.todoListId.toString())
         });
     }
