@@ -9,7 +9,6 @@ import { TodoComponent } from './todo/todo.component';
 import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddTodoModalComponent } from './add-todo-modal/add-todo-modal.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
@@ -17,7 +16,13 @@ import { MoreOptionDropdownComponent } from './more-option-dropdown/more-option-
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { TodoModalComponent } from './todo-modal/todo-modal.component';
 import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
-
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToUppercasePipe } from './todo/to-uppercase.pipe';
+import { SortPipe } from './todolist/sort.pipe';
+import { SubtaskComponent } from './subtask/subtask.component';
+import { RemoveDuplicatesPipe } from './remove-duplicates.pipe';
+import { AddTodolistModalComponent } from './add-todolist-modal/add-todolist-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +33,11 @@ import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
     AddTodoModalComponent,
     MoreOptionDropdownComponent,
     TodoModalComponent,
-
+    ToUppercasePipe,
+    SortPipe,
+    SubtaskComponent,
+    RemoveDuplicatesPipe,
+    AddTodolistModalComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +52,11 @@ import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
     NzCheckboxModule,
     NzDropDownModule,
     NzButtonModule
+    NzGridModule,
+    FormsModule,
+    NzModalModule,
+    NzFormModule,
+    ReactiveFormsModule
   ]
 })
 export class TodolistSelectorModule { }

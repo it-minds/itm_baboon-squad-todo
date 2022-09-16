@@ -1,16 +1,31 @@
-<nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue"
-  (ngModelChange)="onSelectClickEventReceived($event)">
-  <li *ngFor="let todoList of todoLists">
-    <nz-option [nzLabel]="todoList.title" [nzValue]="todoList"></nz-option>
-  </li>
-</nz-select>
+<div nz-row>
+  <nz-select nzFlex="4" nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;"
+    [(ngModel)]="selectedValue" (ngModelChange)="onTodolistSelect($event)">
+    <li *ngFor="let todoList of todoLists | removeDuplicates:'title'">
+      <nz-option [nzLabel]="todoList.title" [nzValue]="todoList"></nz-option>
+    </li>
+  </nz-select>
+   <app-add-todolist-modal nzFlex="1" (addTodolistSubmit)="onAddTodolistSubmit($event)"></app-add-todolist-modal>
+</div>
 
 <div class="btns-container" *ngIf="selectedValue">
   <app-add-todo-modal [todoListId]="selectedValue.todoListId"></app-add-todo-modal>
   <br />
 </div>
 
+<span *ngIf="selectedValue && (todos$|async)!.length == 0">No todos on "{{selectedValue.title}}"</span>
+
+<div nz-row *ngIf="(todos$|async)!.length > 0">
+  <h3 nz-col nzFlex="4">TITLE</h3>
+  <h3 nz-col nzFlex="2">DEADLINE</h3>
+  <h3 nz-col nzFlex="1">LIST-ID</h3>
+  <h3 nz-col nzFlex="1">SUBTASKS</h3>
+  <h3 nz-col nzFlex="1">CHECKED</h3>
+</div>
+
 <div class="todos">
-  <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)"
-    (Delete)="onDeleteTodoEventReceived(todo)"></app-todo>
+  <app-todo *ngFor="let todo of (todos$ | async) | sort:'position'" [todo]="todo"
+    [showSubtasksOnTodoId]="showSubtasksOnTodoId" (checkboxClick)="onCheckboxClick($event, todo)"
+    (doubleClick)="onDoubleClick(todo)" (Delete)="onDeleteTodoEventReceived(todo)">
+  </app-todo>
 </div>

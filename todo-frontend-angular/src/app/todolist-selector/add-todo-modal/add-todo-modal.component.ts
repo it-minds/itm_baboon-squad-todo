@@ -4,6 +4,7 @@ import { ButtonConfiguration } from 'src/app/models/button-config.model';
 import {  NzModalService } from 'ng-zorro-antd/modal';
 import { TodoModalComponent } from '../todo-modal/todo-modal.component';
 import { Todo } from 'src/app/models/todo.model';
+import { fromEventPattern } from 'rxjs';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 
 @Component({
@@ -14,12 +15,12 @@ import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 export class AddTodoModalComponent {
   isVisible = false;
   isOkLoading = false;
-
   ButtonText="Add a new todo";
   validateForm: FormGroup<{
     title: FormControl<string | null>;
     datePicker: FormControl<Date | null>;
 }> = new FormGroup({
+  listId: new FormControl<string | null>(null, Validators.required),
   title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
   datePicker: new FormControl<Date | null>(null,[Validators.required,Validators.minLength(8)])
 }) 
@@ -40,6 +41,7 @@ constructor(private modal: NzModalService, private viewContainerRef: ViewContain
       nzFooter:null
     });
     const instance = modal.getContentComponent();
+
   }
   ngOnInit(): void {
   }
