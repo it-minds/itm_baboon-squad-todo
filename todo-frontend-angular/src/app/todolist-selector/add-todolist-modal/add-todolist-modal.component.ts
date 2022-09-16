@@ -14,7 +14,7 @@ export class AddTodolistModalComponent implements OnInit {
   })
   constructor() { }
 
-  @Output() addTodoSubmit = new EventEmitter<string>();
+  @Output() addTodolistSubmit = new EventEmitter<string>();
 
   ngOnInit(): void {
   }

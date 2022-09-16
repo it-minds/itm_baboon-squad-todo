@@ -41,6 +41,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     FormsModule,
     NzModalModule,
     NzFormModule,
+    ReactiveFormsModule
   ]
 })
 export class TodolistSelectorModule { }

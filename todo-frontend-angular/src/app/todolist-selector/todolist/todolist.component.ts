@@ -50,6 +50,10 @@ export class TodolistComponent implements OnInit {
 
   }
 
+  onAddTodolistSubmit(title: string) {
+
+  }
+
   onDoubleClick(todo: Todo) {
     this.showSubtasksOnTodoId = this.showSubtasksOnTodoId === todo.todoListId ? null : todo.todoId
   }
