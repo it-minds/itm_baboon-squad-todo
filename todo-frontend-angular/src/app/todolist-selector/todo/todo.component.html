@@ -1,4 +1,4 @@
-<div nz-row>
+<div nz-row (dblclick)="onDoubleClick()">
     <div nz-col nzFlex="3">
         <span>{{todo?.title | toUppercase}}</span>
     </div>
@@ -8,4 +8,9 @@
     <div nz-col nzFlex="3">
         <label nz-checkbox (ngModelChange)="checkboxClick.emit($event)" [ngModel]="todo?.checked"></label>
     </div>
+</div>
+
+<div *ngIf="showSubtasks">
+    <app-subtask *ngFor="let subtask of todo?.subtasks" (checkboxClick)="onCheckboxClick($event, subtask)"
+        [subtask]="subtask"></app-subtask>
 </div>

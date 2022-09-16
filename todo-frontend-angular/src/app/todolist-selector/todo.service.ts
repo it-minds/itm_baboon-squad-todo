@@ -6,7 +6,7 @@ import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
 import { NewTodoDTO } from '../models/new-todo-DTO.model';
 import { environment } from 'src/environments/environment';
-
+import { Subtask } from '../models/subtask.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 export class TodoService {
   private readonly todolistUrl =  `${environment.apiURL}/TodoList`
   private readonly todoUrl = `${environment.apiURL}/Todo`
+  private readonly subtaskUrl = `${environment.apiURL}/Subtask`
 
   private readonly todos = new BehaviorSubject<Todo[]>([])
 
@@ -44,6 +45,14 @@ export class TodoService {
   }
   updateTodo(todo: Todo) {
     return this.http.put(`${this.todoUrl}`, todo, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    })
+  }
+
+  updateSubtask(subtask: Subtask) {
+    return this.http.put(`${this.subtaskUrl}`, subtask, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
