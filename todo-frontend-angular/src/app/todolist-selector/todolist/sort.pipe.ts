@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Todo } from 'src/app/models/todo.model';
 
 @Pipe({
   name: 'sort'

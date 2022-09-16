@@ -1,0 +1,19 @@
+<button nz-button nzType="primary" (click)="showModal()">
+    <span>Add Todolist</span>
+</button>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Enter a name and a date for you new todo" (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleSubmit()" [nzOkDisabled]="!validateForm.valid" [nzOkLoading]="isOkLoading">
+    <div *nzModalContent>
+        <form nz-form (ngSubmit)="handleSubmit()" [formGroup]="validateForm">
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="Title">Title</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                    <input nz-input [formControl]="validateForm.controls.title" id="title" />
+                    <div [hidden]="validateForm.controls.title.valid" class="alert alert-danger">
+                        Title is required
+                    </div>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </div>
+</nz-modal>

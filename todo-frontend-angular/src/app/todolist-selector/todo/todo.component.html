@@ -1,16 +1,22 @@
-<div nz-row (dblclick)="onDoubleClick()">
-    <div nz-col nzFlex="3">
-        <span>{{todo?.title | toUppercase}}</span>
+<div nz-row (dblclick)="doubleClick.emit()">
+    <div nz-col nzFlex="4">
+        {{todo?.title | toUppercase}}
     </div>
-    <div nz-col nzFlex="3">
-        <span>{{todo?.deadline | date:'dd-MM-yyyy'}}</span>
+    <div nz-col nzFlex="2">
+        {{todo?.deadline | date:'dd-MM-yyyy'}}
     </div>
-    <div nz-col nzFlex="3">
+    <div nz-col nzFlex="1">
+        {{todo?.todoListId}}
+    </div>
+    <div nz-col nzFlex="1">
+        <span *ngIf="todo?.subtasks?.length ?? 0 > 0">{{todo?.subtasks?.length}}</span>
+    </div>
+    <div nz-col nzFlex="1">
         <label nz-checkbox (ngModelChange)="checkboxClick.emit($event)" [ngModel]="todo?.checked"></label>
     </div>
 </div>
 
-<div *ngIf="showSubtasks">
+<div *ngIf="this.todo?.todoId == this.showSubtasksOnTodoId">
     <app-subtask *ngFor="let subtask of todo?.subtasks" (checkboxClick)="onCheckboxClick($event, subtask)"
         [subtask]="subtask"></app-subtask>
 </div>
