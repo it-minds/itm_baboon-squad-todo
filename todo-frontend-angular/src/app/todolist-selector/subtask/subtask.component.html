@@ -1,11 +1,12 @@
 <div nz-row>
-    <div nz-col nzFlex="3">
-        <span class="text">{{subtask?.title | toUppercase}}</span>
+    <div nz-col nzFlex="4" class="text">
+        {{subtask?.title | toUppercase}}
     </div>
-    <div nz-col nzFlex="3">
-        <span>{{subtask?.deadline | date:'dd-MM-yyyy'}}</span>
+    <div nz-col nzFlex="2">
+        {{subtask?.deadline | date:'dd-MM-yyyy'}}
     </div>
-    <div nz-col nzFlex="3">
+    <div nz-col nzFlex="2"></div>
+    <div nz-col nzFlex="1">
         <label nz-checkbox (ngModelChange)="checkboxClick.emit($event)" [ngModel]="subtask?.checked"></label>
     </div>
 </div>
