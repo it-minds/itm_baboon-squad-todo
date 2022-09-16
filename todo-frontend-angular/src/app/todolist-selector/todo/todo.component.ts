@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subtask } from 'src/app/models/subtask.model';
+import { SubtaskComponent } from '../subtask/subtask.component';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from '../todo.service';
 

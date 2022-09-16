@@ -4,15 +4,17 @@ import { BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import { Todolist } from '../models/todolist.model';
+import { NewTodoDTO } from '../models/new-todo-DTO.model';
+import { environment } from 'src/environments/environment';
 import { Subtask } from '../models/subtask.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  private readonly todolistUrl = 'https://localhost:7058/TodoList'
-  private readonly todoUrl = 'https://localhost:7058/Todo'
-  private readonly subtaskUrl = 'https://localhost:7058/Subtask'
+  private readonly todolistUrl =  `${environment.apiURL}/TodoList`
+  private readonly todoUrl = `${environment.apiURL}/Todo`
+  private readonly subtaskUrl = `${environment.apiURL}/Subtask`
 
   private readonly todos = new BehaviorSubject<Todo[]>([])
 
@@ -28,9 +30,19 @@ export class TodoService {
       .pipe(
         map(todolist => todolist.todos),
         tap(todos => this.todos.next(todos))
-      ).subscribe();
+      );
   }
-
+  addTodo(newTodo: NewTodoDTO){
+    return this.http.post<Todo>(`${this.todoUrl}`, newTodo,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'accept': '*/*'
+      })
+    });
+  }
+  getTodoLists(){
+    return this.http.get<Todolist[]>(`${this.todolistUrl}`).pipe(map(todoList=>todoList));
+  }
   updateTodo(todo: Todo) {
     return this.http.put(`${this.todoUrl}`, todo, {
       headers: new HttpHeaders({

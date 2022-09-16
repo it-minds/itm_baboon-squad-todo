@@ -1,12 +1,37 @@
-<section>
-  <div class="btns-container">
-    <app-button [buttonConfig]="textBtnConfig" (onTextBtnClick)="onClickEventReceived()">
-    </app-button>
+
+  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue" (ngModelChange)="onTodolistSelect($event)">
+    <li *ngFor="let todoList of todoLists">
+    <nz-option 
+    [nzLabel]="todoList.title" 
+    [nzValue]="todoList"
+    ></nz-option>
+  </li>
+  </nz-select >
+
+  <div class="todos">
+    <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)"></app-todo>
   </div>
-</section>
+
+  <section>
+    <div class="btns-container">
+      <app-button [buttonConfig]="moreBtnConfig"
+        (Click)="onClickEventReceived()" >
+    </app-button>
+    <br/>
+    </div>
+
+  </section>
+  <div class="btns-container" *ngIf="selectedValue">
+   <app-add-todo-modal [listId]="selectedValue.todoListId"
+   (addTodoSubmit)="onAddTodoSubmit($event)">
+   </app-add-todo-modal>
+  <br/>
+  </div>
+
 
 <div class="todos">
   <app-todo *ngFor="let todo of (todos$ | async) | sort:'position'" [todo]="todo"
     (checkboxClick)="onCheckboxClick($event, todo)">
   </app-todo>
 </div>
+

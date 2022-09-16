@@ -82,7 +82,7 @@ app.MapPost("/Todo", (TodoRepository todoRepository, TodoListRepository todoList
         return Results.NotFound();
     }
     var result = todoRepository!.CreateTodo(todoDTO.Title, todoDTO.Position, todoList, todoDTO.Deadline);
-    return Results.Created("Item with title: " + todoDTO.Title + " was created", result);
+    return Results.Created("Item with title: " + todoDTO.Title + " was created", result.ToTodoResponseDto());
 })
 .WithName("CreateTodo");
 
