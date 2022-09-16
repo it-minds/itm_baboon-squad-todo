@@ -17,10 +17,12 @@ export class TodoService {
   }
 
   getTodos(id: string) {
+    console.log('getting todos')
     return this.http.get<Todolist>(`${this.todolistUrl}/${id}`).pipe(map(todolist => todolist.todos));
   }
   addTodo(newTodo: NewTodoDTO){
-    return this.http.post<Todo>(`${this.todoUrl}`, newTodo,{
+    console.log(newTodo)
+    return this.http.post<NewTodoDTO>(`${this.todoUrl}`, newTodo,{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'accept': '*/*'

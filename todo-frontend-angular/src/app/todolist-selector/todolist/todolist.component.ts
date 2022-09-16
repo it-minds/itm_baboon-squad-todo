@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from '../todo.service';
 import { ButtonConfiguration } from 'src/app/models/button-config.model';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 import { Todolist } from 'src/app/models/todolist.model';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { outputAst } from '@angular/compiler';
 
 
 @Component({
@@ -17,22 +18,6 @@ export class TodolistComponent implements OnInit {
   todoLists:Todolist[]=[];
   selectedValue: Todolist | null =null;
   modalText="Add a new todo";
-  
-    addBtnConfig: ButtonConfiguration= {
-      styles: {
-        position: 'relative',
-        width: '150px',
-        height: '60px',
-        backgroundColor: '#f92672',
-        color: '#fff',
-        fontFamily: 'sans-serif',
-        fontSize: '20px',
-        borderRadius: '10px',
-        marginTop: '20px',
-        border: 'none',
-        opacity: '1'
-      }
-    };
 
   constructor(private readonly todoService: TodoService) { }
   ngOnInit(): void {

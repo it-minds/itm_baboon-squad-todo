@@ -1,23 +1,16 @@
-
-  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue" (ngModelChange)="onSelectClickEventReceived($event)">
-    <li *ngFor="let todoList of todoLists">
-    <nz-option 
-    [nzLabel]="todoList.title" 
-    [nzValue]="todoList"
-    ></nz-option>
+<nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a todolist" style="width: 200px;" [(ngModel)]="selectedValue"
+  (ngModelChange)="onSelectClickEventReceived($event)">
+  <li *ngFor="let todoList of todoLists">
+    <nz-option [nzLabel]="todoList.title" [nzValue]="todoList"></nz-option>
   </li>
-  </nz-select >
+</nz-select>
 
-  <div class="btns-container" *ngIf="selectedValue">
-   <app-add-todo-modal [ngStyle]="addBtnConfig"></app-add-todo-modal>
-   <br/>
-   </div>
+<div class="btns-container" *ngIf="selectedValue">
+  <app-add-todo-modal [todoListId]="selectedValue.todoListId"></app-add-todo-modal>
+  <br />
+</div>
 
-  <div class="todos">
-    <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)" (Delete)="onDeleteTodoEventReceived(todo)"></app-todo>
-  </div>
-
- 
-  
- 
-
+<div class="todos">
+  <app-todo *ngFor="let todo of todos" [todo]="todo" (checkboxClick)="onCheckboxClick($event, todo)"
+    (Delete)="onDeleteTodoEventReceived(todo)"></app-todo>
+</div>

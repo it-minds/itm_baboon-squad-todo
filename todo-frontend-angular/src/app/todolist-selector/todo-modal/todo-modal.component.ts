@@ -2,6 +2,10 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormControl,Validators, FormGroup } from '@angular/forms';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 import { ButtonConfiguration } from 'src/app/models/button-config.model';
+import { Todo } from 'src/app/models/todo.model';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import { TodoService } from '../todo.service';
+import { TodolistComponent } from '../todolist/todolist.component';
 
 @Component({
   selector: 'app-todo-modal',
@@ -10,6 +14,8 @@ import { ButtonConfiguration } from 'src/app/models/button-config.model';
 })
 export class TodoModalComponent {
   isOkLoading = false;
+  newTodo: NewTodoDTO | undefined;
+  editedTodo: Todo | undefined;
   validateForm: FormGroup<{
     title: FormControl<string | null>;
     datePicker: FormControl<Date | null>;
@@ -17,32 +23,55 @@ export class TodoModalComponent {
   title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
   datePicker: new FormControl<Date | null>(null,[Validators.required,Validators.minLength(8)])
 }) 
-  constructor() { }
-  @Input() listId?: number
+  constructor(private todolist: TodolistComponent, private service: TodoService, private modal: NzModalRef) { }
   @Input() position?: number;
+  @Input() isEditDeadline?: boolean;
+  @Input() isEditTitle?: boolean;
+  @Input() todo?: Todo;
+  @Input() listId?: number;
+  @Input() isNewTodo?: boolean;
   
-  @Output()
-  Submit=new EventEmitter<NewTodoDTO>();
+  
   handleSubmit(): void {
+    this.editedTodo=this.todo;
     if(this.validateForm.valid)
     {
       this.isOkLoading = true;
-      const position= this.position!=null ? this.position : 0
-      const newTodo: NewTodoDTO={
+      if(this.isNewTodo)
+      {
+        const position= this.position!=null ? this.position : 0
+        this.newTodo={
         Title: this.validateForm.value.title?? "",
         Deadline: this.validateForm.value.datePicker?.toISOString()?? "",
         Position:  position,
-        TodoListId: this.listId!
+        TodoListId: this.listId!,
+         }
+         this.todolist.onAddTodoEventReceived(this.newTodo)
       }
-      this.Submit.emit(newTodo)
-      this.validateForm.reset()
-        this.isOkLoading = false;
+      else if(this.isEditDeadline)
+      {
+        this.editedTodo!.deadline = this.validateForm.value.datePicker?.toISOString()?? ""
+        this.service.updateTodo(this.editedTodo!).subscribe();
+      }
+      else if(this.isEditTitle)
+      {
+        this.editedTodo!.title = this.validateForm.value.title?? "";
+        this.service.updateTodo(this.editedTodo!).subscribe()
+      }
+        this.isOkLoading = false
+        this.destroyModal()
+        this.validateForm.reset()
     }
   }
   handleCancel(): void {
     this.validateForm.reset()
+    this.destroyModal()
   }
   ngOnInit(): void {
+  }
+  destroyModal()
+  {
+    this.modal.destroy()
   }
 
 }

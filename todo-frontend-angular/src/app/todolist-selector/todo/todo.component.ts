@@ -14,13 +14,9 @@ export class TodoComponent implements OnInit {
   selectedTodo: Todo | null =null;
 
   @Input() todo?: Todo;
-
   @Output() checkboxClick = new EventEmitter<boolean>();
-  @Output() SubmitAbove=new EventEmitter<NewTodoDTO>();
-  @Output() SubmitBelow=new EventEmitter<NewTodoDTO>();
-  @Output() EditName=new EventEmitter<Todo>();
-  @Output() EditDeadline=new EventEmitter<Todo>();
   @Output() Delete=new EventEmitter<Todo>();
+
 
   ngOnInit(): void {
     this.deadline = this.todo?.deadline?.split('T')[0] ?? "";
