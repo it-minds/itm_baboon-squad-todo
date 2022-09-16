@@ -105,7 +105,7 @@ app.MapDelete("/Todo/{id}", (TodoListRepository todoListRepository, TodoReposito
     {
         return Results.NotFound();
     }
-    var result = todoRepository.DeleteTodo(todo);
+    var result = todoRepository.DeleteTodo(todo).ToTodoResponseDto();
     return result != null ? Results.Ok(result) : Results.NotFound();
 })
 .WithName("DeleteTodo");
