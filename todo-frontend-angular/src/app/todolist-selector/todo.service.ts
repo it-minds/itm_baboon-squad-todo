@@ -43,7 +43,6 @@ export class TodoService {
         })
       ).subscribe()
   }
-
   addTodoList(title: string) {
     return this.http.post(`${this.todolistUrl}?title=${title}`, {
       headers: new HttpHeaders({
@@ -69,6 +68,9 @@ export class TodoService {
       })
     })
   }
+  deleteTodo(todo:Todo){
+    return this.http.delete<Todo>(`${this.todoUrl}/${todo.todoId}` )
+   }
 
   updateSubtask(subtask: Subtask) {
     return this.http.put(`${this.subtaskUrl}`, subtask, {
@@ -76,5 +78,4 @@ export class TodoService {
         'Content-Type': 'application/json',
       })
     })
-  }
 }

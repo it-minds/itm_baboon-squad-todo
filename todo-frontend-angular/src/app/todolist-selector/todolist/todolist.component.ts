@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from '../todo.service';
 import { ButtonConfiguration } from 'src/app/models/button-config.model';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 import { Todolist } from 'src/app/models/todolist.model';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { outputAst } from '@angular/compiler';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -13,6 +15,8 @@ import { Observable } from 'rxjs';
 })
 
 export class TodolistComponent implements OnInit {
+  todos: Todo[] = [];
+  modalText="Add a new todo";
   todoLists: Todolist[] = [];
   selectedValue: Todolist | null = null;
   todos$: Observable<Todo[]> = this.todoService.todos$
@@ -63,9 +67,7 @@ export class TodolistComponent implements OnInit {
     this.showSubtasksOnTodoId = this.showSubtasksOnTodoId === todo.todoListId ? null : todo.todoId
   }
   onCheckboxClick(isChecked: boolean, todo: Todo) {
-    this.todoService.updateTodo({
-      ...todo, checked: isChecked
-    }).subscribe()
+    this.todoService.updateTodo({ ...todo, checked: isChecked, todoListId: this.selectedValue!.todoListId }).subscribe()
   }
   onTodolistSelect(value: Todolist) {
     this.todoService.clearTodos()
@@ -82,6 +84,8 @@ export class TodolistComponent implements OnInit {
   onAddTodoSubmit(newTodo: NewTodoDTO) {
     this.todoService.addTodo(newTodo).subscribe({ next: () => this.onTodolistSelect(this.selectedValue!) })
   }
-
-
+  onDeleteTodoEventReceived(todo: Todo)
+  {
+    this.todoService.deleteTodo(todo).subscribe({next:()=>this.onSelectClickEventReceived(this.selectedValue!)})
+  }
 }

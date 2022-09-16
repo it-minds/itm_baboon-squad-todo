@@ -8,6 +8,8 @@ export interface ButtonConfiguration  {
       fontFamily: string,
       fontSize: string,
       borderRadius: string,
-      marginTop: string
+      marginTop: string,
+      border: string,
+      opacity: string
     }
     };

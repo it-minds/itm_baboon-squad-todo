@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subtask } from 'src/app/models/subtask.model';
 import { SubtaskComponent } from '../subtask/subtask.component';
 import { Todo } from 'src/app/models/todo.model';
+import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 import { TodoService } from '../todo.service';
 
 @Component({
@@ -10,15 +11,19 @@ import { TodoService } from '../todo.service';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
+  selectedTodo: Todo | null =null;
   constructor(private readonly todoService: TodoService) { }
-
   @Input() todo?: Todo;
-  @Input() showSubtasksOnTodoId?: number | null
-
   @Output() checkboxClick = new EventEmitter<boolean>();
-  @Output() doubleClick = new EventEmitter();
+  @Output() Delete=new EventEmitter<Todo>();
 
+  @Input() showSubtasksOnTodoId?: number | null
+  @Output() doubleClick = new EventEmitter();
   ngOnInit(): void {
+  }
+  OnDeleteTodoEventReceived()
+  {
+    this.Delete.emit();
   }
 
   onCheckboxClick(isChecked: boolean, subtask: Subtask) {

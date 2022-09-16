@@ -14,6 +14,11 @@
     <div nz-col nzFlex="1">
         <label nz-checkbox (ngModelChange)="checkboxClick.emit($event)" [ngModel]="todo?.checked"></label>
     </div>
+    <div nz-col nzFlex="3">
+        <app-more-option-dropdown (Delete)="OnDeleteTodoEventReceived()" [todo]="todo">
+
+        </app-more-option-dropdown>
+    </div>
 </div>
 
 <div *ngIf="this.todo?.todoId == this.showSubtasksOnTodoId">

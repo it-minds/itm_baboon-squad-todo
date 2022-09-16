@@ -5,13 +5,11 @@
       <nz-option [nzLabel]="todoList.title" [nzValue]="todoList"></nz-option>
     </li>
   </nz-select>
-
-  <app-add-todolist-modal nzFlex="1" (addTodolistSubmit)="onAddTodolistSubmit($event)"></app-add-todolist-modal>
+   <app-add-todolist-modal nzFlex="1" (addTodolistSubmit)="onAddTodolistSubmit($event)"></app-add-todolist-modal>
 </div>
 
 <div class="btns-container" *ngIf="selectedValue">
-  <app-add-todo-modal [listIds]="todolistIds" (addTodoSubmit)="onAddTodoSubmit($event)">
-  </app-add-todo-modal>
+  <app-add-todo-modal [todoListId]="selectedValue.todoListId"></app-add-todo-modal>
   <br />
 </div>
 
@@ -28,6 +26,6 @@
 <div class="todos">
   <app-todo *ngFor="let todo of (todos$ | async) | sort:'position'" [todo]="todo"
     [showSubtasksOnTodoId]="showSubtasksOnTodoId" (checkboxClick)="onCheckboxClick($event, todo)"
-    (doubleClick)="onDoubleClick(todo)">
+    (doubleClick)="onDoubleClick(todo)" (Delete)="onDeleteTodoEventReceived(todo)">
   </app-todo>
 </div>

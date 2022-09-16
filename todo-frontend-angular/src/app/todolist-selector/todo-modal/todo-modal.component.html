@@ -1,0 +1,40 @@
+<!-- <nz-modal
+nzTitle="Enter a name and a date for you new todo"
+(nzOnCancel)="handleCancel()"
+(nzOnOk)="handleSubmit()"
+[nzOkDisabled]="!validateForm.valid"
+[nzOkLoading]="isOkLoading"> -->
+<div>
+    <form nz-form [formGroup]="validateForm">
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="Title">Title</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input [formControl]="validateForm.controls.title" id="title" />
+                <div [hidden]="validateForm.controls.title.valid" class="alert alert-danger">
+                    Title is required
+                </div>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="Deadline">Deadline</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+                <nz-date-picker [formControl]="validateForm.controls.datePicker"></nz-date-picker>
+                <div class="alert alert-danger" [hidden]="validateForm.controls.datePicker.valid">
+                    Date is required</div>
+            </nz-form-control>
+        </nz-form-item>
+        <div nz-row>
+            <div nz-col nzFlex="4">
+                <button nz-button nzType="default" (click)="handleCancel()">
+                    Cancel
+                </button>
+            </div>
+            <div nz-col nzFlex="1">
+                <button nz-button nzType="primary" (click)="handleSubmit()">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- </nz-modal> -->

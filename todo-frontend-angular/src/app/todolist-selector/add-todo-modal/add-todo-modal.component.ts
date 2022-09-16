@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Output, Input, ViewContainerRef  } from '@angular/core';
+import { FormControl,Validators, FormGroup } from '@angular/forms';
+import { ButtonConfiguration } from 'src/app/models/button-config.model';
+import {  NzModalService } from 'ng-zorro-antd/modal';
+import { TodoModalComponent } from '../todo-modal/todo-modal.component';
+import { Todo } from 'src/app/models/todo.model';
 import { fromEventPattern } from 'rxjs';
 import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
-
 
 @Component({
   selector: 'app-add-todo-modal',
@@ -12,39 +15,33 @@ import { NewTodoDTO } from 'src/app/models/new-todo-DTO.model';
 export class AddTodoModalComponent {
   isVisible = false;
   isOkLoading = false;
-  validateForm = new FormGroup({
-    listId: new FormControl<string | null>(null, Validators.required),
-    title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
-    datePicker: new FormControl<Date | null>(null, [Validators.required, Validators.minLength(8)])
-  })
-  constructor() {
+  ButtonText="Add a new todo";
+  validateForm: FormGroup<{
+    title: FormControl<string | null>;
+    datePicker: FormControl<Date | null>;
+}> = new FormGroup({
+  listId: new FormControl<string | null>(null, Validators.required),
+  title: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1)]),
+  datePicker: new FormControl<Date | null>(null,[Validators.required,Validators.minLength(8)])
+}) 
+constructor(private modal: NzModalService, private viewContainerRef: ViewContainerRef){
+}
+@Input() todoListId?: number;
 
-  }
   showModal(): void {
-    this.isVisible = true;
-  }
-  @Input() listIds?: string[]
+    const modal = this.modal.create({
+      nzTitle: 'Modal Title',
+      nzContent: TodoModalComponent,
+      nzViewContainerRef: this.viewContainerRef,
+      nzComponentParams: {
+        listId: this.todoListId,
+        isNewTodo: true
+      },
+      nzMaskClosable: false,
+      nzFooter:null
+    });
+    const instance = modal.getContentComponent();
 
-  @Output() addTodoSubmit = new EventEmitter<NewTodoDTO>();
-
-  handleSubmit(): void {
-    if (this.validateForm.valid) {
-      this.isOkLoading = true;
-      const newTodo: NewTodoDTO = {
-        title: this.validateForm.value.title ?? "",
-        deadline: this.validateForm.value.datePicker?.toISOString() ?? "",
-        position: 0,
-        todoListId: Number(this.validateForm.value.listId!)
-      }
-      this.addTodoSubmit.emit(newTodo)
-      this.validateForm.reset()
-      this.isVisible = false;
-      this.isOkLoading = false;
-    }
-  }
-  handleCancel(): void {
-    this.isVisible = false;
-    this.validateForm.reset()
   }
   ngOnInit(): void {
   }
