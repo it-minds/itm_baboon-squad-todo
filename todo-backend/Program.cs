@@ -61,7 +61,7 @@ app.MapGet("/TodoList/{id}", (TodoListRepository todoListRepository, int id) =>
 app.MapDelete("/TodoList/{id}", (TodoListRepository todoListRepository, int id) =>
 {
     var result = todoListRepository.DeleteTodoList(id);
-    return result != null ? Results.Ok(result) : Results.NotFound();
+    return result != null ? Results.Ok(result.ToTodolistResponseDto()) : Results.NotFound();
 })
 .WithName("DeleteTodoList");
 
@@ -89,7 +89,7 @@ app.MapPost("/Todo", (TodoRepository todoRepository, TodoListRepository todoList
 app.MapGet("/Todo/{id}", (TodoRepository todoRepository, int id) =>
 {
     var result = todoRepository!.GetTodo(id);
-    return result != null ? Results.Ok(result) : Results.NotFound();
+    return result != null ? Results.Ok(result.ToTodoResponseDto()) : Results.NotFound();
 })
 .WithName("GetTodo");
 
@@ -105,8 +105,8 @@ app.MapDelete("/Todo/{id}", (TodoListRepository todoListRepository, TodoReposito
     {
         return Results.NotFound();
     }
-    var result = todoRepository.DeleteTodo(todo).ToTodoResponseDto();
-    return result != null ? Results.Ok(result) : Results.NotFound();
+    var result = todoRepository.DeleteTodo(todo);
+    return result != null ? Results.Ok(result.ToTodoResponseDto()) : Results.NotFound();
 })
 .WithName("DeleteTodo");
 
@@ -140,7 +140,7 @@ app.MapPost("/Subtask", (SubtaskRepository subtaskRepository, TodoRepository tod
 app.MapGet("/Subtask/{id}", (SubtaskRepository subtaskRepository, int id) =>
 {
     var result = subtaskRepository!.GetSubtask(id);
-    return result != null ? Results.Ok(result) : Results.NotFound();
+    return result != null ? Results.Ok(result.ToSubtaskResponseDto()) : Results.NotFound();
 })
 .WithName("GetSubtask");
 
@@ -152,7 +152,7 @@ app.MapDelete("/Subtask/{id}", (TodoRepository todoRepository, SubtaskRepository
         return Results.NotFound();
     }
     var result = subtaskRepository.DeleteSubtask(subtask);
-    return result != null ? Results.Ok(result) : Results.NotFound();
+    return result != null ? Results.Ok(result.ToSubtaskResponseDto()) : Results.NotFound();
 })
 .WithName("DeleteSubtask");
 
