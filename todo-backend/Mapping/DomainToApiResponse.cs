@@ -20,10 +20,11 @@ public static class DomainToApiResponse
         Deadline = t.Deadline,
         Checked = t.Checked,
         Position = t.Position,
-        Subtasks = t.Subtasks.Select(s =>  s.TosubtaskResponseDto()).ToList()
+        Subtasks = t.Subtasks.Select(s =>  s.ToSubtaskResponseDto()).ToList(),
+        TodoListId= t.TodoListId
     };
 
-    public static SubtaskResponseDto TosubtaskResponseDto(this Subtask s) => new SubtaskResponseDto
+    public static SubtaskResponseDto ToSubtaskResponseDto(this Subtask s) => new SubtaskResponseDto
     {
         SubtaskId = s.SubtaskId,
         Title = s.Title,
