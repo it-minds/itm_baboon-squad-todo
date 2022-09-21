@@ -16,6 +16,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
+      run: pwd
+      run: ls
       run: dotnet restore .\todo-backend\todo-backend.sln
     - name: Build
       run: dotnet build .\todo-backend\todo-backend.sln --no-restore
