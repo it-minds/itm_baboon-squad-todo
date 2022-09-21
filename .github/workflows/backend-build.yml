@@ -29,7 +29,7 @@ jobs:
         working-directory: ${{env.working-directory}}
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal --logger trx -r ./test-reports --collect:"XPlat Code Coverage"
+        run: dotnet test --no-build --verbosity normal --logger trx -r ./test-reports --collect:"XPlat Code Coverage" --settings "./coverlet.runsettings"
         working-directory: ${{env.working-directory}}
 
       - name: Test Report
