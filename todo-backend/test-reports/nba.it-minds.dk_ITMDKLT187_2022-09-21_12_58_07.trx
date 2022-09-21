@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="5246bb3d-18aa-4ac7-87f2-4a947e66b457" name="nba.it-minds.dk@ITMDKLT187 2022-09-21 12:58:07" runUser="ITMDKLT187\nba.it-minds.dk" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2022-09-21T12:58:07.8522351+02:00" queuing="2022-09-21T12:58:07.8522353+02:00" start="2022-09-21T12:58:06.3305063+02:00" finish="2022-09-21T12:58:07.8571123+02:00" />
+  <TestSettings name="default" id="2fd3991a-7cd8-40c9-b586-5e95b088ea0a">
+    <Deployment runDeploymentRoot="nba.it-minds.dk_ITMDKLT187_2022-09-21_12_58_07" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="64b4a343-81c3-42c0-a341-0899fe3eb01c" testId="cd386f46-97e7-7e89-2aff-a48abd1dea88" testName="Test1" computerName="ITMDKLT187" duration="00:00:00.0168900" startTime="2022-09-21T12:58:07.5149279+02:00" endTime="2022-09-21T12:58:07.5318181+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="64b4a343-81c3-42c0-a341-0899fe3eb01c" />
+    <UnitTestResult executionId="1fff31cb-972d-4908-8b49-4adc5b2f80bf" testId="f4018f8e-14a2-5405-7596-5996c57c5811" testName="ArrangePositionAfterDelete_No_Error" computerName="ITMDKLT187" duration="00:00:00.0040850" startTime="2022-09-21T12:58:07.5097800+02:00" endTime="2022-09-21T12:58:07.5138153+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1fff31cb-972d-4908-8b49-4adc5b2f80bf" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Test1" storage="c:\onboarding\itm_baboon-squad-todo\todo-backend\todo-backend.test.unit\bin\debug\net6.0\todo-backend.test.unit.dll" id="cd386f46-97e7-7e89-2aff-a48abd1dea88">
+      <Execution id="64b4a343-81c3-42c0-a341-0899fe3eb01c" />
+      <TestMethod codeBase="C:\Onboarding\itm_baboon-squad-todo\todo-backend\todo-backend.test.unit\bin\Debug\net6.0\todo-backend.test.unit.dll" adapterTypeName="executor://nunit3testexecutor/" className="todo_backend.test.unit.Tests" name="Test1" />
+    </UnitTest>
+    <UnitTest name="ArrangePositionAfterDelete_No_Error" storage="c:\onboarding\itm_baboon-squad-todo\todo-backend\todo-backend.test.unit\bin\debug\net6.0\todo-backend.test.unit.dll" id="f4018f8e-14a2-5405-7596-5996c57c5811">
+      <Execution id="1fff31cb-972d-4908-8b49-4adc5b2f80bf" />
+      <TestMethod codeBase="C:\Onboarding\itm_baboon-squad-todo\todo-backend\todo-backend.test.unit\bin\Debug\net6.0\todo-backend.test.unit.dll" adapterTypeName="executor://nunit3testexecutor/" className="todo_backend.test.unit.Tests" name="ArrangePositionAfterDelete_No_Error" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="cd386f46-97e7-7e89-2aff-a48abd1dea88" executionId="64b4a343-81c3-42c0-a341-0899fe3eb01c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f4018f8e-14a2-5405-7596-5996c57c5811" executionId="1fff31cb-972d-4908-8b49-4adc5b2f80bf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="2" executed="2" passed="2" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 4.2.0.0: Test execution started&#xD;
+Running all tests in C:\Onboarding\itm_baboon-squad-todo\todo-backend\todo-backend.test.unit\bin\Debug\net6.0\todo-backend.test.unit.dll&#xD;
+   NUnit3TestExecutor discovered 2 of 2 NUnit test cases using Current Discovery mode, Non-Explicit run&#xD;
+NUnit Adapter 4.2.0.0: Test execution complete&#xD;
+</StdOut>
+    </Output>
+    <CollectorDataEntries>
+      <Collector agentName="ITMDKLT187" uri="datacollector://microsoft/CoverletCodeCoverage/1.0" collectorDisplayName="XPlat code coverage">
+        <UriAttachments>
+          <UriAttachment>
+            <A href="ITMDKLT187\coverage.cobertura.xml"></A>
+          </UriAttachment>
+        </UriAttachments>
+      </Collector>
+    </CollectorDataEntries>
+  </ResultSummary>
+</TestRun>
